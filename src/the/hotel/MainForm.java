@@ -17,8 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 
 import java.awt.Font;
+import java.awt.Color;
 
 public class MainForm extends JFrame {
+	public static MainForm m;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTable table;
@@ -28,7 +30,8 @@ public class MainForm extends JFrame {
 	private JTextField txtPhong;
 	private JButton btn001,btn101,btn102,btn103,btn104,btn105,btn106,btn107,btn108,btn109,btn110,btn111,btn112,btn201,btn202,btn203,btn204,btn205,
 					btn206,btn207,btn208,btn209,btn210,btn211,btn212,btn301,btn302,btn303,btn304,btn305,btn306,btn307,btn308,btn309,btn310,btn311,btn312;
-	public MainForm() {
+	public MainForm(int accessRight) {
+		m=this;
 		getContentPane().setFont(new Font("Tahoma", Font.BOLD, 11));
 		setTitle("Quản lý Khách Sạn");
 		setSize(1120, 665);
@@ -145,14 +148,17 @@ public class MainForm extends JFrame {
 		layeredPane.add(btn110);
 		
 		 btn109 = new JButton("109");
+		 btn109.setForeground(Color.RED);
 		btn109.setBounds(316, 222, 89, 76);
 		layeredPane.add(btn109);
 		
 		 btn108 = new JButton("108");
+		 btn108.setForeground(Color.RED);
 		btn108.setBounds(415, 222, 89, 76);
 		layeredPane.add(btn108);
 		
 		 btn107 = new JButton("107");
+		 btn107.setForeground(Color.RED);
 		btn107.setBounds(514, 222, 57, 76);
 		layeredPane.add(btn107);
 		
@@ -192,14 +198,17 @@ public class MainForm extends JFrame {
 		layeredPane_1.add(btn206);
 		
 		 btn207 = new JButton("207");
+		 btn207.setForeground(Color.RED);
 		btn207.setBounds(514, 252, 57, 76);
 		layeredPane_1.add(btn207);
 		
 		 btn208 = new JButton("208");
+		 btn208.setForeground(Color.RED);
 		btn208.setBounds(415, 252, 89, 76);
 		layeredPane_1.add(btn208);
 		
 		 btn209 = new JButton("209");
+		 btn209.setForeground(Color.RED);
 		btn209.setBounds(316, 252, 89, 76);
 		layeredPane_1.add(btn209);
 		
@@ -212,6 +221,7 @@ public class MainForm extends JFrame {
 		layeredPane_1.add(btn211);
 		
 		 btn212 = new JButton("212");
+		 btn212.setForeground(Color.RED);
 		btn212.setBounds(10, 252, 162, 76);
 		layeredPane_1.add(btn212);
 		
@@ -251,14 +261,17 @@ public class MainForm extends JFrame {
 		layeredPane_2.add(btn306);
 		
 		 btn307 = new JButton("307");
+		 btn307.setForeground(Color.RED);
 		btn307.setBounds(514, 248, 57, 76);
 		layeredPane_2.add(btn307);
 		
 		 btn308 = new JButton("308");
+		 btn308.setForeground(Color.RED);
 		btn308.setBounds(415, 248, 89, 76);
 		layeredPane_2.add(btn308);
 		
 		 btn309 = new JButton("309");
+		 btn309.setForeground(Color.RED);
 		btn309.setBounds(316, 248, 89, 76);
 		layeredPane_2.add(btn309);
 		
@@ -395,6 +408,6 @@ public class MainForm extends JFrame {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new MainForm();
+		new MainForm(0);
 	}
 }
