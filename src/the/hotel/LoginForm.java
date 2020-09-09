@@ -29,9 +29,9 @@ public class LoginForm extends JFrame{
 		setSize(300, 360);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		ImageIcon icon = new ImageIcon("img/login1.png");
+		ImageIcon icon = new ImageIcon("img/qlnv.png");
 		Image img = icon.getImage();
-		Image newImg = img.getScaledInstance(255, 100, java.awt.Image.SCALE_SMOOTH);
+		Image newImg = img.getScaledInstance(67, 67, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newIcon =new ImageIcon(newImg);
 		
 		JComboBox comboBox = new JComboBox();

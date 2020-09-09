@@ -18,6 +18,7 @@ import javax.swing.JTable;
 
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.JMenuItem;
 
 public class MainForm extends JFrame {
 	public static MainForm m;
@@ -56,6 +57,15 @@ public class MainForm extends JFrame {
 		
 		JMenu mnQuanLy = new JMenu("Quản Lý");
 		menuBar.add(mnQuanLy);
+		
+		JMenuItem itemQLNV = new JMenuItem("Danh Sách Nhân Viên");
+		itemQLNV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new StaffManagementForm();
+				m.setEnabled(false);
+			}
+		});
+		mnQuanLy.add(itemQLNV);
 		
 		JMenu mnThongKe = new JMenu("Thống Kê");
 		menuBar.add(mnThongKe);
