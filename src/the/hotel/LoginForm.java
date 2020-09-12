@@ -29,9 +29,9 @@ public class LoginForm extends JFrame{
 		setSize(300, 360);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		ImageIcon icon = new ImageIcon("img/qlnv.png");
+		ImageIcon icon = new ImageIcon("img/login1.png");
 		Image img = icon.getImage();
-		Image newImg = img.getScaledInstance(67, 67, java.awt.Image.SCALE_SMOOTH);
+		Image newImg = img.getScaledInstance(210, 85, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newIcon =new ImageIcon(newImg);
 		
 		JComboBox comboBox = new JComboBox();
@@ -78,8 +78,8 @@ public class LoginForm extends JFrame{
 		passwordField.setBounds(83, 234, 163, 20);
 		getContentPane().add(passwordField);
 		
-		JLabel iconLB = new JLabel("New label");
-		iconLB.setBounds(10, 11, 255, 102);
+		JLabel iconLB = new JLabel();
+		iconLB.setBounds(30, 11, 244, 102);
 		getContentPane().add(iconLB);
 		iconLB.setIcon(newIcon);
 		

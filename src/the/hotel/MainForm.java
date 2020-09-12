@@ -362,7 +362,7 @@ public class MainForm extends JFrame {
 		panel.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Check In");
-		lblNewLabel_3_1.setBounds(24, 49, 46, 14);
+		lblNewLabel_3_1.setBounds(24, 49, 57, 14);
 		panel.add(lblNewLabel_3_1);
 		
 		JLabel lblNewLabel_3_2 = new JLabel("Check out");
@@ -375,20 +375,20 @@ public class MainForm extends JFrame {
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setEnabled(false);
-		txtTenKH.setBounds(80, 8, 153, 20);
+		txtTenKH.setBounds(87, 8, 146, 20);
 		panel.add(txtTenKH);
 		txtTenKH.setColumns(10);
 		
 		txtCI = new JTextField();
 		txtCI.setEnabled(false);
 		txtCI.setColumns(10);
-		txtCI.setBounds(80, 46, 153, 20);
+		txtCI.setBounds(87, 46, 146, 20);
 		panel.add(txtCI);
 		
 		txtCO = new JTextField();
 		txtCO.setEnabled(false);
 		txtCO.setColumns(10);
-		txtCO.setBounds(80, 86, 153, 20);
+		txtCO.setBounds(87, 86, 146, 20);
 		panel.add(txtCO);
 		
 		txtPhong = new JTextField();
