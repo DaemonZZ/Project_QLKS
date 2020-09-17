@@ -12,10 +12,10 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTable;
-
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JMenuItem;
@@ -29,17 +29,29 @@ public class MainForm extends JFrame {
 	private JTextField txtCI;
 	private JTextField txtCO;
 	private JTextField txtPhong;
-	private JButton btn001,btn101,btn102,btn103,btn104,btn105,btn106,btn107,btn108,btn109,btn110,btn111,btn112,btn201,btn202,btn203,btn204,btn205,
+	private JButton  btn001,btn101,btn102,btn103,btn104,btn105,btn106,btn107,btn108,btn109,btn110,btn111,btn112,btn201,btn202,btn203,btn204,btn205,
 					btn206,btn207,btn208,btn209,btn210,btn211,btn212,btn301,btn302,btn303,btn304,btn305,btn306,btn307,btn308,btn309,btn310,btn311,btn312;
 	
-	
 	private String selectedRoom="";
+	private ArrayList<Phong> listPhong = new DatabaseConnection().getListPhong();
+	private  ArrayList<QuanLyPhong> currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
 	ActionListener roomSelection = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			selectedRoom=e.getActionCommand();
-			System.out.println(selectedRoom);
+			
+			for (QuanLyPhong ql : currentRoomInfo) {
+				if(ql.getMaPhong().equals(selectedRoom)) {
+					txtPhong.setText(selectedRoom);
+					txtTenKH.setText(ql.getHoTen());
+					txtCI.setText(ql.getCI()+"");
+					txtCO.setText(ql.getCO()+"");
+					System.out.println(selectedRoom);
+				}
+			}
+
+			
 		}
 	};
 	public MainForm(int accessRight) {
@@ -374,25 +386,25 @@ public class MainForm extends JFrame {
 		panel.add(lblNewLabel_3_3);
 		
 		txtTenKH = new JTextField();
-		txtTenKH.setEnabled(false);
+		txtTenKH.setEditable(false);
 		txtTenKH.setBounds(87, 8, 146, 20);
 		panel.add(txtTenKH);
 		txtTenKH.setColumns(10);
 		
 		txtCI = new JTextField();
-		txtCI.setEnabled(false);
+		txtCI.setEditable(false);
 		txtCI.setColumns(10);
 		txtCI.setBounds(87, 46, 146, 20);
 		panel.add(txtCI);
 		
 		txtCO = new JTextField();
-		txtCO.setEnabled(false);
+		txtCO.setEditable(false);
 		txtCO.setColumns(10);
 		txtCO.setBounds(87, 86, 146, 20);
 		panel.add(txtCO);
 		
 		txtPhong = new JTextField();
-		txtPhong.setEnabled(false);
+		txtPhong.setEditable(false);
 		txtPhong.setColumns(10);
 		txtPhong.setBounds(301, 8, 57, 20);
 		panel.add(txtPhong);

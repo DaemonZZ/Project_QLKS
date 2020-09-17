@@ -58,6 +58,69 @@ public class DatabaseConnection {
 			return list;
 		}
 	
+		/*
+		 * Lấy danh sách phòng
+		 */
+		public ArrayList<Phong> getListPhong(){
+			String sql = "select * from Phong";
+			ArrayList<Phong> list = new ArrayList<Phong>();
+			try {
+				Statement st =conn.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				while(rs.next()) {
+					Phong a =new Phong();
+					a.setMaPhong(rs.getNString(1));
+					a.setTang(rs.getInt(2));
+					a.setLoai(rs.getInt(3));
+					a.setDonGia(rs.getFloat(4));
+					a.setTrangThai(rs.getInt(5));
+					a.setPhone(rs.getNString(6));
+					a.setSoGiuong(rs.getInt(7));
+					a.setSoNguoi(rs.getInt(8));
+
+					list.add(a);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return list;
+		}
+		// Lấy thông tin phòng hiện tại
+		public ArrayList<QuanLyPhong> getCurrentRoomInfo(){
+			String sql = "select ID_QL,QuanLyPhong.ID_DK,HoTen,QuanLyPhong.MaPhong,CheckIN,CheckOut,Gia,PhuThu,GhiChu,QuanLyPhong.TrangThai,Phong.TrangThai,QuanlyPhong.ID_KH "
+					+ "from KhachHang inner join QuanLyPhong on KhachHang.ID_KH = QuanLyPhong.ID_KH "
+					+ "inner join Phong on QuanLyPhong.MaPhong = Phong.MaPhong where Phong.TrangThai in (4,5)";
+			ArrayList<QuanLyPhong> list = new ArrayList<QuanLyPhong>();
+			try {
+				Statement st =conn.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				while(rs.next()) {
+					if(rs.getInt(11)==4||rs.getInt(11)==5){
+						QuanLyPhong a =new QuanLyPhong();
+						a.setId(rs.getInt(1));
+						a.setId_Dk(rs.getInt(2));
+						a.setHoTen(rs.getNString(3));
+						a.setMaPhong(rs.getString(4));
+						a.setCI(rs.getDate(5));
+						a.setCO(rs.getDate(6));
+						a.setGia(rs.getFloat(7));
+						a.setPhuThu(rs.getFloat(8));
+						a.setGhiChu(rs.getString(9));
+						a.setTrangThai(rs.getInt(10));
+						a.setId_KH(rs.getInt(12));
+						list.add(a);
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return list;
+		}
+		
+	
+	
 	public boolean xoaNV(int id){
 		String sql = "delete from NhanVien where ID_NV='"+id+"'";
 		boolean b =false;
