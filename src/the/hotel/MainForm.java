@@ -15,6 +15,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.Font;
 import java.awt.Color;
@@ -35,10 +36,13 @@ public class MainForm extends JFrame {
 	private String selectedRoom="";
 	private ArrayList<Phong> listPhong = new DatabaseConnection().getListPhong();
 	private  ArrayList<QuanLyPhong> currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
+	private ArrayList<DongChungTu> listDongChungTu = new ArrayList<DongChungTu>();
+	private DefaultTableModel roomInfoModel = new DefaultTableModel();
 	ActionListener roomSelection = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			table.setModel(new DefaultTableModel());
 			selectedRoom=e.getActionCommand();
 			
 			for (QuanLyPhong ql : currentRoomInfo) {
@@ -48,9 +52,10 @@ public class MainForm extends JFrame {
 					txtCI.setText(ql.getCI()+"");
 					txtCO.setText(ql.getCO()+"");
 					System.out.println(selectedRoom);
+					table.setModel(getRoomInfoModel(ql.getId()));
 				}
 			}
-
+			
 			
 		}
 	};
@@ -475,6 +480,29 @@ public class MainForm extends JFrame {
 		setVisible(true);
 		
 		
+	}
+	
+	public DefaultTableModel getRoomInfoModel(int id_ql) {
+		listDongChungTu = new DatabaseConnection().getListDongChungTu(id_ql);
+		roomInfoModel = new DefaultTableModel() {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+		};
+		roomInfoModel.addColumn("Tên DV");
+		roomInfoModel.addColumn("Đơn Giá");
+		roomInfoModel.addColumn("Số lượng");
+		roomInfoModel.addColumn("Thành tiền");
+		
+		for (DongChungTu item : listDongChungTu) {
+			roomInfoModel.addRow(new String[] {item.getTenDV(),item.getDonGia()+"",item.getSoLuong()+"",(item.getDonGia()*item.getSoLuong())+"đ"});
+		}
+		
+		return roomInfoModel;
 	}
 
 	public static void main(String[] args) {

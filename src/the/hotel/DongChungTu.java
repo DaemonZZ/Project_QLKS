@@ -27,6 +27,7 @@ public class DongChungTu {
 		this.donGia = 0;
 		this.ghiChu = "";
 	}
+	
 	public int getId() {
 		return id;
 	}

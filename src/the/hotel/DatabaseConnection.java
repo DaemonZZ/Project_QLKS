@@ -119,7 +119,31 @@ public class DatabaseConnection {
 			return list;
 		}
 		
-	
+	public ArrayList<DongChungTu> getListDongChungTu(int Id_QL){
+		String sql ="select Id,DongChungtu.SoCT,DongChungTu.ID_DV,TenDV,SoLuong,DongChungTU.DonGia,DongChungTu.GhiChu from DongChungTu join DichVu "
+				+ "on DichVu.ID_DV=DongChungTu.ID_DV "
+				+ "join ChungTu on ChungTu.SoCT=DongChungTu.SoCT "
+				+ "where ID_QL="+Id_QL;
+		ArrayList<DongChungTu> list = new ArrayList<DongChungTu>();
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()) {
+				DongChungTu s = new DongChungTu();
+				s.setId(rs.getInt(1));
+				s.setSoCT(rs.getNString(2));
+				s.setId_DV(rs.getInt(3));
+				s.setTenDV(rs.getNString(4));
+				s.setSoLuong(rs.getInt(5));
+				s.setDonGia(rs.getFloat(6));
+				s.setGhiChu(rs.getNString(7));
+				list.add(s);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	public boolean xoaNV(int id){
 		String sql = "delete from NhanVien where ID_NV='"+id+"'";
