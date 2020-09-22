@@ -1,4 +1,4 @@
-package the.hotel;
+package the.Model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,9 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import the.Control.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
+
+import the.View.*;
 
 public class DatabaseConnection {
 	protected Connection conn;

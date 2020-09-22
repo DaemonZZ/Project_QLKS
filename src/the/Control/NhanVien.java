@@ -1,4 +1,4 @@
-package the.hotel;
+package the.Control;
 
 public class NhanVien {
 	private int iD;

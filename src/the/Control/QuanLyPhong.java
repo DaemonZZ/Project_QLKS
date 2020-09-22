@@ -1,4 +1,4 @@
-package the.hotel;
+package the.Control;
 
 import java.util.Date;
 

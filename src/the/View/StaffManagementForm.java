@@ -1,4 +1,4 @@
-package the.hotel;
+package the.View;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -7,6 +7,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import the.Control.*;
+import the.Model.*;
+
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;

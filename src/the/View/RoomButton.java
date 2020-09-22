@@ -1,4 +1,4 @@
-package the.hotel;
+package the.View;
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;

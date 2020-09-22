@@ -1,4 +1,4 @@
-package the.hotel;
+package the.View;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import the.Control.*;
+import the.Model.*;
+
 import javax.swing.JTable;
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -46,14 +49,7 @@ public class MainForm extends JFrame {
 	private ArrayList<DongChungTu> listDongChungTu = new ArrayList<DongChungTu>();
 	private DefaultTableModel roomInfoModel = new DefaultTableModel();
 	float sum=0,xSum=0;
-	public ActionListener s = new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			
-		}
-	};
+	
 	
 	MouseListener roomSelection = new MouseListener() {
 		
@@ -117,7 +113,7 @@ public class MainForm extends JFrame {
 		menuBar.setBounds(0, 0, 1102, 22);
 		getContentPane().add(menuBar);
 		
-		JMenu mnFile = new JMenu("File");
+		JMenu mnFile = new JMenu("Hệ thống");
 		menuBar.add(mnFile);
 		
 		JMenu mnQuanLy = new JMenu("Quản Lý");

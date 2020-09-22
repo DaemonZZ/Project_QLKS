@@ -1,4 +1,4 @@
-package the.hotel;
+package the.View;
 
 import javax.swing.JDialog;
 import javax.swing.JComboBox;

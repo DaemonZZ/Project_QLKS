@@ -1,4 +1,4 @@
-package the.hotel;
+package the.View;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;

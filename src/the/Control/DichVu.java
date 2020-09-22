@@ -1,4 +1,4 @@
-package the.hotel;
+package the.Control;
 
 public class DichVu {
 	private int iD;
