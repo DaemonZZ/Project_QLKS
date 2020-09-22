@@ -10,6 +10,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -21,7 +23,11 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JMenuItem;
+import java.awt.FlowLayout;
+import javax.swing.ScrollPaneConstants;
 
 public class MainForm extends JFrame {
 	public static MainForm m;
@@ -40,12 +46,47 @@ public class MainForm extends JFrame {
 	private ArrayList<DongChungTu> listDongChungTu = new ArrayList<DongChungTu>();
 	private DefaultTableModel roomInfoModel = new DefaultTableModel();
 	float sum=0,xSum=0;
-	ActionListener roomSelection = new ActionListener() {
+	public ActionListener s = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			
+		}
+	};
+	
+	MouseListener roomSelection = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
 			table.setModel(new DefaultTableModel());
-			selectedRoom=e.getActionCommand();
+			selectedRoom=((RoomButton)e.getComponent()).getMaPhong();
+			System.out.println(((RoomButton)e.getComponent()).getMaPhong());
 			txtPhong.setText(selectedRoom);
 			txtTenKH.setText("");
 			txtCI.setText("");
@@ -63,9 +104,9 @@ public class MainForm extends JFrame {
 				}
 			}
 			txtSum.setText(sum+"");
-			
 		}
 	};
+	
 	public MainForm(int accessRight) {
 		m=this;
 		getContentPane().setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -150,8 +191,21 @@ public class MainForm extends JFrame {
 		sodoPane.add(menuBar_1);
 		
 		JScrollPane scrollPaneSoDo = new JScrollPane();
-		scrollPaneSoDo.setBounds(0, 23, 672, 406);
+		scrollPaneSoDo.setBounds(0, 23, 672, 429);
 		sodoPane.add(scrollPaneSoDo);
+		scrollPaneSoDo.getVerticalScrollBar().setUnitIncrement(20);
+		
+		JPanel panel_1 = new JPanel();
+		scrollPaneSoDo.setViewportView(panel_1);
+		panel_1.setSize(671	, 0);
+		panel_1.setLayout(new GridLayout(listPhong.size()/5+1, 5, 5, 5));
+		
+		for (Phong phong : listPhong) {
+			RoomButton btn = new RoomButton(phong.getMaPhong(), phong.getTrangThai(), phong.getLoai(), phong.getDonGia(), 0);
+			btn.setPreferredSize(new Dimension(120,120));
+			btn.addMouseListener(roomSelection);
+			panel_1.add(btn);
+		}
 		
 		
 		JPanel panel = new JPanel();
@@ -292,6 +346,9 @@ public class MainForm extends JFrame {
 		
 		return roomInfoModel;
 	}
+	
+	
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
