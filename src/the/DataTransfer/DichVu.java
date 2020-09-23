@@ -1,4 +1,4 @@
-package the.Control;
+package the.DataTransfer;
 
 public class DichVu {
 	private int iD;

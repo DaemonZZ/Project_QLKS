@@ -1,4 +1,4 @@
-package the.Control;
+package the.DataTransfer;
 
 public class Phong {
 	private String maPhong;

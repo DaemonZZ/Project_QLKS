@@ -1,6 +1,9 @@
 package the.View;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -18,19 +21,19 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import the.Control.*;
+import the.DataTransfer.*;
 import the.Model.*;
 
 import javax.swing.JTable;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JMenuItem;
 import java.awt.FlowLayout;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.Color;
+import javax.swing.JToggleButton;
 
 public class MainForm extends JFrame {
 	public static MainForm m;
@@ -80,6 +83,7 @@ public class MainForm extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
+			sum=0;
 			table.setModel(new DefaultTableModel());
 			selectedRoom=((RoomButton)e.getComponent()).getMaPhong();
 			System.out.println(((RoomButton)e.getComponent()).getMaPhong());
@@ -108,10 +112,31 @@ public class MainForm extends JFrame {
 		getContentPane().setFont(new Font("Tahoma", Font.BOLD, 11));
 		setTitle("Quản lý Khách Sạn");
 		setSize(1120, 665);
-		getContentPane().setLayout(null);
+		getContentPane().setLayout(new BorderLayout());
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(Color.WHITE);
 		menuBar.setBounds(0, 0, 1102, 22);
-		getContentPane().add(menuBar);
+		getContentPane().add(menuBar,BorderLayout.NORTH);
+		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setBackground(Color.WHITE);
+		mainPanel.setLayout(new BorderLayout(10,5));
+		getContentPane().add(mainPanel,BorderLayout.CENTER);
+		
+		JPanel centerPanel = new JPanel();
+		centerPanel.setBackground(Color.WHITE);
+		centerPanel.setLayout(new BorderLayout(0,10));
+		mainPanel.add(centerPanel,BorderLayout.CENTER);
+		
+		JPanel largeBtnPanel = new JPanel();
+		largeBtnPanel.setBackground(Color.WHITE);
+		largeBtnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		centerPanel.add(largeBtnPanel,BorderLayout.NORTH);
+		
+		JPanel rightPanel = new JPanel();
+		rightPanel.setLayout(new BorderLayout());
+		rightPanel.setPreferredSize(new Dimension(400,1000));
+		
 		
 		JMenu mnFile = new JMenu("Hệ thống");
 		menuBar.add(mnFile);
@@ -140,73 +165,112 @@ public class MainForm extends JFrame {
 		JMenu mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
 		
-		JButton btnDangXuat = new JButton("Đăng Xuất");
-		btnDangXuat.setBounds(10, 33, 65, 65);
-		btnDangXuat.setToolTipText("Đăng Xuất");
-		getContentPane().add(btnDangXuat);
-		
-		JButton btnNewJButton_1 = new JButton("New JButton");
-		btnNewJButton_1.setBounds(85, 33, 65, 65);
-		getContentPane().add(btnNewJButton_1);
-		
-		JButton btnNewJButton_2 = new JButton("New JButton");
-		btnNewJButton_2.setBounds(160, 33, 65, 65);
-		getContentPane().add(btnNewJButton_2);
-		
-		JButton btnNewJButton_3 = new JButton("New JButton");
-		btnNewJButton_3.setBounds(235, 33, 65, 65);
-		getContentPane().add(btnNewJButton_3);
-		
-		JButton btnNewJButton_4 = new JButton("New JButton");
-		btnNewJButton_4.setBounds(310, 33, 65, 65);
-		getContentPane().add(btnNewJButton_4);
-		
-		JButton btnNewJButton_5 = new JButton("New JButton");
-		btnNewJButton_5.setBounds(385, 33, 65, 65);
-		getContentPane().add(btnNewJButton_5);
-		
-		JButton btnClose = new JButton("Đóng");
-		btnClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		btnClose.setBounds(460, 33, 65, 65);
-		getContentPane().add(btnClose);
+//		JButton btnDangXuat = new JButton("Đăng Xuất");
+//		btnDangXuat.setBounds(10, 33, 65, 65);
+//		btnDangXuat.setPreferredSize(new Dimension(80,80));
+//		btnDangXuat.setToolTipText("Đăng Xuất");
+//		largeBtnPanel.add(btnDangXuat);
+//		
+//		JButton btnPhong = new JButton("Danh Mục Phòng");
+//		btnPhong.setBounds(85, 33, 65, 65);
+//		btnPhong.setPreferredSize(new Dimension(80,80));
+//		largeBtnPanel.add(btnPhong);
+//		
+//		JButton btnNewJButton_2 = new JButton("Phiếu ĐP");
+//		btnNewJButton_2.setPreferredSize(new Dimension(80,80));
+//		largeBtnPanel.add(btnNewJButton_2);
+//		
+//		JButton btnNewJButton_3 = new JButton("New JButton");
+//		btnNewJButton_3.setPreferredSize(new Dimension(80,80));
+//		largeBtnPanel.add(btnNewJButton_3);
+//		
+//		JButton btnNewJButton_4 = new JButton("New JButton");
+//		btnNewJButton_4.setPreferredSize(new Dimension(80,80));
+//		largeBtnPanel.add(btnNewJButton_4);
+//		
+//		JButton btnNewJButton_5 = new JButton("New JButton");
+//		btnNewJButton_5.setPreferredSize(new Dimension(80,80));
+//		largeBtnPanel.add(btnNewJButton_5);
+//		
+//		JButton btnClose = new JButton("Đóng");
+//		btnClose.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				System.exit(0);
+//			}
+//		});
+//		btnClose.setPreferredSize(new Dimension(80,80));
+//		largeBtnPanel.add(btnClose);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 109, 677, 480);
-		getContentPane().add(tabbedPane);
+		tabbedPane.setBackground(Color.WHITE);
+		centerPanel.add(tabbedPane,BorderLayout.CENTER);
 		
 		JLayeredPane sodoPane = new JLayeredPane();
-		tabbedPane.addTab("Sơ Đồ", null, sodoPane, null);
-		sodoPane.setLayout(null);
+		//tabbedPane.addTab("Sơ Đồ", null, sodoPane, null);
+		sodoPane.setLayout(new BorderLayout());
 		
-		JMenuBar menuBar_1 = new JMenuBar();
-		menuBar_1.setBounds(0, 0, 101, 22);
-		sodoPane.add(menuBar_1);
+		JMenuBar menuBar_Sodo = new JMenuBar();
+		menuBar_Sodo.setBackground(Color.WHITE);
+		sodoPane.add(menuBar_Sodo,BorderLayout.NORTH);
+		
+		JButton btnDV = new JButton("Danh mục Dịch vụ");
+		menuBar_Sodo.add(btnDV);
+		
+		JButton btnConSum = new JButton("Vật tư tiêu hao");
+		menuBar_Sodo.add(btnConSum);
+		
+		JButton btnNhom = new JButton("Nhóm");
+		menuBar_Sodo.add(btnNhom);
+		
+		JButton btnDat = new JButton("Đặt phòng");
+		menuBar_Sodo.add(btnDat);
+		
+		JPanel filterPanel = new JPanel();
+		filterPanel.setBackground(Color.WHITE);
+		FlowLayout flowLayout = (FlowLayout) filterPanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		flowLayout.setHgap(10);
+		menuBar_Sodo.add(filterPanel);
+		
+		JLabel lblNewLabel = new JLabel("Lọc: ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setForeground(Color.RED);
+		filterPanel.add(lblNewLabel);
+		
+		JComboBox cbLoai = new JComboBox();
+		cbLoai.setModel(new DefaultComboBoxModel(new String[] {"Double", "Triple", "Family", "Double - VIP", "Triple - VIP", "Family - VIP", "Working", "Hall", "Tất cả"}));
+		cbLoai.setSelectedIndex(8);
+		filterPanel.add(cbLoai);
+		
+		JComboBox ttCb = new JComboBox(new String[] {"Trống","Dơ","Đã Đặt","Bảo Trì","Đang Sử Dụng","Nhóm"});
+		ttCb.setModel(new DefaultComboBoxModel(new String[] {"Trống", "Dơ", "Đã Đặt", "Bảo Trì", "Đang Sử Dụng", "Nhóm", "Tất cả"}));
+		ttCb.setSelectedIndex(6);
+		filterPanel.add(ttCb);
 		
 		JScrollPane scrollPaneSoDo = new JScrollPane();
-		scrollPaneSoDo.setBounds(0, 23, 672, 429);
-		sodoPane.add(scrollPaneSoDo);
+		sodoPane.add(scrollPaneSoDo,BorderLayout.CENTER);
 		scrollPaneSoDo.getVerticalScrollBar().setUnitIncrement(20);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
 		scrollPaneSoDo.setViewportView(panel_1);
-		panel_1.setSize(671	, 0);
-		panel_1.setLayout(new GridLayout(listPhong.size()/5+1, 5, 5, 5));
+		panel_1.setPreferredSize(new Dimension(130*5+25,(listPhong.size()+1)*130/5+listPhong.size()+100));
+		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
 		
 		for (Phong phong : listPhong) {
 			RoomButton btn = new RoomButton(phong.getMaPhong(), phong.getTrangThai(), phong.getLoai(), phong.getDonGia(), 0);
-			btn.setPreferredSize(new Dimension(120,120));
+			btn.setPreferredSize(new Dimension(130,130));
 			btn.addMouseListener(roomSelection);
 			panel_1.add(btn);
 		}
 		
 		
+		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		panel.setBounds(697, 33, 379, 132);
-		getContentPane().add(panel);
+		panel.setPreferredSize(new Dimension(379,132));
+		//rightPanel.add(panel,BorderLayout.NORTH);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("Tên KH");
@@ -226,24 +290,28 @@ public class MainForm extends JFrame {
 		panel.add(lblNewLabel_3_3);
 		
 		txtTenKH = new JTextField();
+		txtTenKH.setBackground(Color.WHITE);
 		txtTenKH.setEditable(false);
 		txtTenKH.setBounds(87, 8, 146, 20);
 		panel.add(txtTenKH);
 		txtTenKH.setColumns(10);
 		
 		txtCI = new JTextField();
+		txtCI.setBackground(Color.WHITE);
 		txtCI.setEditable(false);
 		txtCI.setColumns(10);
 		txtCI.setBounds(87, 46, 146, 20);
 		panel.add(txtCI);
 		
 		txtCO = new JTextField();
+		txtCO.setBackground(Color.WHITE);
 		txtCO.setEditable(false);
 		txtCO.setColumns(10);
 		txtCO.setBounds(87, 86, 146, 20);
 		panel.add(txtCO);
 		
 		txtPhong = new JTextField();
+		txtPhong.setBackground(Color.WHITE);
 		txtPhong.setEditable(false);
 		txtPhong.setColumns(10);
 		txtPhong.setBounds(301, 8, 57, 20);
@@ -255,50 +323,59 @@ public class MainForm extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(697, 187, 379, 328);
-		getContentPane().add(scrollPane);
+		rightPanel.add(scrollPane,BorderLayout.CENTER);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBounds(685, 514, 417, 96);
+		panel_2.setPreferredSize(new Dimension(379, 110));
+		//rightPanel.add(panel_2,BorderLayout.SOUTH);
+		panel_2.setLayout(null);
+		
 		JButton btnTraPhong = new JButton("Trả phòng");
-		btnTraPhong.setBounds(697, 523, 104, 23);
-		getContentPane().add(btnTraPhong);
+		btnTraPhong.setBounds(10, 11, 104, 23);
+		panel_2.add(btnTraPhong);
 		
 		JButton btnInHD = new JButton("In HĐ");
-		btnInHD.setBounds(811, 523, 74, 23);
+		btnInHD.setBounds(124, 11, 74, 23);
+		panel_2.add(btnInHD);
+		
+		JButton btnThemDV = new JButton("Thêm DV");
+		btnThemDV.setBounds(208, 11, 89, 23);
+		panel_2.add(btnThemDV);
+		
+		JButton btnXoaDV = new JButton("Xóa DV");
+		btnXoaDV.setBounds(307, 11, 82, 23);
+		panel_2.add(btnXoaDV);
+		
+		txtSum = new JTextField();
+		txtSum.setBackground(Color.WHITE);
+		txtSum.setBounds(185, 42, 204, 20);
+		panel_2.add(txtSum);
+		txtSum.setEditable(false);
+		txtSum.setColumns(10);
+		
+		txtXSum = new JTextField();
+		txtXSum.setBackground(Color.WHITE);
+		txtXSum.setBounds(185, 67, 204, 20);
+		panel_2.add(txtXSum);
+		txtXSum.setEditable(false);
+		txtXSum.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Tổng phòng");
+		lblNewLabel_1.setBounds(109, 45, 66, 14);
+		panel_2.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Tổng đoàn");
+		lblNewLabel_2.setBounds(109, 70, 66, 14);
+		panel_2.add(lblNewLabel_2);
 		btnInHD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		getContentPane().add(btnInHD);
-		
-		JButton btnThemDV = new JButton("Thêm DV");
-		btnThemDV.setBounds(895, 523, 89, 23);
-		getContentPane().add(btnThemDV);
-		
-		JButton btnXoaDV = new JButton("Xóa DV");
-		btnXoaDV.setBounds(994, 523, 82, 23);
-		getContentPane().add(btnXoaDV);
-		
-		JLabel lblNewLabel_1 = new JLabel("Tổng phòng");
-		lblNewLabel_1.setBounds(796, 557, 66, 14);
-		getContentPane().add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Tổng đoàn");
-		lblNewLabel_2.setBounds(796, 582, 66, 14);
-		getContentPane().add(lblNewLabel_2);
-		
-		txtSum = new JTextField();
-		txtSum.setEditable(false);
-		txtSum.setBounds(872, 554, 204, 20);
-		getContentPane().add(txtSum);
-		txtSum.setColumns(10);
-		
-		txtXSum = new JTextField();
-		txtXSum.setEditable(false);
-		txtXSum.setBounds(872, 579, 204, 20);
-		txtXSum.setColumns(10);
-		getContentPane().add(txtXSum);
 		
 		this.addWindowListener(new WindowAdapter() {
 
@@ -309,8 +386,8 @@ public class MainForm extends JFrame {
 			}
 			
 		});
+		mainPanel.add(rightPanel,BorderLayout.EAST);
 		
-		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		

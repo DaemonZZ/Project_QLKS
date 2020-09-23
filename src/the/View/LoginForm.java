@@ -3,7 +3,7 @@ package the.View;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import the.Control.*;
+import the.DataTransfer.*;
 import java.awt.Image;
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class LoginForm extends JFrame{
-	public static int accessRight=0;
+	public static int accessRight;
 	private JPasswordField passwordField;
 	private ArrayList<NhanVien> listNV = new DatabaseConnection().getListNV();
 	private DefaultComboBoxModel<String> md = loadCbLogin(1);

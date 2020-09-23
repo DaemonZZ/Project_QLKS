@@ -4,7 +4,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import the.Control.*;
+import the.DataTransfer.*;
 import the.Model.*;
 
 import javax.swing.JPasswordField;

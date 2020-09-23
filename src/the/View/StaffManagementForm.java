@@ -7,7 +7,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import the.Control.*;
+import the.DataTransfer.*;
 import the.Model.*;
 
 import javax.swing.JButton;
