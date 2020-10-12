@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.JLayeredPane;
 import javax.swing.table.DefaultTableModel;
 
 import the.DataTransfer.QuanLyPhong;
@@ -28,41 +29,7 @@ public class  AllEvent {
 	  * Event thanh button chính
 	  */
 	 
-	 public static MouseListener largeBtnCliked = new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				LargeButton btn = (LargeButton) e.getComponent();
-				if(btn.getName().equals("Log Out")) {
-					new LoginForm();
-					MainForm.m.dispose();
-				}
-			}
-	 };
+	
 
 	 /**
 	  * Event btn chọn phòng

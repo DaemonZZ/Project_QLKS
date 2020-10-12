@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -55,6 +56,16 @@ public class MainForm extends JFrame {
 	
 	
 	
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+
+
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		this.tabbedPane = tabbedPane;
+	}
+
+
 	public MainForm(int accessRight) {
 		m=this;
 		setIconImage(Toolkit.getDefaultToolkit().getImage("img\\appicon.png"));
@@ -119,7 +130,13 @@ public class MainForm extends JFrame {
 		btnDangXuat.setPreferredSize(new Dimension(70,80));
 		btnDangXuat.setToolTipText("Đăng Xuất");
 		largeBtnPanel.add(btnDangXuat);
-		btnDangXuat.addMouseListener(AllEvent.ev.largeBtnCliked);
+		btnDangXuat.addMouseListener(largeBtnCliked);
+		
+		LargeButton btnSodo = new LargeButton("room.png", "Sơ đồ");
+		btnSodo.setPreferredSize(new Dimension(70,80));
+		btnSodo.setToolTipText("Sơ đồ phòng");
+		largeBtnPanel.add(btnSodo);
+		btnSodo.addMouseListener(largeBtnCliked);
 
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -129,6 +146,7 @@ public class MainForm extends JFrame {
 		JLayeredPane sodoPane = new SoDoPane();
 		tabbedPane.addTab("", null, sodoPane, null);
 		tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
+		
 		
 		
 		
@@ -246,4 +264,46 @@ public class MainForm extends JFrame {
 		this.xSum = xSum;
 	}
 
+	 public  MouseListener largeBtnCliked = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				LargeButton btn = (LargeButton) e.getComponent();
+				if(btn.getName().equals("Log Out")) {
+					new LoginForm();
+					dispose();
+				}
+				
+				if(btn.getName().equals("Sơ đồ")) {
+					JLayeredPane sodoPane = new SoDoPane();
+					tabbedPane.addTab("", null, sodoPane, null);
+					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
+					tabbedPane.setSelectedComponent(sodoPane);
+				}
+			}
+	 };
 }
