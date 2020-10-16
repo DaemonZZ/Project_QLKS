@@ -8,11 +8,27 @@ public class KhachHang {
 	private int gioiTinh;
 	private String donVi;
 	private String cMND;
-	private Date ngayCap;
+	private String ngayCap;
 	private String noiCap;
 	private int loai;
 	private String quocTich;
-	public KhachHang(int id, String hoTen, int gioiTinh, String donVi, String cMND, Date ngayCap, String noiCap,
+	private int idDoan;
+	public KhachHang(int id, String hoTen, int gioiTinh, String donVi, String cMND, String ngayCap, String noiCap,
+			int loai, String quocTich, int idDoan) {
+		super();
+		this.id = id;
+		this.hoTen = hoTen;
+		this.gioiTinh = gioiTinh;
+		this.donVi = donVi;
+		this.cMND = cMND;
+		this.ngayCap = ngayCap;
+		this.noiCap = noiCap;
+		this.loai = loai;
+		this.quocTich = quocTich;
+		this.idDoan = idDoan;
+	}
+	
+	public KhachHang(int id, String hoTen, int gioiTinh, String donVi, String cMND, String ngayCap, String noiCap,
 			int loai, String quocTich) {
 		super();
 		this.id = id;
@@ -32,7 +48,7 @@ public class KhachHang {
 		this.gioiTinh = 0;
 		this.donVi = "";
 		this.cMND = "";
-		this.ngayCap = new Date(1L);
+		this.ngayCap = "";
 		this.noiCap = "";
 		this.loai = 0;
 		this.quocTich = "";
@@ -67,10 +83,10 @@ public class KhachHang {
 	public void setcMND(String cMND) {
 		this.cMND = cMND;
 	}
-	public Date getNgayCap() {
+	public String getNgayCap() {
 		return ngayCap;
 	}
-	public void setNgayCap(Date ngayCap) {
+	public void setNgayCap(String ngayCap) {
 		this.ngayCap = ngayCap;
 	}
 	public String getNoiCap() {
@@ -90,6 +106,12 @@ public class KhachHang {
 	}
 	public void setQuocTich(String quocTich) {
 		this.quocTich = quocTich;
+	}
+	public int getIdDoan() {
+		return idDoan;
+	}
+	public void setIdDoan(int idDoan) {
+		this.idDoan = idDoan;
 	}
 	
 }

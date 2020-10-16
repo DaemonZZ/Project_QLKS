@@ -137,6 +137,12 @@ public class MainForm extends JFrame {
 		btnSodo.setToolTipText("Sơ đồ phòng");
 		largeBtnPanel.add(btnSodo);
 		btnSodo.addMouseListener(largeBtnCliked);
+		
+		LargeButton btnlistDV	= new LargeButton("list.png", "DS DV");
+		btnlistDV.setPreferredSize(new Dimension(70,80));
+		btnlistDV.setToolTipText("Bảng giá dịch vụ");
+		largeBtnPanel.add(btnlistDV);
+		btnlistDV.addMouseListener(largeBtnCliked);
 
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);

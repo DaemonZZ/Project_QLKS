@@ -59,6 +59,49 @@ public class DatabaseConnection {
 			}
 			return list;
 		}
+
+	public boolean xoaNV(int id){
+		String sql = "delete from NhanVien where ID_NV='"+id+"'";
+		boolean b =false;
+		try {
+			Statement st =conn.createStatement();
+			b = (st.executeUpdate(sql)>0);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return b;
+	}
+
+	public boolean themNV(NhanVien n) throws SQLException {
+		boolean b=false;
+		String sql = "insert into NhanVien(ID_NV,HoTen,DienThoai,TaiKhoan,MatKhau,Loai) values(?,?,?,?,?,?)";
+		PreparedStatement st = conn.prepareStatement(sql);
+		st.setInt(1, n.getiD());
+		st.setNString(2, n.getHoTen());
+		st.setNString(3, n.getSoDT());
+		st.setNString(4, n.getTaiKhoan());
+		st.setNString(5, n.getMatKhau());
+		st.setInt(6, n.getLoai());
+		b=(st.executeUpdate()>0);
+
+		return b;
+	}
+
+	public boolean suaNV(NhanVien n) throws SQLException {
+		boolean b=false;
+		String sql = "update NhanVien set Hoten=?, DienThoai=?, TaiKhoan=?,MatKhau=?,Loai=? where ID_NV=?";
+		PreparedStatement st = conn.prepareStatement(sql);
+		st.setInt(6, n.getiD());
+		st.setNString(1, n.getHoTen());
+		st.setNString(2, n.getSoDT());
+		st.setNString(3, n.getTaiKhoan());
+		st.setNString(4, n.getMatKhau());
+		st.setInt(5, n.getLoai());
+		b=(st.executeUpdate()>0);
+
+		return b;
+	}
 	
 		/*
 		 * Lấy danh sách phòng
@@ -120,6 +163,22 @@ public class DatabaseConnection {
 			}
 			return list;
 		}
+
+	public int nextCT() {
+		String sql = "select max(SoCT) from ChungTu";
+		int next=0;
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()) {
+				next=rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return next+1;
+	}
 		
 	public ArrayList<DongChungTu> getListDongChungTu(int Id_QL){
 		String sql ="select Id,DongChungtu.SoCT,DongChungTu.ID_DV,TenDV,SoLuong,DongChungTU.DonGia,DongChungTu.GhiChu from DongChungTu join DichVu "
@@ -146,49 +205,77 @@ public class DatabaseConnection {
 		}
 		return list;
 	}
-	
-	public boolean xoaNV(int id){
-		String sql = "delete from NhanVien where ID_NV='"+id+"'";
-		boolean b =false;
+
+	public ArrayList<KhachHang> getListKH(){
+		    String sql = "select * from KhachHang";
+		    ArrayList<KhachHang> list = new ArrayList<>();
 		try {
-			Statement st =conn.createStatement();
-			b = (st.executeUpdate(sql)>0);
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()){
+				KhachHang k = new KhachHang();
+				k.setId(rs.getInt(1));
+				k.setHoTen(rs.getNString(2));
+				k.setGioiTinh(rs.getInt(3));
+				k.setDonVi(rs.getNString(4));
+				k.setcMND(rs.getNString(5));
+				k.setNgayCap(rs.getNString(6));
+				k.setNoiCap(rs.getNString(7));
+				k.setLoai(rs.getInt(8));
+				k.setQuocTich(rs.getNString(9));
+				k.setIdDoan(rs.getInt(10));
+				list.add(k);
+			}
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return list;
+	}
+	
+	// Lấy mã khách hàng kế tiếp
+	
+	public int nextKH() {
+		String sql = "select max(ID_KH) from KhachHang";
+		int next=0;
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()) {
+				next=rs.getInt(1);
+			}
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return b;
+		return next+1;
 	}
-	
-	public boolean themNV(NhanVien n) throws SQLException {
+
+	//Thêm Khách hàng mới
+	public boolean addNewKH(){
 		boolean b=false;
-		String sql = "insert into NhanVien(ID_NV,HoTen,DienThoai,TaiKhoan,MatKhau,Loai) values(?,?,?,?,?,?)";
-		PreparedStatement st = conn.prepareStatement(sql);
-		st.setInt(1, n.getiD());
-		st.setNString(2, n.getHoTen());
-		st.setNString(3, n.getSoDT());
-		st.setNString(4, n.getTaiKhoan());
-		st.setNString(5, n.getMatKhau());
-		st.setInt(6, n.getLoai());
-		b=(st.executeUpdate()>0);
-		
+
 		return b;
 	}
-	
-	public boolean suaNV(NhanVien n) throws SQLException {
+	//Sửa thông tin khách hàng
+	public boolean editKH(){
 		boolean b=false;
-		String sql = "update NhanVien set Hoten=?, DienThoai=?, TaiKhoan=?,MatKhau=?,Loai=? where ID_NV=?";
-		PreparedStatement st = conn.prepareStatement(sql);
-		st.setInt(6, n.getiD());
-		st.setNString(1, n.getHoTen());
-		st.setNString(2, n.getSoDT());
-		st.setNString(3, n.getTaiKhoan());
-		st.setNString(4, n.getMatKhau());
-		st.setInt(5, n.getLoai());
-		b=(st.executeUpdate()>0);
-		
+
 		return b;
 	}
+	//Xóa khách hàng
+	public boolean delKH(){
+		boolean b=false;
+
+		return b;
+	}
+	//Tìm kiếm theo tên
+	public ArrayList<KhachHang> searchKH(){
+		ArrayList<KhachHang> list = new ArrayList<>();
+		/////
+		return list;
+	}
+
 	public static void main(String[] args) {
 		new DatabaseConnection();
 	}
