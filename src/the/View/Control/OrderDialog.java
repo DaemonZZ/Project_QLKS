@@ -1,15 +1,22 @@
 package the.View.Control;
 
+import the.DataTransfer.ChungTu;
+import the.DataTransfer.KhachHang;
+import the.DataTransfer.QuanLyPhong;
 import the.Model.DatabaseConnection;
+import the.View.MainForm;
+import the.View.RoomButton;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JButton;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class OrderDialog extends JDialog {
 	
@@ -22,8 +29,12 @@ public class OrderDialog extends JDialog {
 	private JTextField txtNgayCap;
 	private JTextField txtNoiCap;
 	private JTextField txtQuocTich;
+	private JComboBox cbGen;
+	private JComboBox cbLoai;
+	private JTextField txtGia;
 	int nextKH =new DatabaseConnection().nextKH();
 	int nextCT = new DatabaseConnection().nextCT();
+	ArrayList<QuanLyPhong> currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
 	public OrderDialog(String s) {
 		getContentPane().setLayout(null);
 		
@@ -39,29 +50,40 @@ public class OrderDialog extends JDialog {
 		
 		txtPhong = new JTextField();
 		txtPhong.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11)); 
-		txtPhong.setBounds(68, 23, 46, 20);
+		txtPhong.setBounds(51, 23, 46, 20);
 		getContentPane().add(txtPhong);
 		txtPhong.setColumns(10);
 		txtPhong.setText(s);
 		txtPhong.setEditable(false);
 		
+		JLabel lblNewLabel_1 = new JLabel("Giá");
+		lblNewLabel_1.setBounds(101, 26, 34, 14);
+		getContentPane().add(lblNewLabel_1);
+		
+		txtGia = new JTextField();
+		txtGia.setEditable(false);
+		txtGia.setBounds(128, 23, 81, 20); 
+		getContentPane().add(txtGia);
+		txtGia.setColumns(10);
+		txtGia.setText(new DatabaseConnection().getGia(s)+"");
+		
 		JLabel MaKH = new JLabel("Mã KH"); 
-		MaKH.setBounds(124, 26, 46, 14);
+		MaKH.setBounds(219, 26, 46, 14);
 		getContentPane().add(MaKH);
 		
 		txtMaKH = new JTextField();
 		txtMaKH.setText(nextKH+"");
 		txtMaKH.setEditable(false);
-		txtMaKH.setBounds(180, 23, 86, 20);
+		txtMaKH.setBounds(272, 23, 40, 20);
 		getContentPane().add(txtMaKH);
 		txtMaKH.setColumns(10);
 
 		JLabel mahd = new JLabel("Mã HD");
-		mahd.setBounds(276, 26, 46, 14);
+		mahd.setBounds(322, 26, 46, 14);
 		getContentPane().add(mahd);
 		
 		txtMaHD = new JTextField();
-		txtMaHD.setBounds(332, 23, 86, 20);
+		txtMaHD.setBounds(378, 23, 40, 20);
 		getContentPane().add(txtMaHD);
 		txtMaHD.setColumns(10);
 		txtMaHD.setText(nextCT+"");
@@ -80,8 +102,8 @@ public class OrderDialog extends JDialog {
 		lblNewLabel_4.setBounds(276, 65, 66, 14);
 		getContentPane().add(lblNewLabel_4);
 		
-		JComboBox cbGen = new JComboBox();
-		cbGen.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
+		 cbGen = new JComboBox();
+		cbGen.setModel(new DefaultComboBoxModel(new String[] {"Nữ","Nam"}));
 		cbGen.setBounds(342, 61, 54, 22);
 		getContentPane().add(cbGen);
 		
@@ -125,7 +147,7 @@ public class OrderDialog extends JDialog {
 		lblNewLabel_9.setBounds(10, 178, 46, 14);
 		getContentPane().add(lblNewLabel_9);
 		
-		JComboBox cbLoai = new JComboBox();
+		 cbLoai = new JComboBox();
 		cbLoai.setModel(new DefaultComboBoxModel(new String[] {"Khách lẻ", "Công ty", "Nhà cung cấp"}));
 		cbLoai.setBounds(68, 174, 102, 22);
 		getContentPane().add(cbLoai);
@@ -142,15 +164,121 @@ public class OrderDialog extends JDialog {
 		JButton btnCancel = new JButton("Hủy");
 		btnCancel.setBounds(34, 227, 89, 23);
 		getContentPane().add(btnCancel);
+		btnCancel.addActionListener(btn);
 		
 		JButton btnGop = new JButton("Gộp HD");
 		btnGop.setBounds(165, 227, 89, 23);
 		getContentPane().add(btnGop);
-		
+		btnGop.addActionListener(btn);
+
 		JButton btnOK = new JButton("Ok");
 		btnOK.setBounds(297, 227, 89, 23);
 		getContentPane().add(btnOK);
-		
+		btnOK.addActionListener(btn);
+
 		setVisible(true);
+
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				MainForm.m.setEnabled(true);
+			}
+		});
 	}
+
+	public ActionListener btn = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			KhachHang k = new KhachHang();
+			k.setIdDoan(0);
+			if(e.getActionCommand().equals("Hủy")){
+				MainForm.m.setEnabled(true);
+				dispose();
+			}
+			if(e.getActionCommand().equals("Gộp HD")){
+
+			}
+			if(e.getActionCommand().equals("Ok")){
+				boolean b = false;
+				k.setId(Integer.parseInt(txtMaKH.getText()));
+				k.setHoTen(txtTenKH.getText());
+				k.setGioiTinh(cbGen.getSelectedIndex());
+				k.setDonVi(txtDonVi.getText());
+				k.setcMND(txtCMND.getText());
+				k.setNgayCap(txtNgayCap.getText());
+				k.setNoiCap(txtNoiCap.getText());
+				k.setLoai(cbLoai.getSelectedIndex());
+				k.setQuocTich(txtQuocTich.getText());
+
+				b=new DatabaseConnection().addNewKH(k);
+				if(b){
+					QuanLyPhong q = new QuanLyPhong();
+					q.setId(new DatabaseConnection().nextId_QL());
+					q.setId_Dk(0);
+					q.setId_KH(k.getId());
+					q.setMaPhong(txtPhong.getText());
+					q.setCI(LocalDate.now());
+					q.setGia(new DatabaseConnection().getGia(txtPhong.getText()));
+					q.setTrangThai(1);
+
+					b=new DatabaseConnection().addQLPhong(q);
+					if(b){
+						if(k.getIdDoan()==0){
+							ChungTu c = new ChungTu();
+							c.setSoCT(new DatabaseConnection().nextCT());
+							c.setLoai(3);
+							c.setId_KH(k.getId());
+							c.setNoiDung(k.getHoTen());
+							c.setId_QL(q.getId());
+
+							b=new DatabaseConnection().addCT(c);
+							if(b){
+								new DatabaseConnection().setStt(q.getMaPhong(),4);
+								SoDoPane.s.reloadRoomList();
+								JOptionPane.showMessageDialog(rootPane,"Check in complete!");
+
+								currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
+								MainForm.m.setSum(0);
+								MainForm.m.getTable().setModel(new DefaultTableModel());
+								MainForm.m.setSelectedRoom(q.getMaPhong());
+								CustomerInfoPanel.t.getTxtPhong().setText(MainForm.m.getSelectedRoom());
+								CustomerInfoPanel.t.getTxtTenKH().setText("");
+								CustomerInfoPanel.t.getTxtCI().setText("");
+								CustomerInfoPanel.t.getTxtCO().setText("");
+
+								for (QuanLyPhong ql : currentRoomInfo) {
+									if(ql.getMaPhong().equals(MainForm.m.getSelectedRoom())) {
+										CustomerInfoPanel.t.getTxtTenKH().setText(ql.getHoTen());
+										CustomerInfoPanel.t.getTxtCI().setText(ql.getCI()+"");
+										CustomerInfoPanel.t.getTxtCO().setText(ql.getCO()+"");
+										MainForm.m.getTable().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
+
+									}
+								}
+								SumPanel.s.getTxtSum().setText(MainForm.m.getSum()+"");
+								MainForm.m.setEnabled(true);
+								SoDoPane.s.reloadRoomList();
+								SoDoPane.s.repaint();
+								dispose();
+
+							}
+							else {
+								JOptionPane.showMessageDialog(rootPane,"Tao Chungtu that bai");
+							}
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(rootPane,"Tao QuanLyPhong that bai");
+					}
+
+				}
+				else {
+					JOptionPane.showMessageDialog(rootPane,"Tao khanh hang that bai");
+				}
+
+			}
+		}
+	};
+
 }

@@ -42,9 +42,6 @@ public class MainForm extends JFrame {
 	public JTable getTable() {
 		return table;
 	}
-
-	private ArrayList<JButton> listRoombtn = new ArrayList<JButton>();
-	
 	private String selectedRoom="";
 	private ArrayList<Phong> listPhong = new DatabaseConnection().getListPhong();
 	private  ArrayList<QuanLyPhong> currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
@@ -153,10 +150,6 @@ public class MainForm extends JFrame {
 		tabbedPane.addTab("", null, sodoPane, null);
 		tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
 		
-		
-		
-		
-		
 		JPanel panel = new CustomerInfoPanel();
 		panel.setPreferredSize(new Dimension(379,132));
 		rightPanel.add(panel,BorderLayout.NORTH);
@@ -189,6 +182,7 @@ public class MainForm extends JFrame {
 		
 		
 	}
+
 	
 	
 	public DefaultTableModel getRoomInfoModel(int id_ql) {

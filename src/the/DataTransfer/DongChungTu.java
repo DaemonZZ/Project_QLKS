@@ -2,13 +2,13 @@ package the.DataTransfer;
 
 public class DongChungTu {
 	private int id;
-	private String soCT;
+	private int soCT;
 	private int id_DV;
 	private String tenDV;
 	private float soLuong;
 	private float donGia;
 	private String ghiChu;
-	public DongChungTu(int id, String soCT, int id_DV, String tenDV, float soLuong, float donGia, String ghiChu) {
+	public DongChungTu(int id, int soCT, int id_DV, String tenDV, float soLuong, float donGia, String ghiChu) {
 		super();
 		this.id = id;
 		this.soCT = soCT;
@@ -20,7 +20,7 @@ public class DongChungTu {
 	}
 	public DongChungTu() {
 		this.id = 0;
-		this.soCT = "";
+		this.soCT = 0;
 		this.id_DV = 0;
 		this.tenDV = "";
 		this.soLuong = 0;
@@ -34,10 +34,10 @@ public class DongChungTu {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getSoCT() {
+	public int getSoCT() {
 		return soCT;
 	}
-	public void setSoCT(String soCT) {
+	public void setSoCT(int soCT) {
 		this.soCT = soCT;
 	}
 	public int getId_DV() {

@@ -2,7 +2,6 @@ package the.View;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import the.DataTransfer.*;
 
@@ -113,7 +112,7 @@ public class LoginForm extends JFrame {
     public DefaultComboBoxModel<String> loadCbLogin(int index) {
         DefaultComboBoxModel<String> md = new DefaultComboBoxModel<String>();
         for (NhanVien n : listNV) {
-            if (n.getLoai() == index) {
+            if (n.getLoai() == index&& n.getiD()!=0) {
                 md.addElement(n.getHoTen());
             }
         }

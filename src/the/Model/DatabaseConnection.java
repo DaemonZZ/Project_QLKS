@@ -1,12 +1,10 @@
 package the.Model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import net.sourceforge.jtds.jdbcx.proxy.PreparedStatementProxy;
 import the.DataTransfer.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -131,6 +129,18 @@ public class DatabaseConnection {
 			}
 			return list;
 		}
+		
+		public float getGia(String maPhong) {
+			ArrayList<Phong> list= getListPhong();
+			float gia =0;
+			for (Phong p:list
+				 ) {
+				if(p.getMaPhong().equals(maPhong)){
+					gia=p.getDonGia();
+				}
+			}
+			return gia;
+		}
 		// Lấy thông tin phòng hiện tại
 		public ArrayList<QuanLyPhong> getCurrentRoomInfo(){
 			String sql = "select ID_QL,QuanLyPhong.ID_DK,HoTen,QuanLyPhong.MaPhong,CheckIN,CheckOut,Gia,PhuThu,GhiChu,QuanLyPhong.TrangThai,Phong.TrangThai,QuanlyPhong.ID_KH "
@@ -147,8 +157,8 @@ public class DatabaseConnection {
 						a.setId_Dk(rs.getInt(2));
 						a.setHoTen(rs.getNString(3));
 						a.setMaPhong(rs.getString(4));
-						a.setCI(rs.getDate(5));
-						a.setCO(rs.getDate(6));
+						a.setCI(rs.getDate(5).toLocalDate());
+						if(rs.getDate(6)!=null) a.setCO(rs.getDate(6).toLocalDate());
 						a.setGia(rs.getFloat(7));
 						a.setPhuThu(rs.getFloat(8));
 						a.setGhiChu(rs.getString(9));
@@ -164,6 +174,110 @@ public class DatabaseConnection {
 			return list;
 		}
 
+		public boolean addQLPhong(QuanLyPhong q){
+			boolean b = false;
+			String sql = "insert into QuanLyPhong(ID_QL,ID_DK,ID_KH,MaPhong,CheckIn,Checkout,Gia,PhuThu,GhiChu,TrangThai)" +
+					"  values(?,?,?,?,?,?,?,?,?,?)";
+			try {
+				PreparedStatement p = conn.prepareStatement(sql);
+				LocalDate d = q.getCI();
+
+				p.setInt(1,q.getId());
+				p.setInt(2,q.getId_Dk());
+				p.setInt(3,q.getId_KH());
+				p.setNString(4,q.getMaPhong());
+				p.setDate(5, Date.valueOf(d));
+				p.setDate(6, null);
+				p.setFloat(7,q.getGia());
+				p.setFloat(8,q.getPhuThu());
+				p.setNString(9, q.getGhiChu());
+				p.setInt(10,q.getTrangThai());
+
+				b=p.executeUpdate()>0;
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			}
+			return  b;
+		}
+
+		public void setStt(String phong,int stt){
+			String sql = "update phong set TrangThai = ? where Maphong = ?";
+			try{
+				PreparedStatement p = conn.prepareStatement(sql);
+				p.setInt(1,stt);
+				p.setNString(2,phong);
+				p.executeUpdate();
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			}
+		}
+	public int nextId_QL() {
+		String sql = "select max(ID_QL) from QuanLyPhong";
+		int next=0;
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()) {
+				next=rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return next+1;
+	}
+	//Chung tu
+
+	public ArrayList<ChungTu> getlistCT(){
+		ArrayList<ChungTu> list = new ArrayList<>();
+		String sql = "select * from ChungTu";
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs  = st.executeQuery(sql);
+			while(rs.next()){
+				ChungTu c = new ChungTu();
+				c.setSoCT(rs.getInt(1));
+				c.setNgayCT(rs.getDate(2).toLocalDate());
+				c.setLoai(rs.getInt(3));
+				c.setId_KH(rs.getInt(4));
+				c.setId_NV(rs.getInt(5));
+				c.setNoiDung(rs.getNString(6));
+				c.setGiam(rs.getFloat(7));
+				c.setVAT(rs.getFloat(8));
+				c.setSoHD(rs.getNString(9));
+				c.setId_QL(rs.getInt(10));
+
+				list.add(c);
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return list;
+	}
+
+	public  boolean addCT(ChungTu c){
+		boolean b = false;
+		String sql= "insert into ChungTu(SoCT,Loai,ID_KH,ID_NV,NoiDung,Giam,VAT,SoHoaDon,ID_Ql) " +
+				"values(?,?,?,?,?,?,?,?,?)";
+		//NgayCT se duoc them khi thanh toan
+		try{
+			PreparedStatement p = conn.prepareStatement(sql);
+			p.setInt(1,c.getSoCT());
+			p.setInt(2,c.getLoai());
+			p.setInt(3,c.getId_KH());
+			p.setInt(4,c.getId_NV());
+			p.setNString(5,c.getNoiDung());
+			p.setFloat(6,c.getGiam());
+			p.setFloat(7,c.getVAT());
+			p.setNString(8,c.getSoHD());
+			p.setInt(9,c.getId_QL());
+
+			b=p.executeUpdate()>0;
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return b;
+	}
 	public int nextCT() {
 		String sql = "select max(SoCT) from ChungTu";
 		int next=0;
@@ -192,7 +306,7 @@ public class DatabaseConnection {
 			while(rs.next()) {
 				DongChungTu s = new DongChungTu();
 				s.setId(rs.getInt(1));
-				s.setSoCT(rs.getNString(2));
+				s.setSoCT(rs.getInt(2));
 				s.setId_DV(rs.getInt(3));
 				s.setTenDV(rs.getNString(4));
 				s.setSoLuong(rs.getInt(5));
@@ -252,9 +366,27 @@ public class DatabaseConnection {
 	}
 
 	//Thêm Khách hàng mới
-	public boolean addNewKH(){
+	public boolean addNewKH(KhachHang k){
 		boolean b=false;
+		String sql = "insert into KhachHang(ID_KH,HoTen,GioiTinh,DonVi,CMND,NgayCap,NoiCap,Loai,QuocTich,Id_Doan)" +
+				"  values(?,?,?,?,?,?,?,?,?,?)";
+		try {
+			PreparedStatement p = conn.prepareStatement(sql);
+			p.setInt(1,k.getId());
+			p.setNString(2,k.getHoTen());
+			p.setInt(3,k.getGioiTinh());
+			p.setNString(4,k.getDonVi());
+			p.setNString(5,k.getcMND());
+			p.setNString(6,k.getNgayCap());
+			p.setNString(7,k.getNoiCap());
+			p.setInt(8,k.getLoai());
+			p.setNString(9,k.getQuocTich());
+			p.setInt(10,k.getIdDoan());
 
+			b=p.executeUpdate()>0;
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		return b;
 	}
 	//Sửa thông tin khách hàng

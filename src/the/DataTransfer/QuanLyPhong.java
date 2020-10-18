@@ -1,20 +1,20 @@
 package the.DataTransfer;
 
-import java.util.Date;
+import java.time.*;
 
 public class QuanLyPhong {
 	private int id;
 	private int id_Dk;
 	private String hoTen;
 	private String maPhong;
-	private Date CI;
-	private Date CO;
+	private LocalDate  CI;
+	private LocalDate  CO;
 	private  float gia;
 	private float phuThu;
 	private String ghiChu;
 	private int trangThai;
 	private int id_KH;
-	public QuanLyPhong(int id, int id_Dk, String hoTen, String maPhong, Date cI, Date cO, float gia, float phuThu,
+	public QuanLyPhong(int id, int id_Dk, String hoTen, String maPhong, LocalDate  cI, LocalDate  cO, float gia, float phuThu,
 			String ghiChu, int trangThai,int id_KH) {
 		super();
 		this.id = id;
@@ -35,8 +35,8 @@ public class QuanLyPhong {
 		this.id_Dk = 0;
 		this.hoTen = "";
 		this.maPhong = "";
-		CI = new Date(0L);
-		CO = new Date(0L);
+//		CI = new LocalDate ();
+//		CO = new LocalDate ();
 		this.gia = 0;
 		this.phuThu = 0;
 		this.ghiChu = "";
@@ -68,16 +68,16 @@ public class QuanLyPhong {
 	public void setMaPhong(String maPhong) {
 		this.maPhong = maPhong;
 	}
-	public Date getCI() {
+	public LocalDate  getCI() {
 		return CI;
 	}
-	public void setCI(Date cI) {
+	public void setCI(LocalDate  cI) {
 		CI = cI;
 	}
-	public Date getCO() {
+	public LocalDate  getCO() {
 		return CO;
 	}
-	public void setCO(Date cO) {
+	public void setCO(LocalDate  cO) {
 		CO = cO;
 	}
 	public float getGia() {
