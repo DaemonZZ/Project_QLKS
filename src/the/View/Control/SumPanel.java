@@ -1,11 +1,13 @@
 package the.View.Control;
 
-import java.awt.Color;
+import the.View.AddServiceDialog;
+import the.View.MainForm;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 
 public class SumPanel extends JPanel {
@@ -30,6 +32,22 @@ public class SumPanel extends JPanel {
 		this.txtXSum = txtXSum;
 	}
 
+	private ActionListener btn = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getActionCommand().equals("Thêm DV")){
+				if(MainForm.m.getSelectedRoom()!="" && MainForm.m.getQl()!=null){
+					MainForm.m.setEnabled(false);
+					new AddServiceDialog();
+				}
+				else{
+					JOptionPane.showMessageDialog(getRootPane(),"Không thể thêm dịch vụ vào phòng hiện tại. Chọn phòng đang được sử dụng và thử lại!");
+				}
+			}
+		}
+	};
+
+
 	public SumPanel() {
 		s=this;
 		setBackground(Color.WHITE);
@@ -41,18 +59,22 @@ public class SumPanel extends JPanel {
 		JButton btnTraPhong = new JButton("Trả phòng");
 		btnTraPhong.setBounds(10, 11, 104, 23);
 		add(btnTraPhong);
+		btnTraPhong.addActionListener(btn);
 		
 		JButton btnInHD = new JButton("In HĐ");
 		btnInHD.setBounds(124, 11, 74, 23);
 		add(btnInHD);
+		btnInHD.addActionListener(btn);
 		
 		JButton btnThemDV = new JButton("Thêm DV");
 		btnThemDV.setBounds(208, 11, 89, 23);
 		add(btnThemDV);
+		btnThemDV.addActionListener(btn);
 		
 		JButton btnXoaDV = new JButton("Xóa DV");
 		btnXoaDV.setBounds(307, 11, 82, 23);
 		add(btnXoaDV);
+		btnXoaDV.addActionListener(btn);
 		
 		txtSum = new JTextField();
 		txtSum.setBackground(Color.WHITE);

@@ -21,6 +21,16 @@ public class DichVu {
 		this.sLDK = sLDK;
 		this.gTDK = gTDK;
 	}
+
+	public DichVu(int iD, String tenDV, String donViTinh, float donGIa, String ghiChu, int loai) {
+		this.iD = iD;
+		this.tenDV = tenDV;
+		this.donViTinh = donViTinh;
+		this.donGIa = donGIa;
+		this.ghiChu = ghiChu;
+		this.loai = loai;
+	}
+
 	public DichVu() {
 		super();
 		this.iD = 0;
@@ -80,5 +90,9 @@ public class DichVu {
 	public void setgTDK(float gTDK) {
 		this.gTDK = gTDK;
 	}
-	
+
+	@Override
+	public String toString() {
+		return tenDV;
+	}
 }

@@ -142,6 +142,7 @@ public class DatabaseConnection {
 			return gia;
 		}
 		// Lấy thông tin phòng hiện tại
+		//Bao gồm những phòng đang còn ở
 		public ArrayList<QuanLyPhong> getCurrentRoomInfo(){
 			String sql = "select ID_QL,QuanLyPhong.ID_DK,HoTen,QuanLyPhong.MaPhong,CheckIN,CheckOut,Gia,PhuThu,GhiChu,QuanLyPhong.TrangThai,Phong.TrangThai,QuanlyPhong.ID_KH "
 					+ "from KhachHang inner join QuanLyPhong on KhachHang.ID_KH = QuanLyPhong.ID_KH "
@@ -401,13 +402,87 @@ public class DatabaseConnection {
 
 		return b;
 	}
-	//Tìm kiếm theo tên
-	public ArrayList<KhachHang> searchKH(){
-		ArrayList<KhachHang> list = new ArrayList<>();
-		/////
+	//Tìm kiếm theo id
+	public KhachHang khachHang(int id){
+		KhachHang k = new KhachHang();
+		String sql = "select * from KhachHang where ID_KH="+id;
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()){
+				k.setId(id);
+				k.setHoTen(rs.getNString(2));
+				k.setGioiTinh(rs.getInt(3));
+				if(rs.getNString(4)!=null) k.setDonVi(rs.getNString(4));
+				if(rs.getNString(5)!=null) k.setcMND(rs.getNString(5));
+				if(rs.getNString(6)!=null) k.setNgayCap(rs.getNString(6));
+				if(rs.getNString(7)!=null) k.setNoiCap(rs.getNString(7));
+				k.setLoai(rs.getInt(8));
+				if(rs.getNString(9)!=null) k.setQuocTich(rs.getNString(9));
+				k.setIdDoan(rs.getInt(10));
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return k;
+	}
+
+	public int getSoTang(){
+		String sql = "select max(Tang) from Phong";
+		int count=0;
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	public  ArrayList<LoaiPhong> getListLoaiPhong(){
+			String sql = "select * from LoaiPhong";
+			ArrayList<LoaiPhong> list = new ArrayList<>();
+		try {
+			Statement st =conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()){
+				LoaiPhong l = new LoaiPhong();
+				l.setId(rs.getInt(1));
+				l.setTenLoai(rs.getNString(2));
+				list.add(l);
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		return list;
 	}
 
+	public ArrayList<DichVu> getListDichVu(){
+			String sql = "select * from DichVu where loai = 3 or loai = 2";
+			ArrayList<DichVu> list = new ArrayList<>();
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()){
+				DichVu dv = new DichVu();
+				dv.setiD(rs.getInt(1));
+				dv.setTenDV(rs.getNString(2));
+				if(rs.getNString(3)!=null) dv.setDonViTinh(rs.getNString(3));
+				dv.setDonGIa(rs.getFloat(4));
+				if(rs.getNString(5)!=null) dv.setGhiChu(rs.getNString(5));
+				dv.setLoai(rs.getInt(6));
+				dv.setsLDK(rs.getFloat(7));
+				list.add(dv);
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return list;
+	}
 	public static void main(String[] args) {
 		new DatabaseConnection();
 	}

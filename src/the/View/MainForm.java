@@ -18,6 +18,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import the.DataTransfer.*;
@@ -39,9 +41,7 @@ public class MainForm extends JFrame {
 	public static MainForm m;
 	
 	private JTable table;
-	public JTable getTable() {
-		return table;
-	}
+
 	private String selectedRoom="";
 	private ArrayList<Phong> listPhong = new DatabaseConnection().getListPhong();
 	private  ArrayList<QuanLyPhong> currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
@@ -49,18 +49,7 @@ public class MainForm extends JFrame {
 	private DefaultTableModel roomInfoModel = new DefaultTableModel();
 	private JTabbedPane tabbedPane;
 	private float sum=0,xSum=0;
-	
-	
-	
-	
-	public JTabbedPane getTabbedPane() {
-		return tabbedPane;
-	}
-
-
-	public void setTabbedPane(JTabbedPane tabbedPane) {
-		this.tabbedPane = tabbedPane;
-	}
+	private QuanLyPhong ql;
 
 
 	public MainForm(int accessRight) {
@@ -141,6 +130,12 @@ public class MainForm extends JFrame {
 		largeBtnPanel.add(btnlistDV);
 		btnlistDV.addMouseListener(largeBtnCliked);
 
+		LargeButton btnRoomProfile = new LargeButton("profile.png","Hồ Sơ Phòng");
+		btnRoomProfile.setPreferredSize(new Dimension(70,80));
+		btnRoomProfile.setToolTipText("Hồ Sơ Phòng");
+		largeBtnPanel.add(btnRoomProfile);
+		btnRoomProfile.addMouseListener(largeBtnCliked);
+
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBackground(Color.WHITE);
@@ -179,12 +174,7 @@ public class MainForm extends JFrame {
 		
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
-		
 	}
-
-	
-	
 	public DefaultTableModel getRoomInfoModel(int id_ql) {
 		listDongChungTu = new DatabaseConnection().getListDongChungTu(id_ql);
 		roomInfoModel = new DefaultTableModel() {
@@ -243,28 +233,38 @@ public class MainForm extends JFrame {
 	public String getSelectedRoom() {
 		return selectedRoom;
 	}
-
 	public void setSelectedRoom(String selectedRoom) {
 		this.selectedRoom = selectedRoom;
 	}
-
 	public float getSum() {
 		return sum;
 	}
-
 	public void setSum(float sum) {
 		this.sum = sum;
 	}
-
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		this.tabbedPane = tabbedPane;
+	}
 	public float getxSum() {
 		return xSum;
 	}
-
 	public void setxSum(float xSum) {
 		this.xSum = xSum;
 	}
+	public JTable getTable() {
+		return table;
+	}
+	public QuanLyPhong getQl() {
+		return ql;
+	}
+	public void setQl(QuanLyPhong ql) {
+		this.ql = ql;
+	}
 
-	 public  MouseListener largeBtnCliked = new MouseListener() {
+	public  MouseListener largeBtnCliked = new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -304,6 +304,13 @@ public class MainForm extends JFrame {
 					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
 					tabbedPane.setSelectedComponent(sodoPane);
 				}
+
+				if(btn.getName().equals("Hồ Sơ Phòng")) {
+					m.setEnabled(false);
+					new ProfileDialog();
+				}
 			}
 	 };
+
+
 }

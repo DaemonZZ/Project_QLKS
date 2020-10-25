@@ -148,7 +148,7 @@ public class OrderDialog extends JDialog {
 		getContentPane().add(lblNewLabel_9);
 		
 		 cbLoai = new JComboBox();
-		cbLoai.setModel(new DefaultComboBoxModel(new String[] {"Khách lẻ", "Công ty", "Nhà cung cấp"}));
+		cbLoai.setModel(new DefaultComboBoxModel(new String[] {"Khách lẻ", "Công ty"}));
 		cbLoai.setBounds(68, 174, 102, 22);
 		getContentPane().add(cbLoai);
 		
