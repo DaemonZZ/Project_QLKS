@@ -32,10 +32,15 @@ public class OrderDialog extends JDialog {
 	private JComboBox cbGen;
 	private JComboBox cbLoai;
 	private JTextField txtGia;
-	int nextKH =new DatabaseConnection().nextKH();
-	int nextCT = new DatabaseConnection().nextCT();
-	ArrayList<QuanLyPhong> currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
+	private DatabaseConnection cont = new DatabaseConnection();
+	private int nextKH =cont.nextKH();
+	private int nextCT = cont.nextCT();
+	private float gia =0;
+	String maPhong;
+	ArrayList<QuanLyPhong> currentRoomInfo =cont.getCurrentRoomInfo();
 	public OrderDialog(String s) {
+		maPhong=s;
+		gia =cont.getGia(s);
 		getContentPane().setLayout(null);
 		
 		setTitle("Check in");
@@ -65,7 +70,7 @@ public class OrderDialog extends JDialog {
 		txtGia.setBounds(128, 23, 81, 20); 
 		getContentPane().add(txtGia);
 		txtGia.setColumns(10);
-		txtGia.setText(new DatabaseConnection().getGia(s)+"");
+		txtGia.setText(gia+"");
 		
 		JLabel MaKH = new JLabel("Mã KH"); 
 		MaKH.setBounds(219, 26, 46, 14);
@@ -190,8 +195,7 @@ public class OrderDialog extends JDialog {
 	public ActionListener btn = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			KhachHang k = new KhachHang();
-			k.setIdDoan(0);
+
 			if(e.getActionCommand().equals("Hủy")){
 				MainForm.m.setEnabled(true);
 				dispose();
@@ -200,85 +204,93 @@ public class OrderDialog extends JDialog {
 
 			}
 			if(e.getActionCommand().equals("Ok")){
-				boolean b = false;
-				k.setId(Integer.parseInt(txtMaKH.getText()));
-				k.setHoTen(txtTenKH.getText());
-				k.setGioiTinh(cbGen.getSelectedIndex());
-				k.setDonVi(txtDonVi.getText());
-				k.setcMND(txtCMND.getText());
-				k.setNgayCap(txtNgayCap.getText());
-				k.setNoiCap(txtNoiCap.getText());
-				k.setLoai(cbLoai.getSelectedIndex());
-				k.setQuocTich(txtQuocTich.getText());
-
-				b=new DatabaseConnection().addNewKH(k);
-				if(b){
-					QuanLyPhong q = new QuanLyPhong();
-					q.setId(new DatabaseConnection().nextId_QL());
-					q.setId_Dk(0);
-					q.setId_KH(k.getId());
-					q.setMaPhong(txtPhong.getText());
-					q.setCI(LocalDate.now());
-					q.setGia(new DatabaseConnection().getGia(txtPhong.getText()));
-					q.setTrangThai(1);
-
-					b=new DatabaseConnection().addQLPhong(q);
-					if(b){
-						if(k.getIdDoan()==0){
-							ChungTu c = new ChungTu();
-							c.setSoCT(new DatabaseConnection().nextCT());
-							c.setLoai(3);
-							c.setId_KH(k.getId());
-							c.setNoiDung(k.getHoTen());
-							c.setId_QL(q.getId());
-
-							b=new DatabaseConnection().addCT(c);
-							if(b){
-								new DatabaseConnection().setStt(q.getMaPhong(),4);
-								SoDoPane.s.reloadRoomList();
-								JOptionPane.showMessageDialog(rootPane,"Check in complete!");
-
-								currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
-								MainForm.m.setSum(0);
-								MainForm.m.getTable().setModel(new DefaultTableModel());
-								MainForm.m.setSelectedRoom(q.getMaPhong());
-								CustomerInfoPanel.t.getTxtPhong().setText(MainForm.m.getSelectedRoom());
-								CustomerInfoPanel.t.getTxtTenKH().setText("");
-								CustomerInfoPanel.t.getTxtCI().setText("");
-								CustomerInfoPanel.t.getTxtCO().setText("");
-
-								for (QuanLyPhong ql : currentRoomInfo) {
-									if(ql.getMaPhong().equals(MainForm.m.getSelectedRoom())) {
-										CustomerInfoPanel.t.getTxtTenKH().setText(ql.getHoTen());
-										CustomerInfoPanel.t.getTxtCI().setText(ql.getCI()+"");
-										CustomerInfoPanel.t.getTxtCO().setText(ql.getCO()+"");
-										MainForm.m.getTable().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
-
-									}
-								}
-								SumPanel.s.getTxtSum().setText(MainForm.m.getSum()+"");
-								MainForm.m.setEnabled(true);
-								SoDoPane.s.reloadRoomList();
-								SoDoPane.s.repaint();
-								dispose();
-
-							}
-							else {
-								JOptionPane.showMessageDialog(rootPane,"Tao Chungtu that bai");
-							}
-						}
-					}
-					else {
-						JOptionPane.showMessageDialog(rootPane,"Tao QuanLyPhong that bai");
-					}
-
-				}
-				else {
-					JOptionPane.showMessageDialog(rootPane,"Tao khanh hang that bai");
-				}
-
+				checkIn();
 			}
 		}
 	};
+
+	public void checkIn(){
+		KhachHang k = new KhachHang();
+		k.setIdDoan(0);
+		boolean b = false;
+		k.setId(Integer.parseInt(txtMaKH.getText()));
+		k.setHoTen(txtTenKH.getText());
+		k.setGioiTinh(cbGen.getSelectedIndex());
+		k.setDonVi(txtDonVi.getText());
+		k.setcMND(txtCMND.getText());
+		k.setNgayCap(txtNgayCap.getText());
+		k.setNoiCap(txtNoiCap.getText());
+		k.setLoai(cbLoai.getSelectedIndex());
+		k.setQuocTich(txtQuocTich.getText());
+
+		b=new DatabaseConnection().addNewKH(k);
+		if(b){
+			QuanLyPhong q = new QuanLyPhong();
+			q.setId(cont.nextId_QL());
+			q.setId_Dk(0);
+			q.setId_KH(k.getId());
+			q.setMaPhong(txtPhong.getText());
+			q.setCI(LocalDate.now());
+			q.setGia(0);
+			q.setTrangThai(1);
+
+			b=new DatabaseConnection().addQLPhong(q);
+			if(b){
+				if(k.getIdDoan()==0){
+					ChungTu c = new ChungTu();
+					int nextCT = cont.nextCT();
+					c.setSoCT(nextCT);
+					c.setLoai(3);
+					c.setId_KH(k.getId());
+					c.setNoiDung(k.getHoTen());
+					c.setId_QL(q.getId());
+
+					b=new DatabaseConnection().addCT(c);
+					if(b){
+						cont.setStt(q.getMaPhong(),4);
+						SoDoPane.s.reloadRoomList();
+						JOptionPane.showMessageDialog(rootPane,"Check in complete!");
+
+						currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
+						MainForm.m.setSum(0);
+						MainForm.m.getTable().setModel(new DefaultTableModel());
+						MainForm.m.setSelectedRoom(q.getMaPhong());
+						CustomerInfoPanel.t.getTxtPhong().setText(MainForm.m.getSelectedRoom());
+						CustomerInfoPanel.t.getTxtTenKH().setText("");
+						CustomerInfoPanel.t.getTxtCI().setText("");
+						CustomerInfoPanel.t.getTxtCO().setText("");
+
+						for (QuanLyPhong ql : currentRoomInfo) {
+							if(ql.getMaPhong().equals(MainForm.m.getSelectedRoom())) {
+								CustomerInfoPanel.t.getTxtTenKH().setText(ql.getHoTen());
+								CustomerInfoPanel.t.getTxtCI().setText(ql.getCI()+"");
+								CustomerInfoPanel.t.getTxtCO().setText(ql.getCO()+"");
+								MainForm.m.getTable().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
+
+							}
+						}
+						SumPanel.s.getTxtSum().setText(MainForm.m.getSum()+"");
+						MainForm.m.setEnabled(true);
+						SoDoPane.s.reloadRoomList();
+						SoDoPane.s.repaint();
+						dispose();
+
+					}
+					else {
+						JOptionPane.showMessageDialog(rootPane,"Tao Chungtu that bai");
+					}
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(rootPane,"Tao QuanLyPhong that bai");
+			}
+
+		}
+		else {
+			JOptionPane.showMessageDialog(rootPane,"Tao khanh hang that bai");
+		}
+	//Them dich vu phong vao hoa don
+		cont.addDefaultRoomService(nextCT,gia,maPhong);
+	}
 
 }

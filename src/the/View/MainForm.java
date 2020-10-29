@@ -18,8 +18,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import the.DataTransfer.*;
@@ -124,9 +122,9 @@ public class MainForm extends JFrame {
 		largeBtnPanel.add(btnSodo);
 		btnSodo.addMouseListener(largeBtnCliked);
 		
-		LargeButton btnlistDV	= new LargeButton("list.png", "DS DV");
+		LargeButton btnlistDV	= new LargeButton("list.png", "QL DV");
 		btnlistDV.setPreferredSize(new Dimension(70,80));
-		btnlistDV.setToolTipText("Bảng giá dịch vụ");
+		btnlistDV.setToolTipText("Quản lý dịch vụ");
 		largeBtnPanel.add(btnlistDV);
 		btnlistDV.addMouseListener(largeBtnCliked);
 

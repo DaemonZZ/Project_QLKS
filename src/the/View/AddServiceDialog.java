@@ -20,6 +20,7 @@ public class AddServiceDialog extends JDialog {
     private ArrayList<DichVu> listDichVu = dtb.getListDichVu();
 
     public AddServiceDialog() {
+
         setContentPane(contentPane);
         setModal(true);
         setTitle("Thêm dịch vụ");

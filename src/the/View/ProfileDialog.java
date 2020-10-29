@@ -1,5 +1,6 @@
 package the.View;
 
+import the.DataTransfer.KhachHang;
 import the.DataTransfer.LoaiPhong;
 import the.DataTransfer.Phong;
 import the.DataTransfer.QuanLyPhong;
@@ -8,6 +9,7 @@ import the.Model.DatabaseConnection;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
@@ -25,9 +27,8 @@ public class ProfileDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTree tree1;
+    private JTree tree1 ;
     private JTabbedPane tabbedPane1;
-    private JButton btnapp;
     private JButton btnQl;
     private JPanel leftPane;
     private JTextField txtPhong;
@@ -43,15 +44,26 @@ public class ProfileDialog extends JDialog {
     private JButton btnQLKH;
     private JTextField txtCheckin;
     private JTextField txtMaDoan;
-    private JLabel lbPhong;
     private JComboBox cbLoai;
+    private JButton btnThem;
+    private JButton btnCheckout;
+    private JButton btnInHD;
+    private JButton btnDel;
+    private JTable table1;
     private DatabaseConnection dtb = new DatabaseConnection();
     private ArrayList<Phong> listPhong = dtb.getListPhong();
     private ArrayList<LoaiPhong> listLoai =dtb.getListLoaiPhong();
     private ArrayList<DefaultMutableTreeNode> listLeaf = new ArrayList<>();
     private ArrayList<QuanLyPhong> listRoomInfo = dtb.getCurrentRoomInfo();
+    private String selectedRoom="";
 
+    public String getSelectedRoom() {
+        return selectedRoom;
+    }
 
+    public void setSelectedRoom(String selectedRoom) {
+        this.selectedRoom = selectedRoom;
+    }
 
     public ProfileDialog() {
         int tang = dtb.getSoTang();
@@ -147,7 +159,10 @@ public class ProfileDialog extends JDialog {
 
         leftPane.setPreferredSize(new Dimension(200,500));
 
+        tabbedPane1.setSelectedIndex(3);
 
+        btnCheckout.addActionListener(btn);
+        btnThem.addActionListener(btn);
 
         pack();
         setVisible(true);
@@ -167,23 +182,51 @@ public class ProfileDialog extends JDialog {
 
     }
 
+    public void reload(){
+        table1.setModel(new DefaultTableModel());
+        txtTen.setText("");
+        txtCheckin.setText("");
+        txtCMND.setText("");
+        txtDonVi.setText("");
+        txtQuocTich.setText("");
+        txtMaDoan.setText("");
+        txtPhong.setText("");
+        txtGia.setText("");
+        setTitle("Hồ sơ phòng");
+        txtLoai.setText("");
+        txtTrangthai.setText("");
+    }
 
     private TreeSelectionListener tsl = new TreeSelectionListener() {
         @Override
         public void valueChanged(TreeSelectionEvent e) {
+            reload();
             DefaultMutableTreeNode temp = (DefaultMutableTreeNode) tree1.getLastSelectedPathComponent();
+
             if(temp.isLeaf()){
                 String maPhong = (temp+"").substring(6,9);
+                selectedRoom=maPhong;
                 System.out.println(maPhong);
                 for (Phong p: listPhong
                 ) {
                     if(maPhong.equals(p.getMaPhong())){
-                        lbPhong.setText(maPhong);
                         txtPhong.setText(maPhong);
                         txtGia.setText(p.getDonGia()+"");
                         setTitle("Phòng "+maPhong+"-- Hồ sơ");
                         txtLoai.setText(loai(p.getLoai()));
                         txtTrangthai.setText(tragThai(p.getTrangThai()));
+                    }
+                }
+                for (QuanLyPhong ql : listRoomInfo){
+                    if(ql.getMaPhong().equals(maPhong)){
+                        KhachHang kh = dtb.khachHang(ql.getId_KH());
+                        table1.setModel(MainForm.m.getRoomInfoModel(ql.getId()));
+                        txtTen.setText(ql.getHoTen());
+                        txtCheckin.setText(ql.getCI()+"");
+                        txtCMND.setText(kh.getcMND());
+                        txtDonVi.setText(kh.getDonVi());
+                        txtQuocTich.setText(kh.getQuocTich());
+                        txtMaDoan.setText(kh.getIdDoan()+"");
                     }
                 }
             }
@@ -230,6 +273,20 @@ public class ProfileDialog extends JDialog {
         }
         return stat;
     }
+
+    private ActionListener btn = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getActionCommand().equals("Thêm DV")){
+                new AddServiceDialog();
+            }
+            if(e.getActionCommand().equals("CheckOut")){
+                if(selectedRoom!=""){
+
+                }
+            }
+        }
+    };
     public static void main(String[] args) {
         new ProfileDialog("107",1);
 

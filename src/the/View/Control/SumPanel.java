@@ -2,6 +2,7 @@ package the.View.Control;
 
 import the.View.AddServiceDialog;
 import the.View.MainForm;
+import the.View.ProfileDialog;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -42,6 +43,16 @@ public class SumPanel extends JPanel {
 				}
 				else{
 					JOptionPane.showMessageDialog(getRootPane(),"Không thể thêm dịch vụ vào phòng hiện tại. Chọn phòng đang được sử dụng và thử lại!");
+				}
+			}
+			if(e.getActionCommand().equals("Trả phòng")){
+				MainForm.m.setEnabled(false);
+				String selected = MainForm.m.getSelectedRoom();
+				if(selected!=""){
+					new ProfileDialog(selected,0);
+				}
+				else{
+					new ProfileDialog();
 				}
 			}
 		}

@@ -10,11 +10,10 @@ public class QuanLyPhong {
 	private LocalDate  CI;
 	private LocalDate  CO;
 	private  float gia;
-	private float phuThu;
 	private String ghiChu;
 	private int trangThai;
 	private int id_KH;
-	public QuanLyPhong(int id, int id_Dk, String hoTen, String maPhong, LocalDate  cI, LocalDate  cO, float gia, float phuThu,
+	public QuanLyPhong(int id, int id_Dk, String hoTen, String maPhong, LocalDate  cI, LocalDate  cO, float gia,
 			String ghiChu, int trangThai,int id_KH) {
 		super();
 		this.id = id;
@@ -24,7 +23,6 @@ public class QuanLyPhong {
 		CI = cI;
 		CO = cO;
 		this.gia = gia;
-		this.phuThu = phuThu;
 		this.ghiChu = ghiChu;
 		this.trangThai = trangThai;
 		this.id_KH=id_KH;
@@ -38,7 +36,6 @@ public class QuanLyPhong {
 //		CI = new LocalDate ();
 //		CO = new LocalDate ();
 		this.gia = 0;
-		this.phuThu = 0;
 		this.ghiChu = "";
 		this.trangThai = 0;
 	}
@@ -85,12 +82,6 @@ public class QuanLyPhong {
 	}
 	public void setGia(float gia) {
 		this.gia = gia;
-	}
-	public float getPhuThu() {
-		return phuThu;
-	}
-	public void setPhuThu(float phuThu) {
-		this.phuThu = phuThu;
 	}
 	public String getGhiChu() {
 		return ghiChu;

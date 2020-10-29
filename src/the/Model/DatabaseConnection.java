@@ -3,11 +3,7 @@ package the.Model;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
-import net.sourceforge.jtds.jdbcx.proxy.PreparedStatementProxy;
 import the.DataTransfer.*;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.DefaultTableModel;
 
 import the.View.*;
 
@@ -144,15 +140,15 @@ public class DatabaseConnection {
 		// Lấy thông tin phòng hiện tại
 		//Bao gồm những phòng đang còn ở
 		public ArrayList<QuanLyPhong> getCurrentRoomInfo(){
-			String sql = "select ID_QL,QuanLyPhong.ID_DK,HoTen,QuanLyPhong.MaPhong,CheckIN,CheckOut,Gia,PhuThu,GhiChu,QuanLyPhong.TrangThai,Phong.TrangThai,QuanlyPhong.ID_KH "
+			String sql = "select ID_QL,QuanLyPhong.ID_DK,HoTen,QuanLyPhong.MaPhong,CheckIN,CheckOut,Gia,GhiChu,QuanLyPhong.TrangThai,Phong.TrangThai,QuanlyPhong.ID_KH "
 					+ "from KhachHang inner join QuanLyPhong on KhachHang.ID_KH = QuanLyPhong.ID_KH "
-					+ "inner join Phong on QuanLyPhong.MaPhong = Phong.MaPhong where Phong.TrangThai in (4,5)";
+					+ "inner join Phong on QuanLyPhong.MaPhong = Phong.MaPhong where Phong.TrangThai in (4,5) and Gia=0";
 			ArrayList<QuanLyPhong> list = new ArrayList<QuanLyPhong>();
 			try {
 				Statement st =conn.createStatement();
 				ResultSet rs = st.executeQuery(sql);
 				while(rs.next()) {
-					if(rs.getInt(11)==4||rs.getInt(11)==5){
+					if(rs.getInt(10)==4||rs.getInt(10)==5){
 						QuanLyPhong a =new QuanLyPhong();
 						a.setId(rs.getInt(1));
 						a.setId_Dk(rs.getInt(2));
@@ -161,10 +157,9 @@ public class DatabaseConnection {
 						a.setCI(rs.getDate(5).toLocalDate());
 						if(rs.getDate(6)!=null) a.setCO(rs.getDate(6).toLocalDate());
 						a.setGia(rs.getFloat(7));
-						a.setPhuThu(rs.getFloat(8));
-						a.setGhiChu(rs.getString(9));
-						a.setTrangThai(rs.getInt(10));
-						a.setId_KH(rs.getInt(12));
+						a.setGhiChu(rs.getString(8));
+						a.setTrangThai(rs.getInt(9));
+						a.setId_KH(rs.getInt(11));
 						list.add(a);
 					}
 				}
@@ -177,8 +172,8 @@ public class DatabaseConnection {
 
 		public boolean addQLPhong(QuanLyPhong q){
 			boolean b = false;
-			String sql = "insert into QuanLyPhong(ID_QL,ID_DK,ID_KH,MaPhong,CheckIn,Checkout,Gia,PhuThu,GhiChu,TrangThai)" +
-					"  values(?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into QuanLyPhong(ID_QL,ID_DK,ID_KH,MaPhong,CheckIn,Checkout,Gia,GhiChu,TrangThai)" +
+					"  values(?,?,?,?,?,?,?,?,?)";
 			try {
 				PreparedStatement p = conn.prepareStatement(sql);
 				LocalDate d = q.getCI();
@@ -190,7 +185,6 @@ public class DatabaseConnection {
 				p.setDate(5, Date.valueOf(d));
 				p.setDate(6, null);
 				p.setFloat(7,q.getGia());
-				p.setFloat(8,q.getPhuThu());
 				p.setNString(9, q.getGhiChu());
 				p.setInt(10,q.getTrangThai());
 
@@ -201,6 +195,9 @@ public class DatabaseConnection {
 			return  b;
 		}
 
+		/*
+		  // Đặt trạng thái phòng
+		 */
 		public void setStt(String phong,int stt){
 			String sql = "update phong set TrangThai = ? where Maphong = ?";
 			try{
@@ -212,24 +209,26 @@ public class DatabaseConnection {
 				throwables.printStackTrace();
 			}
 		}
-	public int nextId_QL() {
-		String sql = "select max(ID_QL) from QuanLyPhong";
-		int next=0;
-		try {
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()) {
-				next=rs.getInt(1);
-			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return next+1;
+
+		public int nextId_QL() {
+			String sql = "select max(ID_QL) from QuanLyPhong";
+			int next=0;
+			try {
+				Statement st = conn.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				if(rs.next()) {
+					next=rs.getInt(1);
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return next+1;
 	}
 	//Chung tu
 
-	public ArrayList<ChungTu> getlistCT(){
+		public ArrayList<ChungTu> getlistCT(){
 		ArrayList<ChungTu> list = new ArrayList<>();
 		String sql = "select * from ChungTu";
 		try {
@@ -256,7 +255,7 @@ public class DatabaseConnection {
 		return list;
 	}
 
-	public  boolean addCT(ChungTu c){
+		public  boolean addCT(ChungTu c){
 		boolean b = false;
 		String sql= "insert into ChungTu(SoCT,Loai,ID_KH,ID_NV,NoiDung,Giam,VAT,SoHoaDon,ID_Ql) " +
 				"values(?,?,?,?,?,?,?,?,?)";
@@ -279,7 +278,7 @@ public class DatabaseConnection {
 		}
 		return b;
 	}
-	public int nextCT() {
+		public int nextCT() {
 		String sql = "select max(SoCT) from ChungTu";
 		int next=0;
 		try {
@@ -295,11 +294,12 @@ public class DatabaseConnection {
 		return next+1;
 	}
 		
-	public ArrayList<DongChungTu> getListDongChungTu(int Id_QL){
+		public ArrayList<DongChungTu> getListDongChungTu(int Id_QL){
 		String sql ="select Id,DongChungtu.SoCT,DongChungTu.ID_DV,TenDV,SoLuong,DongChungTU.DonGia,DongChungTu.GhiChu from DongChungTu join DichVu "
 				+ "on DichVu.ID_DV=DongChungTu.ID_DV "
 				+ "join ChungTu on ChungTu.SoCT=DongChungTu.SoCT "
 				+ "where ID_QL="+Id_QL;
+		String sql2 ="select checkin from quanlyphong where ID_QL="+Id_QL;
 		ArrayList<DongChungTu> list = new ArrayList<DongChungTu>();
 		try {
 			Statement st = conn.createStatement();
@@ -313,15 +313,81 @@ public class DatabaseConnection {
 				s.setSoLuong(rs.getInt(5));
 				s.setDonGia(rs.getFloat(6));
 				s.setGhiChu(rs.getNString(7));
+
+				if (s.getId_DV()==11){
+					s.setSoLuong(dayCalculating(Id_QL));
+				}
 				list.add(s);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
+	/*
+		Tính số ngày ở từ khi checkin toi hiện tại
+		@param: id : ID_QL
+	 */
+	public int dayCalculating(int id){
+			ArrayList<QuanLyPhong> list = getCurrentRoomInfo();
+			String sql = "SELECT DATEDIFF(day, ?, getdate())";
+			int days=0;
+		for (QuanLyPhong ql:list
+			 ) {
+			if(ql.getId()==id){
+				try {
+					PreparedStatement pr = conn.prepareStatement(sql);
+					pr.setDate(1,Date.valueOf(ql.getCI()));
+					ResultSet rs = pr.executeQuery();
+					if(rs.next()){
+						days = rs.getInt(1);
 
-	public ArrayList<KhachHang> getListKH(){
+					}
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				}
+			}
+
+		}
+		return days;
+	}
+
+		public int nextDongCT(){
+			String sql = "select max(ID) from DongChungTu";
+			int next=0;
+			try {
+				Statement st = conn.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				if(rs.next()) {
+					next=rs.getInt(1);
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return next+1;
+		}
+
+		// Thêm dịch vụ phòng mặc định cho new checkin
+		public boolean addDefaultRoomService(int soCT,float gia,String maPhong){
+			int id = nextDongCT();
+			String sql = "insert into DongChungTu values(?,?,11,1,?,'',?)";
+			try {
+				PreparedStatement st = conn.prepareStatement(sql);
+				st.setInt(1,id);
+				st.setInt(2,soCT);
+				st.setFloat(3,gia);
+				st.setNString(4,maPhong);
+				return (st.executeUpdate()>0);
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			}
+			return false;
+		}
+
+
+		public ArrayList<KhachHang> getListKH(){
 		    String sql = "select * from KhachHang";
 		    ArrayList<KhachHang> list = new ArrayList<>();
 		try {
@@ -483,7 +549,17 @@ public class DatabaseConnection {
 		}
 		return list;
 	}
+
+	/*
+		Checkout?
+		Set Trang thai: da co
+		Hoan thanh thong tin bang QuanLyPhong(Checkout),DongChungTu,ChungTu
+	 */
+
+
+
 	public static void main(String[] args) {
 		new DatabaseConnection();
 	}
+
 }
