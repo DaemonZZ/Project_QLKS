@@ -555,11 +555,33 @@ public class DatabaseConnection {
 		Set Trang thai: da co
 		Hoan thanh thong tin bang QuanLyPhong(Checkout),DongChungTu,ChungTu
 	 */
-
-
+	public boolean setGiaCheckout(int current_idQL, float sum) {
+		boolean b = false;
+		String sql = "update QuanLyPhong set Gia = "+sum + " where ID_QL = "+current_idQL;
+		try {
+			Statement st = conn.createStatement();
+			b= (st.executeUpdate(sql)>0);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return b;
+	}
+	public boolean setNgayCheckout(int current_idQL) {
+		boolean b = false;
+		String sql = "update QuanLyPhong set CheckOut = getdate() where ID_QL="+current_idQL;
+		try {
+			Statement st = conn.createStatement();
+			b= (st.executeUpdate(sql)>0);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return b;
+	}
 
 	public static void main(String[] args) {
 		new DatabaseConnection();
 	}
+
+
 
 }

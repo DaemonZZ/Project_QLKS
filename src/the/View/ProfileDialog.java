@@ -1,10 +1,8 @@
 package the.View;
 
-import the.DataTransfer.KhachHang;
-import the.DataTransfer.LoaiPhong;
-import the.DataTransfer.Phong;
-import the.DataTransfer.QuanLyPhong;
+import the.DataTransfer.*;
 import the.Model.DatabaseConnection;
+import the.View.Control.SoDoPane;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -50,12 +48,15 @@ public class ProfileDialog extends JDialog {
     private JButton btnInHD;
     private JButton btnDel;
     private JTable table1;
+    private JButton btnGhiChu;
     private DatabaseConnection dtb = new DatabaseConnection();
     private ArrayList<Phong> listPhong = dtb.getListPhong();
     private ArrayList<LoaiPhong> listLoai =dtb.getListLoaiPhong();
     private ArrayList<DefaultMutableTreeNode> listLeaf = new ArrayList<>();
     private ArrayList<QuanLyPhong> listRoomInfo = dtb.getCurrentRoomInfo();
     private String selectedRoom="";
+    private int current_idQL=0;
+    public static float VAT = 1.1f;
 
     public String getSelectedRoom() {
         return selectedRoom;
@@ -227,6 +228,7 @@ public class ProfileDialog extends JDialog {
                         txtDonVi.setText(kh.getDonVi());
                         txtQuocTich.setText(kh.getQuocTich());
                         txtMaDoan.setText(kh.getIdDoan()+"");
+                        current_idQL=ql.getId();
                     }
                 }
             }
@@ -277,11 +279,30 @@ public class ProfileDialog extends JDialog {
     private ActionListener btn = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand().equals("Thêm DV")){
+            if (e.getActionCommand().equals("Thêm DV")) {
                 new AddServiceDialog();
             }
-            if(e.getActionCommand().equals("CheckOut")){
-                if(selectedRoom!=""){
+            if (e.getActionCommand().equals("CheckOut")) {
+                if (selectedRoom != "") {
+                    ArrayList<DongChungTu> listDongChungTu = dtb.getListDongChungTu(current_idQL);
+                    float sum = 0;
+                    for (DongChungTu item : listDongChungTu) {
+                        sum += (item.getDonGia() * item.getSoLuong());
+                    }
+                    int rs=JOptionPane.showConfirmDialog(getRootPane(),"Tổng tiền phòng (Chưa VAT): "+sum+"đ\nBạn có muốn xuất hóa đơn?","Confirm",JOptionPane.YES_NO_OPTION);
+                    if(rs==1){
+                        dtb.setGiaCheckout(current_idQL,sum);
+                        dtb.setNgayCheckout(current_idQL);
+                        dtb.setStt(selectedRoom,1);
+                        SoDoPane.s.reloadRoomList();
+                    }
+                    else {
+                        dtb.setGiaCheckout(current_idQL,sum*VAT);
+                        dtb.setNgayCheckout(current_idQL);
+                        dtb.setStt(selectedRoom,1);
+                        SoDoPane.s.reloadRoomList();
+                        new HoaDonForm();
+                    }
 
                 }
             }
