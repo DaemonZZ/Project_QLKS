@@ -1,9 +1,7 @@
 package the.View;
 
 import javax.swing.JDialog;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 
 import java.awt.event.WindowAdapter;
@@ -53,7 +51,7 @@ public class LogDialog extends JDialog {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				StaffManagementForm.s.setEnabled(true);
+				AccountManagementForm.s.setEnabled(true);
 				dispose();
 			}
 			

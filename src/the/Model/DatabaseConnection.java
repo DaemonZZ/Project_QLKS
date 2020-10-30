@@ -31,29 +31,47 @@ public class DatabaseConnection {
 	/*
 	 * Lấy Danh sách nhân viên
 	 */
-		public ArrayList<NhanVien> getListNV(){
-			String sql = "select * from NhanVien";
-			ArrayList<NhanVien> list = new ArrayList<NhanVien>();
-			try {
-				Statement st =conn.createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				while(rs.next()) {
-					NhanVien a =new NhanVien();
-					a.setiD(rs.getInt(1));
-					a.setHoTen(rs.getString(2)!=null?rs.getString(2):"");
-					a.setSoDT(rs.getString(3)!=null?rs.getString(3):"");
-					a.setTaiKhoan(rs.getString(4)!=null?rs.getString(4):"");
-					a.setMatKhau(rs.getString(5));
-					a.setLoai(rs.getInt(6));
-					list.add(a);
-				}
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+	public ArrayList<NhanVien> getListNV(){
+		String sql = "select * from NhanVien";
+		ArrayList<NhanVien> list = new ArrayList<NhanVien>();
+		try {
+			Statement st =conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()) {
+				NhanVien a =new NhanVien();
+				a.setiD(rs.getInt(1));
+				a.setHoTen(rs.getString(2)!=null?rs.getString(2):"");
+				a.setSoDT(rs.getString(3)!=null?rs.getString(3):"");
+				a.setTaiKhoan(rs.getString(4)!=null?rs.getString(4):"");
+				a.setMatKhau(rs.getString(5));
+				a.setLoai(rs.getInt(6));
+				list.add(a);
 			}
-			return list;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
+		return list;
+	}
+		/*
+		 * Lấy thông tin NV từ Id
+		 */
+	public NhanVien getNV(int id) {
+		NhanVien nv = new NhanVien();
+		String sql = "select ID_NV,HoTen,TaiKhoan,Loai from nhanVien where id ="+id;
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()) {
+				nv = new NhanVien(rs.getInt(1), rs.getNString(2), rs.getNString(3),rs.getInt(4));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nv;
+	}
+	
 	public boolean xoaNV(int id){
 		String sql = "delete from NhanVien where ID_NV='"+id+"'";
 		boolean b =false;
@@ -528,7 +546,7 @@ public class DatabaseConnection {
 	}
 
 	public ArrayList<DichVu> getListDichVu(){
-			String sql = "select * from DichVu where loai = 3 or loai = 2";
+			String sql = "select * from DichVu where loai = 3";
 			ArrayList<DichVu> list = new ArrayList<>();
 		try {
 			Statement st = conn.createStatement();
@@ -578,6 +596,28 @@ public class DatabaseConnection {
 		return b;
 	}
 
+	public ArrayList<Lich> getlistLich(){
+		String sql = "select * from LichLamViec where Ngay>=getdate()-1";
+		ArrayList<Lich> list = new ArrayList<Lich>();
+		try {
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()) {
+				Lich l = new Lich();
+				l.setId(rs.getInt(1));
+				l.setNgay(rs.getDate(2).toLocalDate());
+				l.setId_NV(rs.getInt(3));
+				l.setId_Ca(rs.getInt(4));
+				l.setTangCa(rs.getInt(5));
+				l.setGhiChu(rs.getNString(6));
+				list.add(l);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public static void main(String[] args) {
 		new DatabaseConnection();
 	}

@@ -1,5 +1,6 @@
 package the.View.Control;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,15 +12,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.border.Border;
-import java.awt.Font;
-import java.awt.SystemColor;
 
 public class LargeButton extends JPanel implements MouseListener{
 	private String pathIcon;
@@ -66,7 +61,7 @@ public class LargeButton extends JPanel implements MouseListener{
 	        }
 	 
 	        return new ImageIcon(image.getScaledInstance(dx, dy,
-	                image.SCALE_SMOOTH));
+                    Image.SCALE_SMOOTH));
 	 
 	    } catch (IOException e) {
 	 
@@ -138,7 +133,7 @@ public class LargeButton extends JPanel implements MouseListener{
 
 class RoundedBorder implements Border {
 
-    private int radius;
+    private final int radius;
 
 
     RoundedBorder(int radius) {

@@ -23,8 +23,8 @@ import java.awt.event.ActionEvent;
 
 public class LoginForm extends JFrame {
     public static int accessRight;
-    private JPasswordField passwordField;
-    private ArrayList<NhanVien> listNV = new DatabaseConnection().getListNV();
+    private final JPasswordField passwordField;
+    private final ArrayList<NhanVien> listNV = new DatabaseConnection().getListNV();
     private DefaultComboBoxModel<String> md = loadCbLogin(1);
 
     public LoginForm() {
@@ -94,6 +94,7 @@ public class LoginForm extends JFrame {
                     if (comboBox.getSelectedItem().toString().equals(a.getHoTen()) && passwordField.getText().equals(a.getMatKhau())) {
                         accessRight = comboBox_1.getSelectedIndex();
                         new MainForm(accessRight);
+                        MainForm.nv=a;
                         dispose();
                     }
                 }

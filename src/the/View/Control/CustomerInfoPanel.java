@@ -76,25 +76,25 @@ public class CustomerInfoPanel extends JPanel {
 		return txtTenKH;
 	}
 	public void setTxtTenKH(JTextField txtTenKH) {
-		this.txtTenKH = txtTenKH;
+		CustomerInfoPanel.txtTenKH = txtTenKH;
 	}
 	public JTextField getTxtCI() {
 		return txtCI;
 	}
 	public void setTxtCI(JTextField txtCI) {
-		this.txtCI = txtCI;
+		CustomerInfoPanel.txtCI = txtCI;
 	}
 	public JTextField getTxtCO() {
 		return txtCO;
 	}
 	public void setTxtCO(JTextField txtCO) {
-		this.txtCO = txtCO;
+		CustomerInfoPanel.txtCO = txtCO;
 	}
 	public JTextField getTxtPhong() {
 		return txtPhong;
 	}
 	public void setTxtPhong(JTextField txtPhong) {
-		this.txtPhong = txtPhong;
+		CustomerInfoPanel.txtPhong = txtPhong;
 	}
 
 	

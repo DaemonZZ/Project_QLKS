@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 public class CloseButtonForTabbedPanel extends JPanel implements MouseListener {
-	private JLabel lblNewLabel;
+	private final JLabel lblNewLabel;
 	public CloseButtonForTabbedPanel() {
 		FlowLayout flowLayout = (FlowLayout) getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);

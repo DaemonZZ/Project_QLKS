@@ -3,7 +3,6 @@ package the.View;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -23,10 +22,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.ListSelectionModel;
 
-public class StaffManagementForm extends JFrame {
-	private JTextField textField;
-	private JTable table;
-	private DatabaseConnection databaseConnection = new DatabaseConnection();
+public class AccountManagementForm extends JFrame {
+	private final JTextField textField;
+	private final JTable table;
+	private final DatabaseConnection databaseConnection = new DatabaseConnection();
 	DefaultTableModel model = new DefaultTableModel() {
 
 		@Override
@@ -36,8 +35,8 @@ public class StaffManagementForm extends JFrame {
 		}
 		
 	};
-	public static StaffManagementForm s;
-	public StaffManagementForm() {
+	public static AccountManagementForm s;
+	public AccountManagementForm() {
 		s=this;
         getContentPane().setLayout(null);
         

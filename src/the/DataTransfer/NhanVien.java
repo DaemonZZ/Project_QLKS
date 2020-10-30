@@ -15,6 +15,15 @@ public class NhanVien {
 		this.matKhau = matKhau;
 		this.loai = loai;
 	}
+	
+	public NhanVien(int iD, String hoTen, String taiKhoan, int loai) {
+		super();
+		this.iD = iD;
+		this.hoTen = hoTen;
+		this.taiKhoan = taiKhoan;
+		this.loai = loai;
+	}
+
 	public NhanVien() {
 		this.iD = 0;
 		this.hoTen = "";

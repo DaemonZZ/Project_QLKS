@@ -16,8 +16,8 @@ public class AddServiceDialog extends JDialog {
     private JButton lưuThayĐổiButton;
     private JTextField tctGia;
     private JTextArea taGhichu;
-    private DatabaseConnection dtb = new DatabaseConnection();
-    private ArrayList<DichVu> listDichVu = dtb.getListDichVu();
+    private final DatabaseConnection dtb = new DatabaseConnection();
+    private final ArrayList<DichVu> listDichVu = dtb.getListDichVu();
 
     public AddServiceDialog() {
 

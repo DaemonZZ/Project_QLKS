@@ -130,7 +130,7 @@ public class RoomButton extends JPanel implements MouseListener{
 			break;
 		}
 		setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
-		setSize(120,120);
+		//setSize(120,120);
 		setBackground(SystemColor.info);
 		this.maPhong = maPhong;
 		this.trangThai = trangThai;

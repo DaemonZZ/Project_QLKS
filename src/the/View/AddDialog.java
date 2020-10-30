@@ -20,11 +20,11 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class AddDialog extends JDialog{
-	private JTextField txtID;
-	private JTextField txtDienThoai;
-	private JTextField txtHoTen;
-	private JTextField txtTaiKhoan;
-	private JPasswordField passwordField;
+	private final JTextField txtID;
+	private final JTextField txtDienThoai;
+	private final JTextField txtHoTen;
+	private final JTextField txtTaiKhoan;
+	private final JPasswordField passwordField;
 	public AddDialog(int id) {
 		getContentPane().setLayout(null);
 		setSize(431, 284);
@@ -93,7 +93,7 @@ public class AddDialog extends JDialog{
 		JButton btnClose = new JButton("Cancel");
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StaffManagementForm.s.setEnabled(true);
+				AccountManagementForm.s.setEnabled(true);
 				dispose();
 			}
 		});
@@ -126,8 +126,8 @@ public class AddDialog extends JDialog{
 					}
 					if(b) {
 						JOptionPane.showMessageDialog(rootPane, "Đăng kí thành công");
-						StaffManagementForm.s.setEnabled(true);
-						StaffManagementForm.s.reload();
+						AccountManagementForm.s.setEnabled(true);
+						AccountManagementForm.s.reload();
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(rootPane, "Đăng kí thất bại");
@@ -151,7 +151,7 @@ public class AddDialog extends JDialog{
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				StaffManagementForm.s.setEnabled(true);
+				AccountManagementForm.s.setEnabled(true);
 				dispose();
 			}
 			

@@ -33,7 +33,7 @@ public class SumPanel extends JPanel {
 		this.txtXSum = txtXSum;
 	}
 
-	private ActionListener btn = new ActionListener() {
+	private final ActionListener btn = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getActionCommand().equals("Thêm DV")){

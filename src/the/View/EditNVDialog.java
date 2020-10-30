@@ -21,13 +21,13 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class EditNVDialog extends JDialog{
-	private JTextField txtID;
-	private JTextField txtDienThoai;
-	private JTextField txtHoTen;
-	private JTextField txtTaiKhoan;
-	private JPasswordField passwordField;
+	private final JTextField txtID;
+	private final JTextField txtDienThoai;
+	private final JTextField txtHoTen;
+	private final JTextField txtTaiKhoan;
+	private final JPasswordField passwordField;
 	JComboBox cbLoai;
-	private int id;
+	private final int id;
 	public EditNVDialog(int index) {
 		id=index;
 		getContentPane().setLayout(null);
@@ -95,7 +95,7 @@ public class EditNVDialog extends JDialog{
 		JButton btnClose = new JButton("Cancel");
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				StaffManagementForm.s.setEnabled(true);
+				AccountManagementForm.s.setEnabled(true);
 				dispose();
 			}
 		});
@@ -129,8 +129,8 @@ public class EditNVDialog extends JDialog{
 						
 					if(b) {
 						JOptionPane.showMessageDialog(rootPane, "Sửa thành công");
-						StaffManagementForm.s.setEnabled(true);
-						StaffManagementForm.s.reload();
+						AccountManagementForm.s.setEnabled(true);
+						AccountManagementForm.s.reload();
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(rootPane, "Sửa thất bại");
@@ -154,7 +154,7 @@ public class EditNVDialog extends JDialog{
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				StaffManagementForm.s.setEnabled(true);
+				AccountManagementForm.s.setEnabled(true);
 				dispose();
 			}
 			

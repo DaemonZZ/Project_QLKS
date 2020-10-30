@@ -20,21 +20,21 @@ import java.util.Date;
 
 public class OrderDialog extends JDialog {
 	
-	private JTextField txtPhong;
-	private JTextField txtMaKH;
-	private JTextField txtMaHD;
-	private JTextField txtTenKH;
-	private JTextField txtDonVi;
-	private JTextField txtCMND;
-	private JTextField txtNgayCap;
-	private JTextField txtNoiCap;
-	private JTextField txtQuocTich;
-	private JComboBox cbGen;
-	private JComboBox cbLoai;
-	private JTextField txtGia;
-	private DatabaseConnection cont = new DatabaseConnection();
-	private int nextKH =cont.nextKH();
-	private int nextCT = cont.nextCT();
+	private final JTextField txtPhong;
+	private final JTextField txtMaKH;
+	private final JTextField txtMaHD;
+	private final JTextField txtTenKH;
+	private final JTextField txtDonVi;
+	private final JTextField txtCMND;
+	private final JTextField txtNgayCap;
+	private final JTextField txtNoiCap;
+	private final JTextField txtQuocTich;
+	private final JComboBox cbGen;
+	private final JComboBox cbLoai;
+	private final JTextField txtGia;
+	private final DatabaseConnection cont = new DatabaseConnection();
+	private final int nextKH =cont.nextKH();
+	private final int nextCT = cont.nextCT();
 	private float gia =0;
 	String maPhong;
 	ArrayList<QuanLyPhong> currentRoomInfo =cont.getCurrentRoomInfo();

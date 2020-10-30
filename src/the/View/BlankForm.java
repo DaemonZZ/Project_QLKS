@@ -13,8 +13,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class BlankForm extends JFrame {
-	private JTextField textField;
-	private JTable table;
+	private final JTextField textField;
+	private final JTable table;
 	public BlankForm() {
         getContentPane().setLayout(null);
         

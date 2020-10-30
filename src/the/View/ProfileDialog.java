@@ -25,7 +25,7 @@ public class ProfileDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTree tree1 ;
+    private JTree tree1;
     private JTabbedPane tabbedPane1;
     private JButton btnQl;
     private JPanel leftPane;
@@ -49,11 +49,11 @@ public class ProfileDialog extends JDialog {
     private JButton btnDel;
     private JTable table1;
     private JButton btnGhiChu;
-    private DatabaseConnection dtb = new DatabaseConnection();
-    private ArrayList<Phong> listPhong = dtb.getListPhong();
-    private ArrayList<LoaiPhong> listLoai =dtb.getListLoaiPhong();
-    private ArrayList<DefaultMutableTreeNode> listLeaf = new ArrayList<>();
-    private ArrayList<QuanLyPhong> listRoomInfo = dtb.getCurrentRoomInfo();
+    private final DatabaseConnection dtb = new DatabaseConnection();
+    private final ArrayList<Phong> listPhong = dtb.getListPhong();
+    private final ArrayList<LoaiPhong> listLoai =dtb.getListLoaiPhong();
+    private final ArrayList<DefaultMutableTreeNode> listLeaf = new ArrayList<>();
+    private final ArrayList<QuanLyPhong> listRoomInfo = dtb.getCurrentRoomInfo();
     private String selectedRoom="";
     private int current_idQL=0;
     public static float VAT = 1.1f;
@@ -198,7 +198,7 @@ public class ProfileDialog extends JDialog {
         txtTrangthai.setText("");
     }
 
-    private TreeSelectionListener tsl = new TreeSelectionListener() {
+    private final TreeSelectionListener tsl = new TreeSelectionListener() {
         @Override
         public void valueChanged(TreeSelectionEvent e) {
             reload();
@@ -276,7 +276,7 @@ public class ProfileDialog extends JDialog {
         return stat;
     }
 
-    private ActionListener btn = new ActionListener() {
+    private final ActionListener btn = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("Thêm DV")) {
