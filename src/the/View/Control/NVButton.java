@@ -15,11 +15,21 @@ import javax.swing.border.BevelBorder;
 import the.DataTransfer.Lich;
 
 public class NVButton extends JPanel{
-	LocalDate date;
+	private LocalDate date;
+	private Lich lich ;
+
+	public Lich getLich() {
+		return lich;
+	}
+
+	public void setLich(Lich lich) {
+		this.lich = lich;
+	}
+
 	public NVButton(Lich lich) {
-		
+		this.lich=lich;
 		setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
-		setPreferredSize(new Dimension(100,100));
+		setPreferredSize(new Dimension(110,100));
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("______________");
@@ -39,7 +49,7 @@ public class NVButton extends JPanel{
 		add(lbNgay);
 		
 		JLabel lbCa = new JLabel("");
-		lbCa.setBounds(10, 48, 82, 14);
+		lbCa.setBounds(10, 48, 100, 14);
 		add(lbCa);
 		
 		JLabel lbTangCa = new JLabel("");
@@ -51,8 +61,11 @@ public class NVButton extends JPanel{
 		String ngay = date.toString();
 		String ca = "";
 		
-		if(lich.getId_Ca()==4) {
+		if(lich.getId_Ca()==0) {
 			ca = "hành chính.";
+		}
+		else if(lich.getId_Ca()==4){
+			ca="Off.";
 		}
 		else {
 			ca=lich.getId_Ca()+".";
@@ -79,6 +92,10 @@ public class NVButton extends JPanel{
 		if(lich.getId_Ca()==3) {
 			addMouseListener(lsn3);
 			setBackground(Color.cyan);
+		}
+		if(lich.getId_Ca()==4){
+			addMouseListener(lsn4);
+			setBackground(new Color(240, 240, 240));
 		}
 	}
 	private MouseListener lsn0 = new MouseListener() {
@@ -224,6 +241,43 @@ public class NVButton extends JPanel{
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
 			setBackground(Color.CYAN);
+			setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
+		}
+	};
+
+	private MouseListener lsn4 = new MouseListener() {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			setBackground(new Color(233, 235, 148));
+			setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, Color.ORANGE, null));
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			setBackground(new Color(240, 240, 240));
+			setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			setBackground(new Color(233, 235, 148));
+			setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.RED, null));
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			setBackground(new Color(240, 240, 240));
 			setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
 		}
 	};

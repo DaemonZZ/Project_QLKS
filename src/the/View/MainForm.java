@@ -33,8 +33,6 @@ import java.awt.FlowLayout;
 
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JTextField;
@@ -49,8 +47,6 @@ public class MainForm extends JFrame {
 	private final JTable table;
 
 	private String selectedRoom="";
-	private final ArrayList<Phong> listPhong = new DatabaseConnection().getListPhong();
-	private final ArrayList<QuanLyPhong> currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
 	private ArrayList<DongChungTu> listDongChungTu = new ArrayList<DongChungTu>();
 	private DefaultTableModel roomInfoModel = new DefaultTableModel();
 	private JTabbedPane tabbedPane;
@@ -63,9 +59,10 @@ public class MainForm extends JFrame {
 	JPanel CusInfoPanel = new CustomerInfoPanel();
 	JPanel panelBtnEdit = new JPanel();
 	JPanel panelCaLam = new JPanel();
-
+	private int accessRight;
 
 	public MainForm(int accessRight) {
+		this.accessRight=accessRight;
 		m=this;
 		setIconImage(Toolkit.getDefaultToolkit().getImage("img\\appicon.png"));
 		getContentPane().setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -261,7 +258,7 @@ public class MainForm extends JFrame {
 		
 		txtCa = new JTextField();
 		txtCa.setEditable(false);
-		txtCa.setBounds(296, 178, 75, 20);
+		txtCa.setBounds(286, 178, 85, 20);
 		panelCaLam.add(txtCa);
 		txtCa.setColumns(10);
 		
@@ -269,7 +266,7 @@ public class MainForm extends JFrame {
 		cbCa.setEnabled(false);
 		cbCa.setModel(new DefaultComboBoxModel(new String[] {"Hành chính", "1", "2", "3"}));
 		cbCa.setSelectedIndex(0);
-		cbCa.setBounds(296, 178, 94, 20);
+		cbCa.setBounds(286, 178, 104, 20);
 		panelCaLam.add(cbCa);
 		
 		JLabel lblNewLabel_4 = new JLabel("Từ");
@@ -310,7 +307,7 @@ public class MainForm extends JFrame {
 		lblNewLabel_7.setBounds(10, 324, 61, 14);
 		panelCaLam.add(lblNewLabel_7);
 		
-		JTextArea txtGhiChu = new JTextArea();
+		 txtGhiChu = new JTextArea();
 		txtGhiChu.setEditable(false);
 		txtGhiChu.setBounds(86, 320, 249, 106);
 		panelCaLam.add(txtGhiChu);
@@ -324,6 +321,10 @@ public class MainForm extends JFrame {
 		
 		setLocationRelativeTo(null);
 		setVisible(true);
+
+
+
+
 	}
 	public DefaultTableModel getRoomInfoModel(int id_ql) {
 		listDongChungTu = new DatabaseConnection().getListDongChungTu(id_ql);
@@ -372,14 +373,7 @@ public class MainForm extends JFrame {
 
 	  return titlePanel;
 	 }
-	 
-	
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new MainForm(2);
-	}
-	
 	public String getSelectedRoom() {
 		return selectedRoom;
 	}
@@ -476,4 +470,83 @@ public class MainForm extends JFrame {
 	private JTextField txtDen;
 	private JTextField txtTangCa;
 	private JTextField txtCa;
+
+	public JTextArea getTxtGhiChu() {
+		return txtGhiChu;
+	}
+
+	public void setTxtGhiChu(JTextArea txtGhiChu) {
+		this.txtGhiChu = txtGhiChu;
+	}
+
+	private JTextArea txtGhiChu;
+
+	public JTextField getTxtTenNV() {
+		return txtTenNV;
+	}
+
+	public void setTxtTenNV(JTextField txtTenNV) {
+		this.txtTenNV = txtTenNV;
+	}
+
+	public JTextField getTxtBoPhan() {
+		return txtBoPhan;
+	}
+
+	public void setTxtBoPhan(JTextField txtBoPhan) {
+		this.txtBoPhan = txtBoPhan;
+	}
+
+	public JTextField getTxtNgayLam() {
+		return txtNgayLam;
+	}
+
+	public void setTxtNgayLam(JTextField txtNgayLam) {
+		this.txtNgayLam = txtNgayLam;
+	}
+
+	public JComboBox getCbCa() {
+		return cbCa;
+	}
+
+	public void setCbCa(JComboBox cbCa) {
+		this.cbCa = cbCa;
+	}
+
+	public JTextField getTxtTu() {
+		return txtTu;
+	}
+
+	public void setTxtTu(JTextField txtTu) {
+		this.txtTu = txtTu;
+	}
+
+	public JTextField getTxtDen() {
+		return txtDen;
+	}
+
+	public void setTxtDen(JTextField txtDen) {
+		this.txtDen = txtDen;
+	}
+
+	public JTextField getTxtTangCa() {
+		return txtTangCa;
+	}
+
+	public void setTxtTangCa(JTextField txtTangCa) {
+		this.txtTangCa = txtTangCa;
+	}
+
+	public JTextField getTxtCa() {
+		return txtCa;
+	}
+
+	public void setTxtCa(JTextField txtCa) {
+		this.txtCa = txtCa;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new MainForm(0);
+	}
 }
