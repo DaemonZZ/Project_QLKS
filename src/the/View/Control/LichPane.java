@@ -57,14 +57,7 @@ public class LichPane extends JLayeredPane {
                     }
 
                 }
-                panel.removeAll();
-                panel.repaint();
-                for (NhanVien nv : listNhanVien) {
-                    if (nv.getLoai() != 0) {
-                        panel.add(new NVPanel(nv));
-                    }
-                }
-                panel.repaint();
+                reloadLichPane();
             }
         });
 
@@ -161,5 +154,15 @@ public class LichPane extends JLayeredPane {
             }
         }
         return b;
+    }
+    public void reloadLichPane(){
+        panel.removeAll();
+        panel.repaint();
+        for (NhanVien nv : listNhanVien) {
+            if (nv.getLoai() != 0) {
+                panel.add(new NVPanel(nv));
+            }
+        }
+        panel.repaint();
     }
 }

@@ -60,6 +60,8 @@ public class MainForm extends JFrame {
 	JPanel panelBtnEdit = new JPanel();
 	JPanel panelCaLam = new JPanel();
 	private int accessRight;
+	private LichPane lichPane;
+	private DatabaseConnection dbc = new DatabaseConnection();
 
 	public MainForm(int accessRight) {
 		this.accessRight=accessRight;
@@ -211,11 +213,59 @@ public class MainForm extends JFrame {
 		
 		
 		JButton btnEdit = new JButton("Chỉnh sửa");
+		JButton btnOkEdit = new JButton("OK");
+		btnOkEdit.setVisible(false);
+		JButton btnCancelEdit = new JButton("Cancel");
+		btnCancelEdit.setVisible(false);
 		btnEdit.setEnabled(false);
+		ActionListener editCaLam = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getActionCommand().equals("Chỉnh sửa")){
+					btnOkEdit.setVisible(true);
+					btnCancelEdit.setVisible(true);
+					btnEdit.setVisible(false);
+					txtCa.setVisible(false);
+					cbCa.setEnabled(true);
+					txtGhiChu.setEditable(true);
+					txtTangCa.setEnabled(true);
+					txtTangCa.setEditable(true);
+				}
+				if(e.getActionCommand().equals("OK")){
+					int id = currentLich.getId();
+					int ca = cbCa.getSelectedIndex();
+					int tangca = Integer.parseInt(txtTangCa.getText());
+					String ghichu = txtGhiChu.getText();
+					dbc.updateLich(id,ca,tangca,ghichu);
+					txtCa.setText(cbCa.getSelectedItem().toString());
+					txtCa.setVisible(true);
+					cbCa.setEnabled(false);
+					txtGhiChu.setEditable(false);
+					txtTangCa.setEnabled(false);
+					btnOkEdit.setVisible(false);
+					btnCancelEdit.setVisible(false);
+					btnEdit.setVisible(true);
+					lichPane.reloadLichPane();
+
+				}
+				if(e.getActionCommand().equals("Cancel")){
+					txtCa.setVisible(true);
+					cbCa.setEnabled(false);
+					txtGhiChu.setEditable(false);
+					txtTangCa.setEnabled(false);
+					btnOkEdit.setVisible(false);
+					btnCancelEdit.setVisible(false);
+					btnEdit.setVisible(true);
+				}
+			}
+		};
+		btnEdit.addActionListener(editCaLam);
+		btnCancelEdit.addActionListener(editCaLam);
+		btnOkEdit.addActionListener(editCaLam);
 		panelBtnEdit.add(btnEdit);
-		
-		
-		
+		panelBtnEdit.add(btnOkEdit);
+		panelBtnEdit.add(btnCancelEdit);
+
 		panelCaLam.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Tên NV");
@@ -264,7 +314,7 @@ public class MainForm extends JFrame {
 		
 		cbCa = new JComboBox();
 		cbCa.setEnabled(false);
-		cbCa.setModel(new DefaultComboBoxModel(new String[] {"Hành chính", "1", "2", "3"}));
+		cbCa.setModel(new DefaultComboBoxModel(new String[] {"Hành chính", "1", "2", "3","Off"}));
 		cbCa.setSelectedIndex(0);
 		cbCa.setBounds(286, 178, 104, 20);
 		panelCaLam.add(cbCa);
@@ -455,7 +505,7 @@ public class MainForm extends JFrame {
 				}
 				
 				if(btn.getName().equals("Lịch Làm việc")) {
-					JLayeredPane lichPane = new LichPane();
+					lichPane = new LichPane();
 					tabbedPane.addTab("lich", null, lichPane, null);
 					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(lichPane), getTitlePanel(tabbedPane, lichPane, "Lịch làm việc"));
 					tabbedPane.setSelectedComponent(lichPane);
@@ -470,6 +520,15 @@ public class MainForm extends JFrame {
 	private JTextField txtDen;
 	private JTextField txtTangCa;
 	private JTextField txtCa;
+	private  Lich currentLich;
+
+	public Lich getCurrentLich() {
+		return currentLich;
+	}
+
+	public void setCurrentLich(Lich currentLich) {
+		this.currentLich = currentLich;
+	}
 
 	public JTextArea getTxtGhiChu() {
 		return txtGhiChu;

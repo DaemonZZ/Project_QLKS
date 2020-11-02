@@ -705,4 +705,20 @@ public class DatabaseConnection {
     public static void main(String[] args) {
 
     }
+
+    public void updateLich(int id, int ca, int tangca, String ghichu) {
+        String sql = "update LichLamViec set ID_Ca = ? , TangCa = ? , GhiChu = ? where Id_Lich = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,ca);
+            st.setInt(2,tangca);
+            st.setNString(3,ghichu);
+            st.setInt(4,id);
+            int a = st.executeUpdate();
+            System.out.println(a);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
 }

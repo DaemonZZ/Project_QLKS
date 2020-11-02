@@ -62,6 +62,7 @@ public class NVPanel extends JPanel {
 			MainForm.m.getTxtDen().setText(ca.getDen().toString());
 			MainForm.m.getTxtTangCa().setText(lich.getTangCa()+"");
 			MainForm.m.getTxtGhiChu().setText(lich.getGhiChu());
+			MainForm.m.setCurrentLich(lich);
 
 		}
 
