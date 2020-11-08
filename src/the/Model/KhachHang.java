@@ -1,6 +1,6 @@
-package the.DataTransfer;
+package the.Model;
 
-import java.sql.Date;
+import java.util.Objects;
 
 public class KhachHang {
 	private int id;
@@ -52,6 +52,7 @@ public class KhachHang {
 		this.noiCap = "";
 		this.loai = 0;
 		this.quocTich = "";
+		this.idDoan=0;
 	}
 	public int getId() {
 		return id;
@@ -113,5 +114,26 @@ public class KhachHang {
 	public void setIdDoan(int idDoan) {
 		this.idDoan = idDoan;
 	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		KhachHang khachHang = (KhachHang) o;
+		return id == khachHang.id &&
+				gioiTinh == khachHang.gioiTinh &&
+				loai == khachHang.loai &&
+				idDoan == khachHang.idDoan &&
+				Objects.equals(hoTen, khachHang.hoTen) &&
+				Objects.equals(donVi, khachHang.donVi) &&
+				Objects.equals(cMND, khachHang.cMND) &&
+				Objects.equals(ngayCap, khachHang.ngayCap) &&
+				Objects.equals(noiCap, khachHang.noiCap) &&
+				Objects.equals(quocTich, khachHang.quocTich);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, hoTen, gioiTinh, donVi, cMND, ngayCap, noiCap, loai, quocTich, idDoan);
+	}
 }

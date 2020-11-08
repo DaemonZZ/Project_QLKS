@@ -1,6 +1,7 @@
-package the.DataTransfer;
+package the.Model;
 
 import java.time.*;
+import java.util.Objects;
 
 public class QuanLyPhong {
 	private int id;
@@ -51,14 +52,12 @@ public class QuanLyPhong {
 	public void setId_Dk(int id_Dk) {
 		this.id_Dk = id_Dk;
 	}
-	
 	public String getHoTen() {
 		return hoTen;
 	}
 	public void setHoTen(String hoTen) {
 		this.hoTen = hoTen;
 	}
-
 	public String getMaPhong() {
 		return maPhong;
 	}
@@ -101,5 +100,26 @@ public class QuanLyPhong {
 	public void setId_KH(int id_KH) {
 		this.id_KH = id_KH;
 	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		QuanLyPhong that = (QuanLyPhong) o;
+		return id == that.id &&
+				id_Dk == that.id_Dk &&
+				Float.compare(that.gia, gia) == 0 &&
+				trangThai == that.trangThai &&
+				id_KH == that.id_KH &&
+				Objects.equals(hoTen, that.hoTen) &&
+				Objects.equals(maPhong, that.maPhong) &&
+				Objects.equals(CI, that.CI) &&
+				Objects.equals(CO, that.CO) &&
+				Objects.equals(ghiChu, that.ghiChu);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, id_Dk, hoTen, maPhong, CI, CO, gia, ghiChu, trangThai, id_KH);
+	}
 }

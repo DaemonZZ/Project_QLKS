@@ -3,7 +3,6 @@ package the.View.Control;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
-import the.DataTransfer.Lich;
+import the.Model.Lich;
 
 public class NVButton extends JPanel{
 	private LocalDate date;

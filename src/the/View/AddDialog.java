@@ -4,8 +4,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import the.DataTransfer.*;
 import the.Model.*;
+import the.DTO.*;
 
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
@@ -118,22 +118,16 @@ public class AddDialog extends JDialog{
 					n.setTaiKhoan(txtTaiKhoan.getText());
 					n.setMatKhau(passwordField.getText());
 					n.setLoai(cbBoPhan.getSelectedIndex());
-					try {
-						 b = new DatabaseConnection().themNV(n);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					if(b) {
-						JOptionPane.showMessageDialog(rootPane, "Đăng kí thành công");
-						AccountManagementForm.s.setEnabled(true);
-						AccountManagementForm.s.reload();
-						dispose();
-					} else {
-						JOptionPane.showMessageDialog(rootPane, "Đăng kí thất bại");
-					}
+
+					DataStorage.loader.getListNV().add(n);
+
+					JOptionPane.showMessageDialog(rootPane, "Đăng kí thành công");
+					AccountManagementForm.s.setEnabled(true);
+					AccountManagementForm.s.reload();
+					dispose();
+
 				}
-				}
+			}
 				
 		});
 		btnOK.setBounds(252, 205, 89, 23);

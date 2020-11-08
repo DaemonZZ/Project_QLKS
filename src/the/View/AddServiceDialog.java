@@ -1,7 +1,8 @@
 package the.View;
 
-import the.DataTransfer.DichVu;
-import the.Model.DatabaseConnection;
+import the.DTO.DataStorage;
+import the.Model.DichVu;
+import the.DTO.DatabaseConnection;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -16,8 +17,6 @@ public class AddServiceDialog extends JDialog {
     private JButton lưuThayĐổiButton;
     private JTextField tctGia;
     private JTextArea taGhichu;
-    private final DatabaseConnection dtb = new DatabaseConnection();
-    private final ArrayList<DichVu> listDichVu = dtb.getListDichVu();
 
     public AddServiceDialog() {
 
@@ -26,7 +25,7 @@ public class AddServiceDialog extends JDialog {
         setTitle("Thêm dịch vụ");
 
         DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
-        cbModel.addAll(listDichVu);
+        cbModel.addAll(DataStorage.loader.getListDV());
         cbDV.setModel(cbModel);
 
         getRootPane().setDefaultButton(buttonOK);

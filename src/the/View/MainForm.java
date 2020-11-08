@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
-import the.DataTransfer.*;
 import the.Model.*;
+import the.DTO.*;
 import the.View.Control.*;
 
 import javax.swing.JTable;
@@ -43,7 +43,6 @@ import javax.swing.DefaultComboBoxModel;
 
 public class MainForm extends JFrame {
 	public static MainForm m;
-	
 	private final JTable table;
 
 	private String selectedRoom="";
@@ -61,7 +60,6 @@ public class MainForm extends JFrame {
 	JPanel panelCaLam = new JPanel();
 	private int accessRight;
 	private LichPane lichPane;
-	private DatabaseConnection dbc = new DatabaseConnection();
 
 	public MainForm(int accessRight) {
 		this.accessRight=accessRight;
@@ -217,7 +215,7 @@ public class MainForm extends JFrame {
 		btnOkEdit.setVisible(false);
 		JButton btnCancelEdit = new JButton("Cancel");
 		btnCancelEdit.setVisible(false);
-		btnEdit.setEnabled(false);
+		//btnEdit.setEnabled(false);
 		ActionListener editCaLam = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -236,7 +234,7 @@ public class MainForm extends JFrame {
 					int ca = cbCa.getSelectedIndex();
 					int tangca = Integer.parseInt(txtTangCa.getText());
 					String ghichu = txtGhiChu.getText();
-					dbc.updateLich(id,ca,tangca,ghichu);
+					DataStorage.loader.updateLich(id,ca,tangca,ghichu);
 					txtCa.setText(cbCa.getSelectedItem().toString());
 					txtCa.setVisible(true);
 					cbCa.setEnabled(false);
@@ -371,13 +369,11 @@ public class MainForm extends JFrame {
 		
 		setLocationRelativeTo(null);
 		setVisible(true);
-
-
-
+		DataStorage.ld.setVisible(false);
 
 	}
 	public DefaultTableModel getRoomInfoModel(int id_ql) {
-		listDongChungTu = new DatabaseConnection().getListDongChungTu(id_ql);
+		listDongChungTu = DataStorage.loader.getListDongCT(id_ql);
 		roomInfoModel = new DefaultTableModel() {
 
 			@Override
@@ -488,6 +484,7 @@ public class MainForm extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				LargeButton btn = (LargeButton) e.getComponent();
 				if(btn.getName().equals("Log Out")) {
+					DataStorage.loader=null;
 					new LoginForm();
 					dispose();
 				}
@@ -606,6 +603,10 @@ public class MainForm extends JFrame {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		new DataStorage(0);
+		Thread sync = new DataSynchronizer();
+		sync.start();
 		new MainForm(0);
+
 	}
 }

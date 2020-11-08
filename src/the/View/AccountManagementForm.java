@@ -6,8 +6,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import the.DataTransfer.*;
 import the.Model.*;
+import the.DTO.*;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -25,7 +25,7 @@ import javax.swing.ListSelectionModel;
 public class AccountManagementForm extends JFrame {
 	private final JTextField textField;
 	private final JTable table;
-	private final DatabaseConnection databaseConnection = new DatabaseConnection();
+	DatabaseConnection databaseConnection = new DatabaseConnection();
 	DefaultTableModel model = new DefaultTableModel() {
 
 		@Override
@@ -157,6 +157,12 @@ public class AccountManagementForm extends JFrame {
 					int id = Integer.parseInt(nv);
 					boolean b=databaseConnection.xoaNV(id);
 					if(b) {
+						for (NhanVien n: DataStorage.loader.getListNV()
+							 ) {
+							if(n.getiD()==id){
+								DataStorage.loader.getListNV().remove(n);
+							}
+						}
 						model.removeRow(table.getSelectedRow());
 						table.setModel(model);
 						JOptionPane.showMessageDialog(rootPane, "Đã xóa thành công");
@@ -191,8 +197,8 @@ public class AccountManagementForm extends JFrame {
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int idMax = 0;
-				ArrayList<NhanVien> list = databaseConnection.getListNV();
-				for (NhanVien vn : list) {
+
+				for (NhanVien vn : DataStorage.loader.getListNV()) {
 					if(vn.getiD()>idMax) idMax=vn.getiD();
 				}
 				

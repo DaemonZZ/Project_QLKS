@@ -1,7 +1,8 @@
 package the.View;
 
-import the.DataTransfer.*;
-import the.Model.DatabaseConnection;
+import the.DTO.DataStorage;
+import the.Model.*;
+import the.DTO.DatabaseConnection;
 import the.View.Control.SoDoPane;
 
 import javax.swing.*;
@@ -14,10 +15,6 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.QuadCurve2D;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ProfileDialog extends JDialog {
@@ -25,7 +22,7 @@ public class ProfileDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTree tree1 ;
+    private JTree tree1;
     private JTabbedPane tabbedPane1;
     private JButton btnQl;
     private JPanel leftPane;
@@ -49,11 +46,10 @@ public class ProfileDialog extends JDialog {
     private JButton btnDel;
     private JTable table1;
     private JButton btnGhiChu;
-    private  DatabaseConnection dtb = new DatabaseConnection();
-    private  ArrayList<Phong> listPhong = dtb.getListPhong();
-    private  ArrayList<LoaiPhong> listLoai =dtb.getListLoaiPhong();
+    private  ArrayList<Phong> listPhong = DataStorage.loader.getListPhong();
+    private  ArrayList<LoaiPhong> listLoai =DataStorage.loader.getListLoaiPhong();
     private  ArrayList<DefaultMutableTreeNode> listLeaf = new ArrayList<>();
-    private  ArrayList<QuanLyPhong> listRoomInfo = dtb.getCurrentRoomInfo();
+    private  ArrayList<QuanLyPhong> listRoomInfo = DataStorage.loader.getCurrentRoomInfo();
     private String selectedRoom="";
     private int current_idQL=0;
     public static float VAT = 1.1f;
@@ -67,7 +63,7 @@ public class ProfileDialog extends JDialog {
     }
 
     public ProfileDialog() {
-        int tang = dtb.getSoTang();
+        int tang = DataStorage.loader.getSoTang();
         DefaultMutableTreeNode node = new DefaultMutableTreeNode("Danh Sách phòng");
         for(int i=0;i<=tang;i++){
             DefaultMutableTreeNode nodeTang = new DefaultMutableTreeNode("Tầng "+i);
@@ -220,7 +216,7 @@ public class ProfileDialog extends JDialog {
                 }
                 for (QuanLyPhong ql : listRoomInfo){
                     if(ql.getMaPhong().equals(maPhong)){
-                        KhachHang kh = dtb.khachHang(ql.getId_KH());
+                        KhachHang kh = DataStorage.loader.getKH(ql.getId_KH());
                         table1.setModel(MainForm.m.getRoomInfoModel(ql.getId()));
                         txtTen.setText(ql.getHoTen());
                         txtCheckin.setText(ql.getCI()+"");
@@ -284,22 +280,20 @@ public class ProfileDialog extends JDialog {
             }
             if (e.getActionCommand().equals("CheckOut")) {
                 if (selectedRoom != "") {
-                    ArrayList<DongChungTu> listDongChungTu = dtb.getListDongChungTu(current_idQL);
+                    ArrayList<DongChungTu> listDongChungTu = DataStorage.loader.getListDongCT(current_idQL);
                     float sum = 0;
                     for (DongChungTu item : listDongChungTu) {
                         sum += (item.getDonGia() * item.getSoLuong());
                     }
                     int rs=JOptionPane.showConfirmDialog(getRootPane(),"Tổng tiền phòng (Chưa VAT): "+sum+"đ\nBạn có muốn xuất hóa đơn?","Confirm",JOptionPane.YES_NO_OPTION);
                     if(rs==1){
-                        dtb.setGiaCheckout(current_idQL,sum);
-                        dtb.setNgayCheckout(current_idQL);
-                        dtb.setStt(selectedRoom,1);
+                        DataStorage.loader.setCheckoutInfo(current_idQL,sum);
+                        DataStorage.loader.setSttPhong(selectedRoom,1);
                         SoDoPane.s.reloadRoomList();
                     }
                     else {
-                        dtb.setGiaCheckout(current_idQL,sum*VAT);
-                        dtb.setNgayCheckout(current_idQL);
-                        dtb.setStt(selectedRoom,1);
+                        DataStorage.loader.setCheckoutInfo(current_idQL,sum*VAT);
+                        DataStorage.loader.setSttPhong(selectedRoom,1);
                         SoDoPane.s.reloadRoomList();
                         new HoaDonForm();
                     }

@@ -9,19 +9,17 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
-import com.sun.tools.javac.Main;
-import the.DataTransfer.CaLamViec;
-import the.DataTransfer.Lich;
-import the.DataTransfer.NhanVien;
-import the.Model.DatabaseConnection;
+import the.DTO.DataStorage;
+import the.Model.CaLamViec;
+import the.Model.Lich;
+import the.Model.NhanVien;
+import the.DTO.DatabaseConnection;
 import the.View.MainForm;
 
 public class NVPanel extends JPanel {
-	DatabaseConnection dbc = new DatabaseConnection();
-	ArrayList<Lich> listLich = dbc.getlistLich();
+	ArrayList<Lich> listLich = DataStorage.loader.getListLich();
 	public NVPanel(NhanVien nv) {
 		setBackground(Color.WHITE);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
@@ -47,14 +45,14 @@ public class NVPanel extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			NVButton src = (NVButton) e.getComponent();
 			Lich lich = src.getLich();
-			CaLamViec ca = dbc.getCaLamViec(lich.getId_Ca());
-			int bp = (dbc.getNV(lich.getId_NV()).getLoai());
+			CaLamViec ca = DataStorage.loader.getCaLam(lich.getId_Ca());
+			int bp = (DataStorage.loader.getNhanVien(lich.getId_NV()).getLoai());
 			String tenbp ="";
 			if(bp==1) tenbp="Lễ tân";
 			if(bp==2) tenbp="Kinh Doanh";
 			if(bp==3) tenbp="Buồng Phòng";
 			if(bp==4) tenbp="Kế toán";
-			MainForm.m.getTxtTenNV().setText(dbc.getNV(lich.getId_NV()).getHoTen());
+			MainForm.m.getTxtTenNV().setText(DataStorage.loader.getNhanVien(lich.getId_NV()).getHoTen());
 			MainForm.m.getTxtBoPhan().setText(tenbp);
 			MainForm.m.getTxtCa().setText(ca.getTenCa());
 			MainForm.m.getTxtNgayLam().setText(lich.getNgay().toString());

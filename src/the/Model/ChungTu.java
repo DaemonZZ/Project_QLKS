@@ -1,4 +1,4 @@
-package the.DataTransfer;
+package the.Model;
 
 import java.time.*;
 

@@ -1,4 +1,4 @@
-package the.DataTransfer;
+package the.Model;
 
 public class DongChungTu {
 	private int id;
@@ -27,7 +27,16 @@ public class DongChungTu {
 		this.donGia = 0;
 		this.ghiChu = "";
 	}
-	
+
+	public DongChungTu(int soCT, int id_DV, String tenDV, float soLuong, float donGia, String ghiChu) {
+		this.soCT = soCT;
+		this.id_DV = id_DV;
+		this.tenDV = tenDV;
+		this.soLuong = soLuong;
+		this.donGia = donGia;
+		this.ghiChu = ghiChu;
+	}
+
 	public int getId() {
 		return id;
 	}

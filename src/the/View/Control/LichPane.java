@@ -1,15 +1,13 @@
 package the.View.Control;
 
-import the.DataTransfer.Lich;
-import the.DataTransfer.NhanVien;
-import the.Model.DatabaseConnection;
+import the.DTO.DataStorage;
+import the.Model.Lich;
+import the.Model.NhanVien;
+import the.DTO.DatabaseConnection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,9 +15,7 @@ import java.util.ArrayList;
 public class LichPane extends JLayeredPane {
     private final JButton btnAdd;
     private final JTextField txtTimKiem;
-    DatabaseConnection dbc = new DatabaseConnection();
-    private ArrayList<NhanVien> listNhanVien = dbc.getListNV();
-    private final ArrayList<Lich> listLich = dbc.getlistLich();
+    private ArrayList<NhanVien> listNhanVien = (ArrayList<NhanVien>)DataStorage.loader.getListNV().clone();
     JPanel panel = new JPanel();
     JScrollPane scrollPane;
     JComboBox ttCb;
@@ -30,7 +26,7 @@ public class LichPane extends JLayeredPane {
         btnAdd = new JButton("+");
         btnAdd.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnAdd.setBackground(Color.CYAN);
-        btnAdd.setEnabled(false);
+        //btnAdd.setEnabled(false);
         btnAdd.setPreferredSize(new Dimension(20, -1));
         add(btnAdd, BorderLayout.EAST);
         btnAdd.addActionListener(new ActionListener() {
@@ -50,7 +46,7 @@ public class LichPane extends JLayeredPane {
                         for (LocalDate ngay: listNgay
                              ) {
                             if(!isExist(ngay,nv)){
-                                dbc.newLich(nv,ngay);
+                                DataStorage.loader.getListLich().add(new Lich(ngay, nv.getiD(), 4 , 0 , ""));
                             }
 
                         }
@@ -87,20 +83,50 @@ public class LichPane extends JLayeredPane {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(txtTimKiem.getText().equals("")&& ttCb.getSelectedIndex()==0){
-                    listNhanVien = dbc.getListNV();
+                    listNhanVien = (ArrayList<NhanVien>)DataStorage.loader.getListNV().clone();
+
                 }
                 else {
-                    listNhanVien=dbc.getListNV(txtTimKiem.getText(), ttCb.getSelectedIndex());
+                    if(ttCb.getSelectedIndex()!=0){
+                        listNhanVien.clear();
+                        for (NhanVien n: DataStorage.loader.getListNV()
+                        ) {
+                            if(n.getHoTen().contains(txtTimKiem.getText())&& n.getLoai() == ttCb.getSelectedIndex()){
+                                listNhanVien.add(n);
+                                System.out.println("true");
+                            }
+                        }
+                    }
+                    else {
+                        listNhanVien.clear();
+                        for (NhanVien n: DataStorage.loader.getListNV()
+                        ) {
+                            if(n.getHoTen().contains(txtTimKiem.getText())){
+                                listNhanVien.add(n);
+
+                            }
+                        }
+                    }
+
                 }
                 panel.removeAll();
+
                 for (NhanVien nv : listNhanVien) {
                     if (nv.getLoai() != 0) {
                         panel.add(new NVPanel(nv));
+                        System.out.println(nv.getHoTen());
                     }
                 }
-                panel.repaint();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        repaint();
+                    }
+                });
+
             }
         });
+
 
         JPanel filterPanel = new JPanel();
         filterPanel.setBackground(Color.WHITE);
@@ -121,10 +147,29 @@ public class LichPane extends JLayeredPane {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(txtTimKiem.getText().equals("")&& ttCb.getSelectedIndex()==0){
-                    listNhanVien = dbc.getListNV();
+                    listNhanVien = (ArrayList<NhanVien>)DataStorage.loader.getListNV().clone();
                 }
                 else {
-                    listNhanVien=dbc.getListNV(txtTimKiem.getText(), ttCb.getSelectedIndex());
+                    if(ttCb.getSelectedIndex()!=0){
+                        listNhanVien.clear();
+                        for (NhanVien n: DataStorage.loader.getListNV()
+                        ) {
+                            if(n.getHoTen().contains(txtTimKiem.getText())&& n.getLoai() == ttCb.getSelectedIndex()){
+                                listNhanVien.add(n);
+                                System.out.println("true");
+                            }
+                        }
+                    }
+                    else {
+                        listNhanVien.clear();
+                        for (NhanVien n: DataStorage.loader.getListNV()
+                        ) {
+                            if(n.getHoTen().contains(txtTimKiem.getText())){
+                                listNhanVien.add(n);
+
+                            }
+                        }
+                    }
                 }
                 panel.removeAll();
                 for (NhanVien nv : listNhanVien) {
@@ -146,7 +191,7 @@ public class LichPane extends JLayeredPane {
 
     public boolean isExist(LocalDate ngay, NhanVien nv){
         boolean b = false;
-        for (Lich l :listLich
+        for (Lich l :DataStorage.loader.getListLich()
              ) {
             if(l.getId_NV()==nv.getiD()&&l.getNgay().equals(ngay)){
                 b=true;

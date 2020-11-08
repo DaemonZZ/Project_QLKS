@@ -1,11 +1,12 @@
 package the.View.Control;
 
-import the.DataTransfer.ChungTu;
-import the.DataTransfer.KhachHang;
-import the.DataTransfer.QuanLyPhong;
-import the.Model.DatabaseConnection;
+import the.DTO.DataStorage;
+import the.Model.ChungTu;
+import the.Model.DongChungTu;
+import the.Model.KhachHang;
+import the.Model.QuanLyPhong;
+import the.DTO.DatabaseConnection;
 import the.View.MainForm;
-import the.View.RoomButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +17,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class OrderDialog extends JDialog {
 	
@@ -32,15 +32,13 @@ public class OrderDialog extends JDialog {
 	private final JComboBox cbGen;
 	private final JComboBox cbLoai;
 	private final JTextField txtGia;
-	private final DatabaseConnection cont = new DatabaseConnection();
-	private final int nextKH =cont.nextKH();
-	private final int nextCT = cont.nextCT();
+	private final int nextCT = DataStorage.loader.nextIdCt();
 	private float gia =0;
 	String maPhong;
-	ArrayList<QuanLyPhong> currentRoomInfo =cont.getCurrentRoomInfo();
+	ArrayList<QuanLyPhong> currentRoomInfo =DataStorage.loader.getCurrentRoomInfo();
 	public OrderDialog(String s) {
 		maPhong=s;
-		gia =cont.getGia(s);
+		gia =DataStorage.loader.getGia(s);
 		getContentPane().setLayout(null);
 		
 		setTitle("Check in");
@@ -77,7 +75,7 @@ public class OrderDialog extends JDialog {
 		getContentPane().add(MaKH);
 		
 		txtMaKH = new JTextField();
-		txtMaKH.setText(nextKH+"");
+		txtMaKH.setText(DataStorage.loader.nextKH()+"");
 		txtMaKH.setEditable(false);
 		txtMaKH.setBounds(272, 23, 40, 20);
 		getContentPane().add(txtMaKH);
@@ -212,7 +210,6 @@ public class OrderDialog extends JDialog {
 	public void checkIn(){
 		KhachHang k = new KhachHang();
 		k.setIdDoan(0);
-		boolean b = false;
 		k.setId(Integer.parseInt(txtMaKH.getText()));
 		k.setHoTen(txtTenKH.getText());
 		k.setGioiTinh(cbGen.getSelectedIndex());
@@ -223,74 +220,64 @@ public class OrderDialog extends JDialog {
 		k.setLoai(cbLoai.getSelectedIndex());
 		k.setQuocTich(txtQuocTich.getText());
 
-		b=new DatabaseConnection().addNewKH(k);
-		if(b){
-			QuanLyPhong q = new QuanLyPhong();
-			q.setId(cont.nextId_QL());
-			q.setId_Dk(0);
-			q.setId_KH(k.getId());
-			q.setMaPhong(txtPhong.getText());
-			q.setCI(LocalDate.now());
-			q.setGia(0);
-			q.setTrangThai(1);
+		DataStorage.loader.getListKH().add(k);
 
-			b=new DatabaseConnection().addQLPhong(q);
-			if(b){
-				if(k.getIdDoan()==0){
-					ChungTu c = new ChungTu();
-					int nextCT = cont.nextCT();
-					c.setSoCT(nextCT);
-					c.setLoai(3);
-					c.setId_KH(k.getId());
-					c.setNoiDung(k.getHoTen());
-					c.setId_QL(q.getId());
+		QuanLyPhong q = new QuanLyPhong();
+		q.setId(DataStorage.loader.nextIdQL());
+		q.setId_Dk(0);
+		q.setId_KH(k.getId());
+		q.setMaPhong(txtPhong.getText());
+		q.setCI(LocalDate.now());
+		q.setGia(0);
+		q.setTrangThai(1);
 
-					b=new DatabaseConnection().addCT(c);
-					if(b){
-						cont.setStt(q.getMaPhong(),4);
-						SoDoPane.s.reloadRoomList();
-						JOptionPane.showMessageDialog(rootPane,"Check in complete!");
+		DataStorage.loader.getCurrentRoomInfo().add(q);
 
-						currentRoomInfo = new DatabaseConnection().getCurrentRoomInfo();
-						MainForm.m.setSum(0);
-						MainForm.m.getTable().setModel(new DefaultTableModel());
-						MainForm.m.setSelectedRoom(q.getMaPhong());
-						CustomerInfoPanel.t.getTxtPhong().setText(MainForm.m.getSelectedRoom());
-						CustomerInfoPanel.t.getTxtTenKH().setText("");
-						CustomerInfoPanel.t.getTxtCI().setText("");
-						CustomerInfoPanel.t.getTxtCO().setText("");
+			if(k.getIdDoan()==0) {
+				ChungTu c = new ChungTu();
+				int nextCT = DataStorage.loader.nextIdCt();
+				c.setSoCT(nextCT);
+				c.setLoai(3);
+				c.setId_KH(k.getId());
+				c.setNoiDung(k.getHoTen());
+				c.setId_QL(q.getId());
 
-						for (QuanLyPhong ql : currentRoomInfo) {
-							if(ql.getMaPhong().equals(MainForm.m.getSelectedRoom())) {
-								CustomerInfoPanel.t.getTxtTenKH().setText(ql.getHoTen());
-								CustomerInfoPanel.t.getTxtCI().setText(ql.getCI()+"");
-								CustomerInfoPanel.t.getTxtCO().setText(ql.getCO()+"");
-								MainForm.m.getTable().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
+				DataStorage.loader.getListChungTu().add(c);
 
-							}
-						}
-						SumPanel.s.getTxtSum().setText(MainForm.m.getSum()+"");
-						MainForm.m.setEnabled(true);
-						SoDoPane.s.reloadRoomList();
-						SoDoPane.s.repaint();
-						dispose();
+				DataStorage.loader.setSttPhong(q.getMaPhong(), 4);
+				SoDoPane.s.reloadRoomList();
+				JOptionPane.showMessageDialog(rootPane, "Check in complete!");
 
-					}
-					else {
-						JOptionPane.showMessageDialog(rootPane,"Tao Chungtu that bai");
+				currentRoomInfo = DataStorage.loader.getCurrentRoomInfo();
+				MainForm.m.setSum(0);
+				MainForm.m.getTable().setModel(new DefaultTableModel());
+				MainForm.m.setSelectedRoom(q.getMaPhong());
+				CustomerInfoPanel.t.getTxtPhong().setText(MainForm.m.getSelectedRoom());
+				CustomerInfoPanel.t.getTxtTenKH().setText("");
+				CustomerInfoPanel.t.getTxtCI().setText("");
+				CustomerInfoPanel.t.getTxtCO().setText("");
+
+				for (QuanLyPhong ql : currentRoomInfo) {
+					if (ql.getMaPhong().equals(MainForm.m.getSelectedRoom())) {
+						CustomerInfoPanel.t.getTxtTenKH().setText(ql.getHoTen());
+						CustomerInfoPanel.t.getTxtCI().setText(ql.getCI() + "");
+						CustomerInfoPanel.t.getTxtCO().setText(ql.getCO() + "");
+						MainForm.m.getTable().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
+
 					}
 				}
-			}
-			else {
-				JOptionPane.showMessageDialog(rootPane,"Tao QuanLyPhong that bai");
+				SumPanel.s.getTxtSum().setText(MainForm.m.getSum() + "");
+				MainForm.m.setEnabled(true);
+				SoDoPane.s.reloadRoomList();
+				SoDoPane.s.repaint();
+				dispose();
+
 			}
 
-		}
-		else {
-			JOptionPane.showMessageDialog(rootPane,"Tao khanh hang that bai");
-		}
-	//Them dich vu phong vao hoa don
-		cont.addDefaultRoomService(nextCT,gia,maPhong);
+
+		//Them dich vu phong vao hoa don
+			DongChungTu newDvPhongInCt = new DongChungTu(nextCT,11,"Phòng ở",1,gia,"");
+			DataStorage.loader.getListDongCT().add(newDvPhongInCt);
 	}
 
 }

@@ -1,4 +1,4 @@
-package the.DataTransfer;
+package the.Model;
 
 public class LoaiPhong {
     private int id;

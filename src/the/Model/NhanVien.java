@@ -1,4 +1,6 @@
-package the.DataTransfer;
+package the.Model;
+
+import java.util.Objects;
 
 public class NhanVien {
 	private int iD;
@@ -68,6 +70,22 @@ public class NhanVien {
 	public void setLoai(int loai) {
 		this.loai = loai;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		NhanVien nhanVien = (NhanVien) o;
+		return iD == nhanVien.iD &&
+				loai == nhanVien.loai &&
+				Objects.equals(hoTen, nhanVien.hoTen) &&
+				Objects.equals(soDT, nhanVien.soDT) &&
+				Objects.equals(taiKhoan, nhanVien.taiKhoan) &&
+				Objects.equals(matKhau, nhanVien.matKhau);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(iD, hoTen, soDT, taiKhoan, matKhau, loai);
+	}
 }

@@ -1,4 +1,6 @@
-package the.DataTransfer;
+package the.Model;
+
+import java.util.Objects;
 
 public class Phong {
 	private String maPhong;
@@ -80,6 +82,24 @@ public class Phong {
 	public void setSoNguoi(int soNguoi) {
 		this.soNguoi = soNguoi;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Phong phong = (Phong) o;
+		return tang == phong.tang &&
+				loai == phong.loai &&
+				Float.compare(phong.donGia, donGia) == 0 &&
+				trangThai == phong.trangThai &&
+				soGiuong == phong.soGiuong &&
+				soNguoi == phong.soNguoi &&
+				Objects.equals(maPhong, phong.maPhong) &&
+				Objects.equals(phone, phong.phone);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(maPhong, tang, loai, donGia, trangThai, phone, soGiuong, soNguoi);
+	}
 }

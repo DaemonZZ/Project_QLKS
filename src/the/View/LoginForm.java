@@ -3,7 +3,7 @@ package the.View;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import the.DataTransfer.*;
+import the.Model.*;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 
-import the.Model.*;
+import the.DTO.*;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -93,6 +93,8 @@ public class LoginForm extends JFrame {
                 for (NhanVien a : listNV) {
                     if (comboBox.getSelectedItem().toString().equals(a.getHoTen()) && passwordField.getText().equals(a.getMatKhau())) {
                         accessRight = comboBox_1.getSelectedIndex();
+                        DataStorage.ld.setVisible(true);
+                        new DataStorage(accessRight);
                         new MainForm(accessRight);
                         MainForm.nv=a;
                         dispose();
