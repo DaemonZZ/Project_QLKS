@@ -203,6 +203,7 @@ public class MainForm extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
+				DataSynchronizer.synchronizer.syncAllData();
 				System.exit(0);
 			}
 			
