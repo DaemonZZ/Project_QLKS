@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.border.Border;
+import javax.swing.SwingConstants;
 
 public class LargeButton extends JPanel implements MouseListener{
 	private String pathIcon;
@@ -38,8 +39,8 @@ public class LargeButton extends JPanel implements MouseListener{
 	/**
 	 *  Tạo và resize icon từ ảnh bất kì
 	 * @param linkImage : Duong dan anh
-	 * @param Chieu dai
-	 * @param Chieu cao
+	 * @param k Chieu dai
+	 * @param m Chieu cao
 	 * @return Icon
 	 */
 	public Icon loadIco(String linkImage, int k, int m) {
@@ -88,8 +89,10 @@ public class LargeButton extends JPanel implements MouseListener{
 		this.add(lbIco);
 		
 		JLabel lbName = new JLabel(name);
+		lbName.setHorizontalAlignment(SwingConstants.CENTER);
 		lbName.setBackground(SystemColor.info);
 		lbName.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lbName.setSize(new Dimension(100,13));
 		this.add(lbName);
 		this.setVisible(true);
 		addMouseListener(this);

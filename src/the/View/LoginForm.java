@@ -95,6 +95,8 @@ public class LoginForm extends JFrame {
                         accessRight = comboBox_1.getSelectedIndex();
                         DataStorage.ld.setVisible(true);
                         new DataStorage(accessRight);
+                        Thread sync = new DataSynchronizer();
+                        sync.start();
                         new MainForm(accessRight);
                         MainForm.nv=a;
                         dispose();

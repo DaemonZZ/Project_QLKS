@@ -114,32 +114,42 @@ public class DatabaseConnection {
         return b;
     }
 
-    public boolean themNV(NhanVien n) throws SQLException {
+    public boolean themNV(NhanVien n)  {
         boolean b = false;
         String sql = "insert into NhanVien(ID_NV,HoTen,DienThoai,TaiKhoan,MatKhau,Loai) values(?,?,?,?,?,?)";
-        PreparedStatement st = conn.prepareStatement(sql);
-        st.setInt(1, n.getiD());
-        st.setNString(2, n.getHoTen());
-        st.setNString(3, n.getSoDT());
-        st.setNString(4, n.getTaiKhoan());
-        st.setNString(5, n.getMatKhau());
-        st.setInt(6, n.getLoai());
-        b = (st.executeUpdate() > 0);
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement(sql);
+            st.setInt(1, n.getiD());
+            st.setNString(2, n.getHoTen());
+            st.setNString(3, n.getSoDT());
+            st.setNString(4, n.getTaiKhoan());
+            st.setNString(5, n.getMatKhau());
+            st.setInt(6, n.getLoai());
+            b = (st.executeUpdate() > 0);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         return b;
     }
 
-    public boolean suaNV(NhanVien n) throws SQLException {
+    public boolean suaNV(NhanVien n) {
         boolean b = false;
         String sql = "update NhanVien set Hoten=?, DienThoai=?, TaiKhoan=?,MatKhau=?,Loai=? where ID_NV=?";
-        PreparedStatement st = conn.prepareStatement(sql);
-        st.setInt(6, n.getiD());
-        st.setNString(1, n.getHoTen());
-        st.setNString(2, n.getSoDT());
-        st.setNString(3, n.getTaiKhoan());
-        st.setNString(4, n.getMatKhau());
-        st.setInt(5, n.getLoai());
-        b = (st.executeUpdate() > 0);
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement(sql);
+            st.setInt(6, n.getiD());
+            st.setNString(1, n.getHoTen());
+            st.setNString(2, n.getSoDT());
+            st.setNString(3, n.getTaiKhoan());
+            st.setNString(4, n.getMatKhau());
+            st.setInt(5, n.getLoai());
+            b = (st.executeUpdate() > 0);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         return b;
     }

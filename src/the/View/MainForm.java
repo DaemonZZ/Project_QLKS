@@ -151,6 +151,17 @@ public class MainForm extends JFrame {
 		largeBtnPanel.add(btnCalendar);
 		btnCalendar.addMouseListener(largeBtnCliked);
 
+		LargeButton btnChamCong = new LargeButton("chamcong.png","C.Công");
+		btnChamCong.setPreferredSize(new Dimension(70,80));
+		btnChamCong.setToolTipText("Chấm công");
+		largeBtnPanel.add(btnChamCong);
+		btnChamCong.addMouseListener(largeBtnCliked);
+
+		LargeButton btnReport = new LargeButton("baocao.png","Báo Cáo");
+		btnReport.setPreferredSize(new Dimension(70,80));
+		btnReport.setToolTipText("Báo cáo ca làm việc");
+		largeBtnPanel.add(btnReport);
+		btnReport.addMouseListener(largeBtnCliked);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addChangeListener(new ChangeListener() {
@@ -177,15 +188,7 @@ public class MainForm extends JFrame {
 		
 		tabbedPane.setBackground(Color.WHITE);
 		centerPanel.add(tabbedPane,BorderLayout.CENTER);
-		
-		JLayeredPane sodoPane = new SoDoPane();
-		tabbedPane.addTab("sodo", null, sodoPane, null);
-		tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
-		
-//		JLayeredPane lichPane = new LichPane();
-//		tabbedPane.addTab("", null,lichPane,null);
-//		tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(lichPane), getTitlePanel(tabbedPane, lichPane, "Lịch làm việc"));
-		
+
 		CusInfoPanel.setPreferredSize(new Dimension(379,132));
 		
 		table = new JTable();
@@ -370,6 +373,18 @@ public class MainForm extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		DataStorage.ld.setVisible(false);
+		if(accessRight==0){
+			lichPane = new LichPane();
+			tabbedPane.addTab("lich", null, lichPane, null);
+			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(lichPane), getTitlePanel(tabbedPane, lichPane, "Lịch làm việc"));
+			tabbedPane.setSelectedComponent(lichPane);
+		}
+		if(accessRight==1){
+			JLayeredPane sodoPane = new SoDoPane();
+			tabbedPane.addTab("sodo", null, sodoPane, null);
+			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
+			tabbedPane.setSelectedComponent(sodoPane);
+		}
 
 	}
 	public DefaultTableModel getRoomInfoModel(int id_ql) {
@@ -484,6 +499,8 @@ public class MainForm extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				LargeButton btn = (LargeButton) e.getComponent();
 				if(btn.getName().equals("Log Out")) {
+					DataSynchronizer.synchronizer.stop();
+					DataSynchronizer.synchronizer.syncAllData();
 					DataStorage.loader=null;
 					new LoginForm();
 					dispose();

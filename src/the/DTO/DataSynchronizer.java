@@ -7,27 +7,32 @@ import java.util.ArrayList;
 
 public class DataSynchronizer extends Thread{
    private DatabaseConnection dbc;
+   public static DataSynchronizer synchronizer;
 
    public DataSynchronizer() {
       this.dbc = new DatabaseConnection();
+      synchronizer=this;
    }
 
    @Override
    public void run() {
       while (true){
          try {
-            System.out.println("Syncing.....");
-            syncKH();
-            syncQLP();
-            syncPhong();
-            syncLich();
             sleep(20000);
+            syncAllData();
          } catch (InterruptedException e) {
             e.printStackTrace();
          }
       }
    }
-
+   public void syncAllData(){
+      System.out.println("Syncing.....");
+      syncKH();
+      syncQLP();
+      syncPhong();
+      syncLich();
+      syncNV();
+   }
    public void syncQLP(){
       ArrayList<QuanLyPhong> olddata = dbc.getCurrentRoomInfo();
       ArrayList<QuanLyPhong> newdata = DataStorage.loader.getCurrentRoomInfo();
@@ -101,7 +106,7 @@ public class DataSynchronizer extends Thread{
          else dbc.updateLich(l);
       }
    }
-   public void syncNV() throws SQLException {
+   public void syncNV() {
       ArrayList<NhanVien> oldData = dbc.getListNV();
       ArrayList<NhanVien> newData = DataStorage.loader.getListNV();
       ArrayList<NhanVien> diffList = new ArrayList<>();
