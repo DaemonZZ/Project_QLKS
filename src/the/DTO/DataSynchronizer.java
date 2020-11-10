@@ -2,7 +2,8 @@ package the.DTO;
 
 import the.Model.*;
 
-import java.sql.SQLException;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class DataSynchronizer extends Thread{
@@ -11,6 +12,7 @@ public class DataSynchronizer extends Thread{
 
    public DataSynchronizer() {
       this.dbc = new DatabaseConnection();
+
       synchronizer=this;
    }
 
@@ -119,6 +121,22 @@ public class DataSynchronizer extends Thread{
               ) {
          if(n.getiD()>max) dbc.themNV(n);
          else dbc.suaNV(n);
+      }
+   }
+   public void syncChamCong(){
+      ArrayList<ChamCong> oldData = dbc.getlistChamCong();
+      ArrayList<ChamCong> newData = DataStorage.loader.getListChamCong();
+      ArrayList<ChamCong> diffList = new ArrayList<>();
+      int max = dbc.nextChamCong()-1;
+      for (ChamCong c: newData
+           ) {
+         if(!oldData.contains(c)) diffList.add(c);
+      }
+
+      for (ChamCong c: diffList
+           ) {
+         if(c.getId()>max) dbc.addChamCong(c);
+         else dbc.editChamCong(c);
       }
    }
 }

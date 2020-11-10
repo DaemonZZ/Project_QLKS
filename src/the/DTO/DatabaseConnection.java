@@ -628,7 +628,7 @@ public class DatabaseConnection {
     }
 
     public ArrayList<Lich> getlistLich() {
-        String sql = "select * from LichLamViec where Ngay>=getdate()-1";
+        String sql = "select * from LichLamViec where Ngay>(getdate()-2)";
         ArrayList<Lich> list = new ArrayList<Lich>();
         try {
             Statement st = conn.createStatement();
@@ -698,7 +698,7 @@ public class DatabaseConnection {
     }
 
     public static void main(String[] args) {
-
+        new DatabaseConnection();
     }
 
     public void updateLich(Lich lich) {
@@ -791,5 +791,65 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return next + 1;
+    }
+
+    public ArrayList<ChamCong> getlistChamCong(){
+        String sql = "select * from ChamCong";
+        ArrayList<ChamCong> list = new ArrayList<>();
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                ChamCong c = new ChamCong();
+                c.setId(rs.getInt(1));
+                c.setId_lich(rs.getInt(2));
+                if(rs.getTime(3)!=null) c.setVao(rs.getTime(3).toLocalTime());
+                if(rs.getTime(4)!=null) c.setRa(rs.getTime(4).toLocalTime());
+                list.add(c);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+    }
+    public int nextChamCong() {
+        String sql = "select max(ID) from ChamCong";
+        int next = 0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                next = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return next + 1;
+    }
+
+    public void addChamCong(ChamCong c) {
+        String sql = "insert into ChamCong(ID,ID_LICH,Vao) values (?,?,?)";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,nextChamCong());
+            st.setInt(2,c.getId_lich());
+            st.setTime(3,Time.valueOf(c.getVao()));
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void editChamCong(ChamCong c) {
+        String sql = "update ChamCong set Ra = ? where Id = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setTime(1,Time.valueOf(c.getRa()));
+            st.setInt(2,c.getId());
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

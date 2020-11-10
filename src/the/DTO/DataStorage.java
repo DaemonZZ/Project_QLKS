@@ -18,7 +18,16 @@ public class DataStorage {
     private ArrayList<ChungTu> listChungTu;
     private ArrayList<DongChungTu> listDongCT;
     private ArrayList<LoaiPhong> listLoaiPhong;
+    private ArrayList<ChamCong> listChamCong;
     public static LoadingPanel ld = new LoadingPanel();
+
+    public ArrayList<ChamCong> getListChamCong() {
+        return listChamCong;
+    }
+
+    public void setListChamCong(ArrayList<ChamCong> listChamCong) {
+        this.listChamCong = listChamCong;
+    }
 
     public ArrayList<LoaiPhong> getListLoaiPhong() {
         return listLoaiPhong;
@@ -117,7 +126,7 @@ public class DataStorage {
         listChungTu = dbc.getlistCT();
         listDongCT = dbc.getListDongChungTu();
         listLoaiPhong = dbc.getListLoaiPhong();
-
+        listChamCong = dbc.getlistChamCong();
     }
 
     /**
@@ -197,6 +206,19 @@ public class DataStorage {
         for (Lich l:getListLich()
              ) {
             if(l.getId()>max) max = l.getId();
+        }
+        return max+1;
+    }
+
+    /**
+     *  Id Cham cong moiws
+     * @return
+     */
+    public int nextChamCong(){
+        int max=0;
+        for (ChamCong c: listChamCong
+             ) {
+            if(c.getId()>max) max = c.getId();
         }
         return max+1;
     }

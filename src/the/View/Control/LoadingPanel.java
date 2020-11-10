@@ -29,7 +29,4 @@ public class LoadingPanel extends JFrame {
 		panel.add(lblNewLabel);
 	}
 
-	public static void main(String[] args) {
-		new LoadingPanel();
-	}
 }

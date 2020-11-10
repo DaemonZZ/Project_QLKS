@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class AddServiceDialog extends JDialog {
-    private JPanel contentPane;
+    private JPanel contentPane ;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JSpinner spnSl;

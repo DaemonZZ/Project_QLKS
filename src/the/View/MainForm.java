@@ -15,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
@@ -58,6 +60,7 @@ public class MainForm extends JFrame {
 	JPanel CusInfoPanel = new CustomerInfoPanel();
 	JPanel panelBtnEdit = new JPanel();
 	JPanel panelCaLam = new JPanel();
+	JPanel largeBtnPanel;
 	private int accessRight;
 	private LichPane lichPane;
 
@@ -85,7 +88,7 @@ public class MainForm extends JFrame {
 		centerPanel.setLayout(new BorderLayout(0,10));
 		mainPanel.add(centerPanel,BorderLayout.CENTER);
 		
-		JPanel largeBtnPanel = new JPanel();
+		 largeBtnPanel = new JPanel();
 		largeBtnPanel.setBackground(Color.WHITE);
 		largeBtnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		centerPanel.add(largeBtnPanel,BorderLayout.NORTH);
@@ -154,7 +157,6 @@ public class MainForm extends JFrame {
 		LargeButton btnChamCong = new LargeButton("chamcong.png","C.Công");
 		btnChamCong.setPreferredSize(new Dimension(70,80));
 		btnChamCong.setToolTipText("Chấm công");
-		largeBtnPanel.add(btnChamCong);
 		btnChamCong.addMouseListener(largeBtnCliked);
 
 		LargeButton btnReport = new LargeButton("baocao.png","Báo Cáo");
@@ -369,7 +371,9 @@ public class MainForm extends JFrame {
 		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblNewLabel_8.setBounds(96, 11, 210, 52);
 		panelCaLam.add(lblNewLabel_8);
-		
+
+		StatusPanel sttPn = new StatusPanel();
+		getContentPane().add(sttPn,BorderLayout.SOUTH);
 		
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -385,6 +389,26 @@ public class MainForm extends JFrame {
 			tabbedPane.addTab("sodo", null, sodoPane, null);
 			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
 			tabbedPane.setSelectedComponent(sodoPane);
+
+			largeBtnPanel.add(btnChamCong);
+		}
+
+		if(accessRight==3){
+			JLayeredPane sodoPane = new SoDoPane();
+			tabbedPane.addTab("sodo", null, sodoPane, null);
+			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
+			tabbedPane.setSelectedComponent(sodoPane);
+
+			largeBtnPanel.add(btnChamCong);
+		}
+
+		if(accessRight==4){
+			JLayeredPane sodoPane = new SoDoPane();
+			tabbedPane.addTab("sodo", null, sodoPane, null);
+			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
+			tabbedPane.setSelectedComponent(sodoPane);
+
+			largeBtnPanel.add(btnChamCong);
 		}
 
 	}
@@ -524,6 +548,28 @@ public class MainForm extends JFrame {
 					tabbedPane.addTab("lich", null, lichPane, null);
 					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(lichPane), getTitlePanel(tabbedPane, lichPane, "Lịch làm việc"));
 					tabbedPane.setSelectedComponent(lichPane);
+				}
+				if(btn.getName().equals("C.Công")){
+					Lich lich = new Lich();
+					for (Lich l : DataStorage.loader.getListLich()
+							 ) {
+						if(l.getId_Ca()!=3){
+							if(l.getId_NV()==nv.getiD()&&l.getNgay().equals(LocalDate.now())) {
+								lich=l;
+							}
+						} else if(LocalTime.now().isBefore(LocalTime.parse("12:00"))){
+							System.out.println(l.getId_NV()==nv.getiD()&&l.getNgay().equals(LocalDate.now().minusDays(1)));
+							if(l.getId_NV()==nv.getiD()&&l.getNgay().equals(LocalDate.now().minusDays(1))) {
+								lich=l;
+							}
+						} else if(LocalTime.now().isAfter(LocalTime.parse("12:00"))){
+							if(l.getId_NV()==nv.getiD()&&l.getNgay().equals(LocalDate.now())) {
+								lich=l;
+							}
+						}
+					}
+					
+					new TimeKeepingDialog(lich);
 				}
 			}
 	 };

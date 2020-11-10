@@ -22,7 +22,7 @@ public class ProfileDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTree tree1;
+    private JTree tree1 ;
     private JTabbedPane tabbedPane1;
     private JButton btnQl;
     private JPanel leftPane;
