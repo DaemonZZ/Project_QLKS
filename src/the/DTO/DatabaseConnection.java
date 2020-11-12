@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public class DatabaseConnection {
     protected Connection conn;
+
+    public Connection getConn() {
+        return conn;
+    }
     /*
      * Đổi Tên instance và tên CSDL trước khi sử dụng
      *
@@ -337,6 +341,27 @@ public class DatabaseConnection {
         return b;
     }
 
+    public void editCT(ChungTu c) {
+        String sql = "update Chungtu set ngayct = ?, loai = ?, id_kh=?, id_nv=?, NoiDung=?, Giam =?,vat=?,sohoadon=?,id_ql=? where SoCT=?";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            if(c.getNgayCT()!=null) st.setDate(1,Date.valueOf(c.getNgayCT()));
+            else st.setDate(1,null);
+            st.setInt(2,c.getLoai());
+            st.setInt(3,c.getId_KH());
+            st.setInt(4,c.getId_NV());
+            st.setNString(5,c.getNoiDung());
+            st.setFloat(6,c.getGiam());
+            st.setFloat(7,c.getVAT());
+            st.setNString(8,c.getSoHD());
+            st.setInt(9,c.getId_QL());
+            st.setInt(10,c.getSoCT());
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public int nextCT() {
         String sql = "select max(SoCT) from ChungTu";
         int next = 0;
@@ -372,7 +397,7 @@ public class DatabaseConnection {
                 s.setDonGia(rs.getFloat(6));
                 s.setGhiChu(rs.getNString(7));
 
-
+                //System.out.println(sql);
                 list.add(s);
 
             }
@@ -510,9 +535,15 @@ public class DatabaseConnection {
     }
 
     //Xóa khách hàng
-    public boolean delKH() {
+    public boolean delKH(int id) {
         boolean b = false;
-
+        String sql = "Delete from KhachHang where id="+id;
+        try {
+            Statement st = conn.createStatement();
+            b= st.executeUpdate(sql)>0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return b;
     }
 
@@ -852,4 +883,102 @@ public class DatabaseConnection {
             throwables.printStackTrace();
         }
     }
+
+    public int addDongCT(DongChungTu d) {
+        String sql = "insert into DongChungTu values(?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,nextDongCT());
+            st.setInt(2,d.getSoCT());
+            st.setInt(3,d.getId_DV());
+            st.setFloat(4,d.getSoLuong());
+            st.setFloat(5,d.getDonGia());
+            st.setNString(6,d.getGhiChu());
+            st.setNString(7,d.getMaPhong());
+            return st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void editDongCT(DongChungTu d) {
+        String sql = "Update DongChungTu set SoCT = ?, ID_DV=?, Soluong = ?, DonGia=?, GhiChu=?,MaPhong = ? where id=?";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,d.getSoCT());
+            st.setInt(2,d.getId_DV());
+            st.setFloat(3,d.getSoLuong());
+            st.setFloat(4,d.getDonGia());
+            st.setNString(5,d.getGhiChu());
+            st.setNString(6,d.getMaPhong());
+            st.setInt(7,d.getId());
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public void delQLP(int item) {
+        String sql = "Delete from QuanLyPhong  where id_ql="+item;
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void delPhong(String item) {
+        String sql = "Delete from Phong where MaPhong='"+item+"'";
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void delLich(Lich item) {
+        String sql = "Delete from LichLamViec where id_lich="+item.getId();
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void delChamCong(ChamCong item) {
+        String sql = "Delete from ChamCong where id="+item.getId();
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void delDCT(int item) {
+        String sql = "Delete from DongChungTu where id="+item;
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void delCT(Integer id) {
+        String sql = "Delete from ChungTu where id="+id;
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+
 }

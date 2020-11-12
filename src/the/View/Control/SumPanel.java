@@ -1,5 +1,8 @@
 package the.View.Control;
 
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+import the.DTO.DatabaseConnection;
 import the.View.AddServiceDialog;
 import the.View.MainForm;
 import the.View.ProfileDialog;
@@ -7,6 +10,9 @@ import the.View.ProfileDialog;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 import javax.swing.*;
 
@@ -55,6 +61,10 @@ public class SumPanel extends JPanel {
 					new ProfileDialog();
 				}
 			}
+			if(e.getActionCommand().equals("In HĐ")){
+				xuatHoaDon(1,500000f);
+//				System.out.println(System.getProperty("java.class.path").replace(':','\n'));
+			}
 		}
 	};
 
@@ -63,8 +73,7 @@ public class SumPanel extends JPanel {
 		s=this;
 		setBackground(Color.WHITE);
 		setBounds(685, 514, 417, 96);
-		
-		
+
 		setLayout(null);
 		
 		JButton btnTraPhong = new JButton("Trả phòng");
@@ -110,6 +119,21 @@ public class SumPanel extends JPanel {
 		lblNewLabel_2.setBounds(109, 70, 66, 14);
 		add(lblNewLabel_2);
 		
+	}
+
+	public void xuatHoaDon(int soct,float tong){
+		String path = "D:\\Workspace\\Java\\Project_QLKS_java\\src\\the\\Report\\HoaDon.jrxml";
+		Connection conn = new DatabaseConnection().getConn();
+		Hashtable<String,Object> map = new Hashtable();
+		map.put("soct",soct);
+		map.put("sum",tong);
+		try {
+			JasperReport rp = JasperCompileManager.compileReport(path);
+			JasperPrint pr = JasperFillManager.fillReport(rp,map,conn);
+			JasperViewer.viewReport(pr,false);
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

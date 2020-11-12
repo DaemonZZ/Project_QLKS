@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HoaDon" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="226"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="768"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="707"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="281"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#EEEFF0"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#CACED0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#D8D8D8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="soct" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sum" class="java.lang.Float">
+		<defaultValueExpression><![CDATA[1f]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT "DichVu"."TenDV",
+	"DongChungTu"."SoLuong",
+	"DongChungTu"."DonGia",
+	"QuanLyPhong"."GhiChu",
+	"QuanLyPhong"."MaPhong",
+	"ChungTu"."NgayCT",
+	"ChungTu"."SoHoaDon",
+	"DichVu"."DVT",
+	"QuanLyPhong"."CheckIn",
+	"QuanLyPhong"."CheckOut",
+	"QuanLyPhong"."Gia",
+	"LoaiPhong"."TenLoai",
+	"KhachHang"."HoTen",
+	"KhachHang"."DonVi",
+	"KhachHang"."CMND",
+	"KhachHang"."QuocTich",
+	 $P{sum} 
+FROM "DongChungTu"
+	INNER JOIN "DichVu" ON 
+	 "DongChungTu"."ID_DV" = "DichVu"."ID_DV" 
+	INNER JOIN "ChungTu" ON 
+	 "DongChungTu"."SoCT" = "ChungTu"."SoCT" 
+	INNER JOIN "QuanLyPhong" ON 
+	 "ChungTu"."ID_QL" = "QuanLyPhong"."ID_QL" 
+	INNER JOIN "KhachHang" ON 
+	 "QuanLyPhong"."ID_KH" = "KhachHang"."ID_KH" 
+	 AND "ChungTu"."ID_KH" = "KhachHang"."ID_KH" 
+	INNER JOIN "Phong" ON 
+	 "QuanLyPhong"."MaPhong" = "Phong"."MaPhong" 
+	INNER JOIN "LoaiPhong" ON 
+	 "Phong"."ID_Loai" = "LoaiPhong"."ID_Loai" 
+WHERE 
+	 "ChungTu"."SoCT" = $P{soct}]]>
+	</queryString>
+	<field name="tenDV" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="1"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="TenDV"/>
+	</field>
+	<field name="soluong" class="java.lang.Integer">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="2"/>
+	</field>
+	<field name="donGia" class="java.lang.Float">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="3"/>
+	</field>
+	<field name="ghiChu" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="4"/>
+	</field>
+	<field name="phong" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="5"/>
+	</field>
+	<field name="ngayCT" class="java.sql.Date">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="6"/>
+	</field>
+	<field name="soHD" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="7"/>
+	</field>
+	<field name="dvt" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="8"/>
+	</field>
+	<field name="ci" class="java.sql.Date">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="9"/>
+	</field>
+	<field name="co" class="java.sql.Date">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="10"/>
+	</field>
+	<field name="tong" class="java.lang.Float">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="11"/>
+	</field>
+	<field name="loaiP" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="12"/>
+	</field>
+	<field name="tenKH" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="13"/>
+	</field>
+	<field name="donVi" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="14"/>
+	</field>
+	<field name="CMND" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="15"/>
+	</field>
+	<field name="QuocTich" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="16"/>
+	</field>
+	<field name="sum" class="java.lang.Float">
+		<property name="net.sf.jasperreports.sql.field.column.index" value="17"/>
+	</field>
+	<title>
+		<band height="196" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="90" width="70" height="25" uuid="57aed2b1-4f4e-40a3-a6ad-54dae8dd4c5a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bill to:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="115" width="80" height="15" uuid="33274f5d-5b7e-4be2-a2ff-65d452a618ed"/>
+				<text><![CDATA[Đơn vị]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="80" width="556" height="1" uuid="806ce5df-1219-4876-ae0c-ca7405b1f246">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="130" width="80" height="15" uuid="1d3045ed-03d6-4253-a959-aeeb491b73ca"/>
+				<text><![CDATA[CMND/Hộ chiếu:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="145" width="80" height="15" uuid="235bf8b6-1e1e-49c7-b59f-7a46c30b8209"/>
+				<text><![CDATA[Quốc tịch:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="160" width="80" height="15" uuid="665f25c2-8663-4951-b699-1ab863bdeb76"/>
+				<text><![CDATA[Mã số thuế:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="115" width="65" height="15" uuid="edbd74ac-0cbd-44c9-8a8e-ccf745191172"/>
+				<text><![CDATA[Loại phòng]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="90" width="60" height="25" uuid="139ebe8d-25b0-411e-986c-270015400874">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Phòng:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="130" width="60" height="15" uuid="2d2f365d-7b12-4a8f-990d-ff528a2660bc"/>
+				<text><![CDATA[Check-in]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="10" width="50" height="20" uuid="0f86baff-6386-4f3f-b3fe-2388707babe8"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<image hAlign="Center">
+				<reportElement x="0" y="0" width="65" height="60" uuid="94883631-a913-43e2-b182-ab8d77d0181e"/>
+				<imageExpression><![CDATA["D:/Workspace/Java/Project_QLKS_java/src/the/Report/invoice_logo.png"]]></imageExpression>
+			</image>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="465" y="30" width="84" height="20" uuid="3836ce65-eca3-4cad-a6de-b1818def0a2b"/>
+				<textFieldExpression><![CDATA[$F{soHD}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="415" y="30" width="50" height="20" uuid="0b3f9342-da78-4cfa-9fc5-2301c4749678"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Số]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="0" width="210" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Khách sạn ABC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="55" width="205" height="15" uuid="b8cc42fd-b569-497d-834d-7e854040ad18"/>
+				<text><![CDATA[Tel:5555-7676-98 Fax:333454-99]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="25" width="205" height="15" uuid="c226e44d-3bb5-4145-b0b3-903bf1d79fde"/>
+				<text><![CDATA[Lô 14-4A Võ Nguyên Giáp ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="40" width="205" height="15" uuid="b96f7183-44f8-43ad-ba60-43d8fbf50b6e"/>
+				<text><![CDATA[Đà nẵng - Việt Nam]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="90" width="70" height="25" uuid="495f62e6-2ce1-4f02-9d81-1620df8ea278"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{phong}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="475" y="115" width="74" height="15" uuid="0989284b-8900-4a3f-bd6b-b5ba901ff0bd"/>
+				<textFieldExpression><![CDATA[$F{loaiP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="475" y="130" width="74" height="15" uuid="d321effa-56d7-4443-af42-735000e8dbde"/>
+				<textFieldExpression><![CDATA[$F{ci}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="410" y="145" width="60" height="15" uuid="3e63bd8c-94a5-4762-aa39-18527aff1d60"/>
+				<text><![CDATA[Check-out]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="473" y="145" width="74" height="15" uuid="2ae2cf33-0c2e-4083-8bb5-cba64f167e83"/>
+				<textFieldExpression><![CDATA[$F{co}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="90" width="240" height="25" uuid="69e67042-0682-4418-a5ee-318938216f3d"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tenKH}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="115" width="100" height="15" uuid="3e93507e-0ada-45fa-8e12-dc8f336dee2f"/>
+				<textFieldExpression><![CDATA[$F{donVi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="145" width="100" height="15" uuid="a4cac1f2-83d3-46c8-be00-35b33899a9a5"/>
+				<textFieldExpression><![CDATA[$F{QuocTich}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="160" width="100" height="15" uuid="0239393c-0c3a-4574-b218-2b1c079282e3"/>
+				<textFieldExpression><![CDATA["??"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="130" width="100" height="15" uuid="0e70cde1-4a5e-4801-a94a-880778bc0ea7"/>
+				<textFieldExpression><![CDATA[$F{CMND}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="470" y="10" width="79" height="20" uuid="760c191d-f07a-444d-95bc-8310d1ea68e5"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="29">
+			<staticText>
+				<reportElement x="3" y="0" width="207" height="20" uuid="d6722ed5-33c8-44d4-b137-0375cf3729df"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dịch Vụ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="0" width="80" height="20" uuid="d3a7ce18-c68e-4ba9-a769-85e2c5c36230"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Số lượng]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="0" width="120" height="20" uuid="2e55f944-b455-402e-a8e9-47861ee5eec2"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Đơn giá]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="0" width="139" height="20" uuid="966cd837-5bf1-4a80-bec3-9cdc4286796a"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thành tiền]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="24" width="560" height="1" uuid="aa91c8da-092f-4ec8-8642-d7eb5ce0c24f"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="39">
+			<textField>
+				<reportElement x="3" y="0" width="207" height="20" uuid="421636e4-1598-4c3c-b6d8-8a15019a598e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tenDV}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="0" width="80" height="20" uuid="85501824-f407-4918-9fe7-285a1920c659"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{soluong}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="120" height="20" uuid="5b3969eb-a9af-4ff5-af8b-0063b9395c46"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{donGia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="0" width="139" height="20" uuid="191289de-f831-4154-a4c6-8aa819cf5888"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{soluong}*$F{donGia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="177">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="147" width="556" height="30" backcolor="#E6E8E9" uuid="36aa233d-4305-48e6-974a-1bbf89bb3c8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="9" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[THANKYOU FOR YOUR BUSINESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="14" width="110" height="20" uuid="8ab4afbd-ecd3-44d7-a087-d5bc353e6106"/>
+				<textElement>
+					<font size="14" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Tổng thiệt hại:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="14" width="164" height="20" uuid="53a84e85-232f-45d7-9644-b28764d5f188"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sum} + "đ"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="10" width="65" height="21" uuid="ba070f6e-98dc-4fd9-af97-980a9c062710"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ghi Chú:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="10" width="151" height="34" uuid="d2811321-b14b-4a42-a65d-68746afedc42"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ghiChu}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="10" y="0" width="539" height="1" uuid="17da2d90-2340-4750-8dd0-75218ff25bce"/>
+			</line>
+			<staticText>
+				<reportElement x="373" y="50" width="100" height="20" uuid="ccbb6f8b-96be-44a5-8c06-b44911c47e79"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nhân viên]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="50" width="100" height="20" uuid="ebb394ae-9bc7-434e-a173-00f06afbb7d6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Khách hàng]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

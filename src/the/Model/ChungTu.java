@@ -1,6 +1,7 @@
 package the.Model;
 
 import java.time.*;
+import java.util.Objects;
 
 public class ChungTu {
     private int soCT;
@@ -129,5 +130,27 @@ public class ChungTu {
         this.VAT = VAT;
         this.soHD = soHD;
         this.id_QL = id_QL;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChungTu chungTu = (ChungTu) o;
+        return soCT == chungTu.soCT &&
+                loai == chungTu.loai &&
+                id_KH == chungTu.id_KH &&
+                id_NV == chungTu.id_NV &&
+                Float.compare(chungTu.giam, giam) == 0 &&
+                Float.compare(chungTu.VAT, VAT) == 0 &&
+                id_QL == chungTu.id_QL &&
+                Objects.equals(ngayCT, chungTu.ngayCT) &&
+                Objects.equals(NoiDung, chungTu.NoiDung) &&
+                Objects.equals(soHD, chungTu.soHD);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(soCT, ngayCT, loai, id_KH, id_NV, NoiDung, giam, VAT, soHD, id_QL);
     }
 }

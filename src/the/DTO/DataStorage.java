@@ -223,6 +223,15 @@ public class DataStorage {
         return max+1;
     }
 
+    public  int nextDongCT(){
+        int max=0;
+        for (DongChungTu c: listDongCT
+        ) {
+            if(c.getId()>max) max = c.getId();
+        }
+        return max+1;
+    }
+
     /**
      * So tnag trong ks
      * @return

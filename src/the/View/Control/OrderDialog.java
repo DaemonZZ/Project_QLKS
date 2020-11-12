@@ -223,13 +223,15 @@ public class OrderDialog extends JDialog {
 		DataStorage.loader.getListKH().add(k);
 
 		QuanLyPhong q = new QuanLyPhong();
-		q.setId(DataStorage.loader.nextIdQL());
+		q.setId(++MainForm.maxIdQL);
 		q.setId_Dk(0);
+		q.setHoTen(txtTenKH.getText());
 		q.setId_KH(k.getId());
 		q.setMaPhong(txtPhong.getText());
 		q.setCI(LocalDate.now());
 		q.setGia(0);
 		q.setTrangThai(1);
+
 
 		DataStorage.loader.getCurrentRoomInfo().add(q);
 
@@ -261,7 +263,7 @@ public class OrderDialog extends JDialog {
 					if (ql.getMaPhong().equals(MainForm.m.getSelectedRoom())) {
 						CustomerInfoPanel.t.getTxtTenKH().setText(ql.getHoTen());
 						CustomerInfoPanel.t.getTxtCI().setText(ql.getCI() + "");
-						CustomerInfoPanel.t.getTxtCO().setText(ql.getCO() + "");
+						//CustomerInfoPanel.t.getTxtCO().setText(ql.getCO() + "");
 						MainForm.m.getTable().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
 
 					}
@@ -270,14 +272,20 @@ public class OrderDialog extends JDialog {
 				MainForm.m.setEnabled(true);
 				SoDoPane.s.reloadRoomList();
 				SoDoPane.s.repaint();
+//				System.out.println("KH:" + k.getId() + "\n " +
+//						"QLP: "+ q.getId()+"\n " +
+//						"CT: "+c.getSoCT());
 				dispose();
 
 			}
 
 
 		//Them dich vu phong vao hoa don
-			DongChungTu newDvPhongInCt = new DongChungTu(nextCT,11,"Phòng ở",1,gia,"");
+			DongChungTu newDvPhongInCt = new DongChungTu(nextCT,11,"Phòng ở",1,gia,"",txtPhong.getText());
 			DataStorage.loader.getListDongCT().add(newDvPhongInCt);
+
+
+
 	}
 
 }

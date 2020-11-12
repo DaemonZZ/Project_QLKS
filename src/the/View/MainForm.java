@@ -61,6 +61,7 @@ public class MainForm extends JFrame {
 	JPanel panelBtnEdit = new JPanel();
 	JPanel panelCaLam = new JPanel();
 	JPanel largeBtnPanel;
+	public static int maxIdQL = new DatabaseConnection().nextId_QL()-1;
 	private int accessRight;
 	private LichPane lichPane;
 
