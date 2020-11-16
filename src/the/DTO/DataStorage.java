@@ -326,6 +326,14 @@ public class DataStorage {
         return null;
     }
 
+    public int getSoCT(int id_ql){
+        for (ChungTu c: listChungTu
+             ) {
+            if(c.getId_QL()==id_ql) return c.getSoCT();
+        }
+        return 0;
+    }
+
     public void setCheckoutInfo(int current_idQL, float sum) {
         for (QuanLyPhong q : currentRoomInfo
              ) {

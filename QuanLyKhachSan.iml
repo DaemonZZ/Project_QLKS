@@ -42,5 +42,13 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="mssql-jdbc-8.4.1.jre11" level="project" />
+    <orderEntry type="library" name="jasperreports-6.15.0" level="project" />
+    <orderEntry type="library" name="jasperreports-fonts-6.15.0" level="project" />
+    <orderEntry type="library" name="commons-logging-1.2" level="project" />
+    <orderEntry type="library" name="commons-digester3-3.2" level="project" />
+    <orderEntry type="library" name="commons-digester3-3.2-javadoc" level="project" />
+    <orderEntry type="library" name="commons-beanutils-1.8.3" level="project" />
+    <orderEntry type="library" name="xercesImpl" level="project" />
   </component>
 </module>

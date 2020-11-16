@@ -2,10 +2,13 @@ package the.View;
 
 import the.DTO.DataStorage;
 import the.Model.DichVu;
-import the.DTO.DatabaseConnection;
+import the.Model.DongChungTu;
+import the.Model.QuanLyPhong;
+import the.View.Control.SoDoPane;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class AddServiceDialog extends JDialog {
@@ -14,9 +17,11 @@ public class AddServiceDialog extends JDialog {
     private JButton buttonCancel;
     private JSpinner spnSl;
     private JComboBox cbDV;
-    private JButton lưuThayĐổiButton;
+    private JButton btnSave;
     private JTextField tctGia;
     private JTextArea taGhichu;
+    private QuanLyPhong ql = MainForm.m.getQl();
+    private ArrayList<DongChungTu> listDCT = DataStorage.loader.getListDongCT(ql.getId());
 
     public AddServiceDialog() {
 
@@ -27,6 +32,32 @@ public class AddServiceDialog extends JDialog {
         DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
         cbModel.addAll(DataStorage.loader.getListDV());
         cbDV.setModel(cbModel);
+        cbDV.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                DichVu dv = (DichVu)cbDV.getSelectedItem();
+                tctGia.setText(dv.getDonGIa()+"");
+                boolean isExist = false;
+                for (DongChungTu dong: listDCT
+                     ) {
+                    if(dv.getiD()==dong.getId_DV()){
+                        isExist=true;
+                        spnSl.setValue(dong.getSoLuong());
+                        tctGia.setText(dong.getDonGia()+"");
+                    }
+                }
+                if(!isExist) spnSl.setValue(0);
+                if(dv.getiD()==11 || dv.getiD()==15 || dv.getiD()==16) {
+                    tctGia.setEditable(true);
+                }
+                else{
+                    tctGia.setEditable(false);
+                }
+                if(dv.getiD()==11){
+                    spnSl.setValue(daysCount(ql.getCI(),LocalDate.now()));
+                }
+            }
+        });
 
         getRootPane().setDefaultButton(buttonOK);
 
@@ -39,6 +70,13 @@ public class AddServiceDialog extends JDialog {
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
+            }
+        });
+
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onSave();
             }
         });
 
@@ -70,7 +108,34 @@ public class AddServiceDialog extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        listDCT = DataStorage.loader.getListDongCT(ql.getId());
+        DongChungTu dong = new DongChungTu();
+        dong.setId(DataStorage.loader.nextDongCT());
+        dong.setSoLuong((int)spnSl.getValue());
+        dong.setDonGia(Float.parseFloat(tctGia.getText()));
+        dong.setGhiChu(taGhichu.getText());
+        dong.setId_DV(((DichVu)cbDV.getSelectedItem()).getiD());
+        dong.setTenDV(((DichVu)cbDV.getSelectedItem()).getTenDV());
+        dong.setSoCT(DataStorage.loader.getSoCT(ql.getId()));
+        dong.setMaPhong(ql.getMaPhong());
+        boolean b=false ;
+        DongChungTu del = new DongChungTu();
+        for (DongChungTu d: listDCT
+             ) {
+            if(d.getId_DV()==dong.getId_DV()){
+                b=true;
+                dong.setId(d.getId());
+                del=d;
+            }
+        }
+        if(b){
+            DataStorage.loader.getListDongCT().remove(del);
+            DataStorage.loader.getListDongCT().add(dong);
+        }
+        else {
+            DataStorage.loader.getListDongCT().add(dong);
+        }
+        SoDoPane.s.reloadTable();
         MainForm.m.setEnabled(true);
         dispose();
     }
@@ -79,6 +144,46 @@ public class AddServiceDialog extends JDialog {
         // add your code here if necessary
         MainForm.m.setEnabled(true);
         dispose();
+    }
+    public int daysCount(LocalDate d1,LocalDate d2){
+        int soNgay=1;
+
+        while(!d1.equals(d2)){
+            soNgay++;
+            d1=d1.plusDays(1);
+        }
+       return soNgay;
+    }
+
+    private void onSave(){
+        listDCT = DataStorage.loader.getListDongCT(ql.getId());
+        DongChungTu dong = new DongChungTu();
+        dong.setId(DataStorage.loader.nextDongCT());
+        dong.setSoLuong((int)spnSl.getValue());
+        dong.setDonGia(Float.parseFloat(tctGia.getText()));
+        dong.setGhiChu(taGhichu.getText());
+        dong.setId_DV(((DichVu)cbDV.getSelectedItem()).getiD());
+        dong.setTenDV(((DichVu)cbDV.getSelectedItem()).getTenDV());
+        dong.setSoCT(DataStorage.loader.getSoCT(ql.getId()));
+        dong.setMaPhong(ql.getMaPhong());
+        boolean b=false ;
+        DongChungTu del = new DongChungTu();
+        for (DongChungTu d: listDCT
+        ) {
+            if(d.getId_DV()==dong.getId_DV()){
+                b=true;
+                dong.setId(d.getId());
+                del=d;
+            }
+        }
+        if(b){
+            DataStorage.loader.getListDongCT().remove(del);
+            DataStorage.loader.getListDongCT().add(dong);
+        }
+        else {
+            DataStorage.loader.getListDongCT().add(dong);
+        }
+        SoDoPane.s.reloadTable();
     }
 
     public static void main(String[] args) {

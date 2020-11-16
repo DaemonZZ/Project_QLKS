@@ -2,7 +2,10 @@ package the.View.Control;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
+import org.codehaus.groovy.tools.shell.Main;
+import the.DTO.DataStorage;
 import the.DTO.DatabaseConnection;
+import the.Model.DongChungTu;
 import the.View.AddServiceDialog;
 import the.View.MainForm;
 import the.View.ProfileDialog;
@@ -11,6 +14,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 
@@ -42,7 +46,7 @@ public class SumPanel extends JPanel {
 	private final ActionListener btn = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand().equals("Thêm DV")){
+			if(e.getActionCommand().equals("Thay đổi DV")){
 				if(MainForm.m.getSelectedRoom()!="" && MainForm.m.getQl()!=null){
 					MainForm.m.setEnabled(false);
 					new AddServiceDialog();
@@ -65,6 +69,23 @@ public class SumPanel extends JPanel {
 				xuatHoaDon(1,500000f);
 //				System.out.println(System.getProperty("java.class.path").replace(':','\n'));
 			}
+
+			if(e.getActionCommand().equals("Xóa DV")){
+				int id = MainForm.m.getQl().getId();
+				int selectedRow = MainForm.m.getTable().getSelectedRow();
+				DongChungTu del = new DongChungTu();
+				String tenDV ="";
+				ArrayList<DongChungTu> listDongChungTu = DataStorage.loader.getListDongCT(id);
+				if(selectedRow!=-1)  {
+					tenDV = MainForm.m.getTable().getValueAt(selectedRow,0)+"";
+					for (DongChungTu d: listDongChungTu
+						 ) {
+						if(tenDV.equals(d.getTenDV())) del=d;
+					}
+					DataStorage.loader.getListDongCT().remove(del);
+					SoDoPane.s.reloadTable();
+				}
+			}
 		}
 	};
 
@@ -77,17 +98,12 @@ public class SumPanel extends JPanel {
 		setLayout(null);
 		
 		JButton btnTraPhong = new JButton("Trả phòng");
-		btnTraPhong.setBounds(10, 11, 104, 23);
+		btnTraPhong.setBounds(41, 11, 104, 23);
 		add(btnTraPhong);
 		btnTraPhong.addActionListener(btn);
 		
-		JButton btnInHD = new JButton("In HĐ");
-		btnInHD.setBounds(124, 11, 74, 23);
-		add(btnInHD);
-		btnInHD.addActionListener(btn);
-		
-		JButton btnThemDV = new JButton("Thêm DV");
-		btnThemDV.setBounds(208, 11, 89, 23);
+		JButton btnThemDV = new JButton("Thay đổi DV");
+		btnThemDV.setBounds(170, 11, 112, 23);
 		add(btnThemDV);
 		btnThemDV.addActionListener(btn);
 		

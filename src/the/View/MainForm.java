@@ -1,14 +1,6 @@
 package the.View;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,23 +17,16 @@ import the.Model.*;
 import the.DTO.*;
 import the.View.Control.*;
 
-import javax.swing.JTable;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JMenuItem;
 import java.awt.FlowLayout;
 
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class MainForm extends JFrame {
 	public static MainForm m;
@@ -196,7 +181,7 @@ public class MainForm extends JFrame {
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
-	
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		sumPanel.setPreferredSize(new Dimension(379, 110));
 		
@@ -413,6 +398,8 @@ public class MainForm extends JFrame {
 		}
 
 	}
+
+
 	public DefaultTableModel getRoomInfoModel(int id_ql) {
 		listDongChungTu = DataStorage.loader.getListDongCT(id_ql);
 		roomInfoModel = new DefaultTableModel() {

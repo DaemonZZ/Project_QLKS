@@ -70,4 +70,6 @@ public class ChamCong {
     public void setRa(LocalTime ra) {
         this.ra = ra;
     }
+
+
 }

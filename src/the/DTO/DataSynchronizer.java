@@ -197,6 +197,7 @@ public class DataSynchronizer extends Thread{
       ArrayList<DongChungTu> diffList = new ArrayList<>();
       ArrayList<Integer> listNewId = new ArrayList<>();
       ArrayList<Integer> listOldId = new ArrayList<>();
+      int max = dbc.nextDongCT()-1;
       for (DongChungTu d: newData
            ) {
          listNewId.add(d.getId());
@@ -215,9 +216,9 @@ public class DataSynchronizer extends Thread{
 
       for (DongChungTu d: diffList
            ) {
-         if(d.getId()==0) {
+         if(d.getId()>max) {
             int a =dbc.addDongCT(d);
-            System.out.println(a);
+            System.out.println(d.getTenDV());
          }
          else dbc.editDongCT(d);
       }

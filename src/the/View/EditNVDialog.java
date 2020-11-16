@@ -114,13 +114,15 @@ public class EditNVDialog extends JDialog {
                     n.setLoai(cbLoai.getSelectedIndex());
 
 //
-                    for (NhanVien nv : loader.getListNV()
+                   NhanVien remove = new NhanVien();
+                    for (NhanVien nv :  loader.getListNV()
                     ) {
                         if (nv.getiD() == n.getiD()) {
                             loader.getListNV().remove(nv);
-                            loader.getListNV().add(n);
+
                         }
                     }
+                    loader.getListNV().add(n);
 
                     JOptionPane.showMessageDialog(rootPane, "Sửa thành công");
                     AccountManagementForm.s.setEnabled(true);

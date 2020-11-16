@@ -281,7 +281,7 @@ public class OrderDialog extends JDialog {
 
 
 		//Them dich vu phong vao hoa don
-			DongChungTu newDvPhongInCt = new DongChungTu(nextCT,11,"Phòng ở",1,gia,"",txtPhong.getText());
+			DongChungTu newDvPhongInCt = new DongChungTu(DataStorage.loader.nextDongCT(), nextCT,11,"Phòng ở",1,gia,"",txtPhong.getText());
 			DataStorage.loader.getListDongCT().add(newDvPhongInCt);
 
 

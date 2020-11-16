@@ -1,5 +1,8 @@
 package the.Model;
 
+import the.View.MainForm;
+
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -63,7 +66,12 @@ public class Lich {
 		return tangCa;
 	}
 	public void setTangCa(int tangCa) {
-		this.tangCa = tangCa;
+		if(tangCa>=0 && tangCa<8){
+			this.tangCa = tangCa;
+		}
+		else{
+			JOptionPane.showMessageDialog(MainForm.m,"Giá trị tăng ca không hợp lệ");
+		}
 	}
 	public String getGhiChu() {
 		return ghiChu;
