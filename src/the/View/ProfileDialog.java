@@ -9,16 +9,22 @@ import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ProfileDialog extends JDialog {
-    static int EDIT=1;
+    public static int EDIT=1;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -33,7 +39,7 @@ public class ProfileDialog extends JDialog {
     private JTextField txtTen;
     private JTextField txtCMND;
     private JTextField txtQuocTich;
-    private JButton chỉnhSửaButton;
+    private JButton btnEdit;
     private JCheckBox cbGen;
     private JTextField txtDonVi;
     private JButton btnQLKH;
@@ -46,6 +52,8 @@ public class ProfileDialog extends JDialog {
     private JButton btnDel;
     private JTable table1;
     private JButton btnGhiChu;
+    private JButton btnHuyEdit;
+    private JButton btnOk;
     private  ArrayList<Phong> listPhong = DataStorage.loader.getListPhong();
     private  ArrayList<LoaiPhong> listLoai =DataStorage.loader.getListLoaiPhong();
     private  ArrayList<DefaultMutableTreeNode> listLeaf = new ArrayList<>();
@@ -62,6 +70,8 @@ public class ProfileDialog extends JDialog {
         this.selectedRoom = selectedRoom;
     }
 
+
+
     public ProfileDialog() {
         int tang = DataStorage.loader.getSoTang();
         DefaultMutableTreeNode node = new DefaultMutableTreeNode("Danh Sách phòng");
@@ -74,7 +84,6 @@ public class ProfileDialog extends JDialog {
                     nodeTang.add(leaf);
                     listLeaf.add(leaf);
                 }
-
             }
             node.add(nodeTang);
         }
@@ -82,6 +91,9 @@ public class ProfileDialog extends JDialog {
         DefaultTreeModel treeModel = new DefaultTreeModel(node);
         tree1.setModel(treeModel);
         tree1.addTreeSelectionListener(tsl);
+        btnOk.setVisible(false);
+        btnHuyEdit.setVisible(false);
+
        initGUI();
     }
     public ProfileDialog(String maPhong,int edit){
@@ -114,6 +126,17 @@ public class ProfileDialog extends JDialog {
                tree1.setSelectionPath(path);
            }
         }
+        txtTen.setEditable(true);
+        txtCheckin.setEditable(true);
+        txtCMND.setEditable(true);
+        txtDonVi.setEditable(true);
+        txtMaDoan.setEditable(true);
+        txtQuocTich.setEditable(true);
+        cbLoai.setEnabled(true);
+        btnEdit.setVisible(false);
+        btnOk.setVisible(true);
+        btnHuyEdit.setVisible(true);
+        cbGen.setEnabled(true);
         initGUI();
     }
 
@@ -155,12 +178,15 @@ public class ProfileDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         leftPane.setPreferredSize(new Dimension(200,500));
-
         tabbedPane1.setSelectedIndex(3);
+
+
 
         btnCheckout.addActionListener(btn);
         btnThem.addActionListener(btn);
-
+        btnEdit.addActionListener(btn);
+        btnOk.addActionListener(btn);
+        btnHuyEdit.addActionListener(btn);
         pack();
         setVisible(true);
     }
@@ -175,9 +201,6 @@ public class ProfileDialog extends JDialog {
         dispose();
     }
 
-    private void onChinhSua(){
-
-    }
 
     public void reload(){
         table1.setModel(new DefaultTableModel());
@@ -203,7 +226,6 @@ public class ProfileDialog extends JDialog {
             if(temp.isLeaf()){
                 String maPhong = (temp+"").substring(6,9);
                 selectedRoom=maPhong;
-                System.out.println(maPhong);
                 for (Phong p: listPhong
                 ) {
                     if(maPhong.equals(p.getMaPhong())){
@@ -219,7 +241,7 @@ public class ProfileDialog extends JDialog {
                         KhachHang kh = DataStorage.loader.getKH(ql.getId_KH());
                         table1.setModel(MainForm.m.getRoomInfoModel(ql.getId()));
                         txtTen.setText(ql.getHoTen());
-                        txtCheckin.setText(ql.getCI()+"");
+                        txtCheckin.setText(ql.getCI().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                         txtCMND.setText(kh.getcMND());
                         txtDonVi.setText(kh.getDonVi());
                         txtQuocTich.setText(kh.getQuocTich());
@@ -275,6 +297,86 @@ public class ProfileDialog extends JDialog {
     private final ActionListener btn = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if(e.getActionCommand().equals("Chỉnh sửa")){
+                txtTen.setEditable(true);
+                txtCheckin.setEditable(true);
+                txtCMND.setEditable(true);
+                txtDonVi.setEditable(true);
+                txtMaDoan.setEditable(true);
+                txtQuocTich.setEditable(true);
+                cbLoai.setEnabled(true);
+                btnEdit.setVisible(false);
+                btnOk.setVisible(true);
+                btnHuyEdit.setVisible(true);
+                cbGen.setEnabled(true);
+            }
+            if(e.getActionCommand().equals("Ok")){
+
+                String checkDate = "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$";
+                for (QuanLyPhong ql : DataStorage.loader.getCurrentRoomInfo()){
+                    if(ql.getMaPhong().equals(selectedRoom)){
+                        if(txtCheckin.getText().matches(checkDate)) {
+                            ql.setCI(LocalDate.parse(txtCheckin.getText(),DateTimeFormatter.ofPattern("d/M/yyyy")));
+                            for (KhachHang k: DataStorage.loader.getListKH()
+                            ) {
+                                if(k.getId()==ql.getId_KH()){
+                                    k.setHoTen(txtTen.getText());
+                                    k.setGioiTinh(cbGen.isSelected()?1:0);
+                                    k.setcMND(txtCMND.getText());
+                                    k.setDonVi(txtDonVi.getText());
+                                    k.setIdDoan(Integer.parseInt(txtMaDoan.getText()));
+                                    k.setLoai(cbLoai.getSelectedIndex());
+                                    k.setQuocTich(txtQuocTich.getText());
+                                    System.out.println(k.getHoTen());
+                                }
+                            }
+                            txtTen.setEditable(false);
+                            txtCheckin.setEditable(false);
+                            txtCMND.setEditable(false);
+                            txtDonVi.setEditable(false);
+                            txtMaDoan.setEditable(false);
+                            txtQuocTich.setEditable(false);
+                            cbLoai.setEnabled(false);
+                            btnEdit.setVisible(true);
+                            btnOk.setVisible(false);
+                            btnHuyEdit.setVisible(false);
+                            cbGen.setEnabled(false);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(getRootPane(),"Nhập ngày theo định dạng d/M/yyyy");
+                        }
+
+                    }
+                }
+
+            }
+            if(e.getActionCommand().equals("Hủy")){
+                txtTen.setEditable(false);
+                txtCheckin.setEditable(false);
+                txtCMND.setEditable(false);
+                txtDonVi.setEditable(false);
+                txtMaDoan.setEditable(false);
+                txtQuocTich.setEditable(false);
+                cbLoai.setEnabled(false);
+                btnEdit.setVisible(true);
+                btnOk.setVisible(false);
+                btnHuyEdit.setVisible(false);
+                cbGen.setEnabled(false);
+
+
+                for (QuanLyPhong ql : listRoomInfo){
+                    if(ql.getMaPhong().equals(selectedRoom)){
+                        KhachHang kh = DataStorage.loader.getKH(ql.getId_KH());
+                        txtTen.setText(ql.getHoTen());
+                        txtCheckin.setText(ql.getCI().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                        txtCMND.setText(kh.getcMND());
+                        txtDonVi.setText(kh.getDonVi());
+                        txtQuocTich.setText(kh.getQuocTich());
+                        txtMaDoan.setText(kh.getIdDoan()+"");
+                        current_idQL=ql.getId();
+                    }
+                }
+            }
             if (e.getActionCommand().equals("Thêm DV")) {
                 new AddServiceDialog();
             }

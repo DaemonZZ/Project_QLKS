@@ -1,6 +1,11 @@
 package the.View.Control;
 
+import the.View.MainForm;
+import the.View.ProfileDialog;
+
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -69,6 +74,14 @@ public class CustomerInfoPanel extends JPanel {
 		JButton btnChinhSua = new JButton("Chỉnh Sửa");
 		btnChinhSua.setBounds(253, 45, 101, 76);
 		add(btnChinhSua);
+		btnChinhSua.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(MainForm.m.getSelectedRoom()!="" && MainForm.m.getQl()!=null) {
+					new ProfileDialog(MainForm.m.getSelectedRoom(),ProfileDialog.EDIT);
+				}
+			}
+		});
 		setVisible(true);
 		
 	}

@@ -40,7 +40,7 @@ public class MainForm extends JFrame {
 	private QuanLyPhong ql;
 	public static NhanVien nv;
 	JPanel rightPanel = new JPanel();
-	JPanel sumPanel = new SumPanel();
+	SumPanel sumPanel = new SumPanel();
 	JScrollPane scrollPane = new JScrollPane();
 	JPanel CusInfoPanel = new CustomerInfoPanel();
 	JPanel panelBtnEdit = new JPanel();
@@ -190,7 +190,6 @@ public class MainForm extends JFrame {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				// TODO Auto-generated method stub
 				DataSynchronizer.synchronizer.syncAllData();
 				System.exit(0);
 			}
@@ -207,7 +206,7 @@ public class MainForm extends JFrame {
 		btnOkEdit.setVisible(false);
 		JButton btnCancelEdit = new JButton("Cancel");
 		btnCancelEdit.setVisible(false);
-		//btnEdit.setEnabled(false);
+		btnEdit.setEnabled(false);
 		ActionListener editCaLam = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -369,6 +368,8 @@ public class MainForm extends JFrame {
 			tabbedPane.addTab("lich", null, lichPane, null);
 			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(lichPane), getTitlePanel(tabbedPane, lichPane, "Lịch làm việc"));
 			tabbedPane.setSelectedComponent(lichPane);
+			lichPane.getBtnAdd().setEnabled(true);
+			btnEdit.setEnabled(true);
 		}
 		if(accessRight==1){
 			JLayeredPane sodoPane = new SoDoPane();
@@ -377,6 +378,9 @@ public class MainForm extends JFrame {
 			tabbedPane.setSelectedComponent(sodoPane);
 
 			largeBtnPanel.add(btnChamCong);
+			sumPanel.getBtnThemDV().setEnabled(true);
+			sumPanel.getBtnTraPhong().setEnabled(true);
+			sumPanel.getBtnXoaDV().setEnabled(true);
 		}
 
 		if(accessRight==3){
@@ -658,7 +662,7 @@ public class MainForm extends JFrame {
 		new DataStorage(0);
 		Thread sync = new DataSynchronizer();
 		sync.start();
-		new MainForm(0);
+		new MainForm(1);
 
 	}
 }

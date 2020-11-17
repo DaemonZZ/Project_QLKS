@@ -14,6 +14,11 @@ import java.util.ArrayList;
 
 public class LichPane extends JLayeredPane {
     private final JButton btnAdd;
+
+    public JButton getBtnAdd() {
+        return btnAdd;
+    }
+
     private final JTextField txtTimKiem;
     private ArrayList<NhanVien> listNhanVien = (ArrayList<NhanVien>)DataStorage.loader.getListNV().clone();
     JPanel panel = new JPanel();
@@ -26,7 +31,7 @@ public class LichPane extends JLayeredPane {
         btnAdd = new JButton("+");
         btnAdd.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnAdd.setBackground(Color.CYAN);
-        //btnAdd.setEnabled(false);
+        btnAdd.setEnabled(false);
         btnAdd.setPreferredSize(new Dimension(20, -1));
         add(btnAdd, BorderLayout.EAST);
         btnAdd.addActionListener(new ActionListener() {

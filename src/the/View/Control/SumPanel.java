@@ -26,22 +26,17 @@ public class SumPanel extends JPanel {
 	private JTextField txtSum;
 	private JTextField txtXSum;
 	public static SumPanel s;
+	private JButton btnTraPhong,btnThemDV,btnXoaDV;
 	
 	public JTextField getTxtSum() {
 		return txtSum;
 	}
 
-	public void setTxtSum(JTextField txtSum) {
-		this.txtSum = txtSum;
-	}
 
 	public JTextField getTxtXSum() {
 		return txtXSum;
 	}
 
-	public void setTxtXSum(JTextField txtXSum) {
-		this.txtXSum = txtXSum;
-	}
 
 	private final ActionListener btn = new ActionListener() {
 		@Override
@@ -90,6 +85,18 @@ public class SumPanel extends JPanel {
 	};
 
 
+	public JButton getBtnTraPhong() {
+		return btnTraPhong;
+	}
+
+	public JButton getBtnThemDV() {
+		return btnThemDV;
+	}
+
+	public JButton getBtnXoaDV() {
+		return btnXoaDV;
+	}
+
 	public SumPanel() {
 		s=this;
 		setBackground(Color.WHITE);
@@ -97,20 +104,23 @@ public class SumPanel extends JPanel {
 
 		setLayout(null);
 		
-		JButton btnTraPhong = new JButton("Trả phòng");
+		btnTraPhong = new JButton("Trả phòng");
 		btnTraPhong.setBounds(41, 11, 104, 23);
 		add(btnTraPhong);
 		btnTraPhong.addActionListener(btn);
+		btnTraPhong.setEnabled(false);
 		
-		JButton btnThemDV = new JButton("Thay đổi DV");
+		btnThemDV = new JButton("Thay đổi DV");
 		btnThemDV.setBounds(170, 11, 112, 23);
 		add(btnThemDV);
 		btnThemDV.addActionListener(btn);
+		btnThemDV.setEnabled(false);
 		
-		JButton btnXoaDV = new JButton("Xóa DV");
+		btnXoaDV = new JButton("Xóa DV");
 		btnXoaDV.setBounds(307, 11, 82, 23);
 		add(btnXoaDV);
 		btnXoaDV.addActionListener(btn);
+		btnXoaDV.setEnabled(false);
 		
 		txtSum = new JTextField();
 		txtSum.setBackground(Color.WHITE);
