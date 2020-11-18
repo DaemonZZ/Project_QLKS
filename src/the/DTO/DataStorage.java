@@ -232,6 +232,15 @@ public class DataStorage {
         return max+1;
     }
 
+    public int nextDichVu(){
+        int max=0;
+        for (DichVu c: listDV
+        ) {
+            if(c.getiD()>max) max = c.getiD();
+        }
+        return max+1;
+    }
+
     /**
      * So tnag trong ks
      * @return
@@ -353,5 +362,13 @@ public class DataStorage {
                 l.setGhiChu(ghichu);
             }
         }
+    }
+
+    public int checkSttPhong(String maPhong){
+        for (Phong p:listPhong
+             ) {
+            if(p.getMaPhong().equals(maPhong)) return p.getTrangThai();
+        }
+        return -1;
     }
 }

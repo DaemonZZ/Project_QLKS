@@ -44,7 +44,7 @@ public class SumPanel extends JPanel {
 			if(e.getActionCommand().equals("Thay đổi DV")){
 				if(MainForm.m.getSelectedRoom()!="" && MainForm.m.getQl()!=null){
 					MainForm.m.setEnabled(false);
-					new AddServiceDialog();
+					new AddServiceDialog(MainForm.m.getQl().getId());
 				}
 				else{
 					JOptionPane.showMessageDialog(getRootPane(),"Không thể thêm dịch vụ vào phòng hiện tại. Chọn phòng đang được sử dụng và thử lại!");
@@ -60,10 +60,7 @@ public class SumPanel extends JPanel {
 					new ProfileDialog();
 				}
 			}
-			if(e.getActionCommand().equals("In HĐ")){
-				xuatHoaDon(1,500000f);
-//				System.out.println(System.getProperty("java.class.path").replace(':','\n'));
-			}
+
 
 			if(e.getActionCommand().equals("Xóa DV")){
 				int id = MainForm.m.getQl().getId();
@@ -147,19 +144,6 @@ public class SumPanel extends JPanel {
 		
 	}
 
-	public void xuatHoaDon(int soct,float tong){
-		String path = "D:\\Workspace\\Java\\Project_QLKS_java\\src\\the\\Report\\HoaDon.jrxml";
-		Connection conn = new DatabaseConnection().getConn();
-		Hashtable<String,Object> map = new Hashtable();
-		map.put("soct",soct);
-		map.put("sum",tong);
-		try {
-			JasperReport rp = JasperCompileManager.compileReport(path);
-			JasperPrint pr = JasperFillManager.fillReport(rp,map,conn);
-			JasperViewer.viewReport(pr,false);
-		} catch (JRException e) {
-			e.printStackTrace();
-		}
-	}
+
 
 }

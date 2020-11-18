@@ -858,6 +858,21 @@ public class DatabaseConnection {
         }
         return next + 1;
     }
+    public int nextDV() {
+        String sql = "select max(ID) from DichVu";
+        int next = 0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                next = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return next + 1;
+    }
 
     public void addChamCong(ChamCong c) {
         String sql = "insert into ChamCong(ID,ID_LICH,Vao) values (?,?,?)";
@@ -981,4 +996,52 @@ public class DatabaseConnection {
     }
 
 
+    public void delDV(Integer id) {
+        String sql = "Delete from DichVu where id="+id;
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void addDV(DichVu c) {
+        String sql = "insert into DichVu values(?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,c.getiD());
+            st.setNString(2,c.getTenDV());
+            st.setNString(3,c.getDonViTinh());
+            st.setFloat(4,c.getDonGIa());
+            st.setNString(5,c.getGhiChu());
+            st.setInt(6,c.getLoai());
+            st.setFloat(7,c.getsLDK());
+            st.setFloat(8,c.getgTDK());
+
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void editDV(DichVu c) {
+        String sql = "Update DichVu set TenDV = ?, DVT=?, DonGia=?, Ghichu=?, Loai = ?,SLDK = ?,GTDK=? where id_dv = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            st.setNString(1,c.getTenDV());
+            st.setNString(2,c.getDonViTinh());
+            st.setFloat(3,c.getDonGIa());
+            st.setNString(4,c.getGhiChu());
+            st.setInt(5,c.getLoai());
+            st.setFloat(6,c.getsLDK());
+            st.setFloat(7,c.getgTDK());
+            st.setInt(8,c.getiD());
+
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

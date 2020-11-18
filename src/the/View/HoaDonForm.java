@@ -1,6 +1,7 @@
 package the.View;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class HoaDonForm extends JDialog {
@@ -50,4 +51,5 @@ public class HoaDonForm extends JDialog {
         // add your code here if necessary
         dispose();
     }
+
 }

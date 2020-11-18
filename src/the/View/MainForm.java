@@ -10,7 +10,6 @@ import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
 import the.Model.*;
@@ -25,16 +24,12 @@ import java.awt.FlowLayout;
 
 import java.awt.Color;
 import java.awt.Toolkit;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class MainForm extends JFrame {
 	public static MainForm m;
 	private final JTable table;
 
 	private String selectedRoom="";
-	private ArrayList<DongChungTu> listDongChungTu = new ArrayList<DongChungTu>();
-	private DefaultTableModel roomInfoModel = new DefaultTableModel();
 	private JTabbedPane tabbedPane;
 	private float sum=0,xSum=0;
 	private QuanLyPhong ql;
@@ -47,11 +42,9 @@ public class MainForm extends JFrame {
 	JPanel panelCaLam = new JPanel();
 	JPanel largeBtnPanel;
 	public static int maxIdQL = new DatabaseConnection().nextId_QL()-1;
-	private int accessRight;
 	private LichPane lichPane;
 
 	public MainForm(int accessRight) {
-		this.accessRight=accessRight;
 		m=this;
 		setIconImage(Toolkit.getDefaultToolkit().getImage("img\\appicon.png"));
 		getContentPane().setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -90,11 +83,9 @@ public class MainForm extends JFrame {
 		menuBar.add(mnQuanLy);
 		
 		JMenuItem itemQLNV = new JMenuItem("Danh Sách Nhân Viên");
-		itemQLNV.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new AccountManagementForm();
-				m.setEnabled(false);
-			}
+		itemQLNV.addActionListener(e -> {
+			new AccountManagementForm();
+			m.setEnabled(false);
 		});
 		mnQuanLy.add(itemQLNV);
 		
@@ -152,25 +143,23 @@ public class MainForm extends JFrame {
 		btnReport.addMouseListener(largeBtnCliked);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				int a = tabbedPane.getSelectedIndex();
-				String tit = tabbedPane.getTitleAt(a);
-				System.out.println(tabbedPane.getTitleAt(a));
-				if(tit.equals("lich")) {
-					rightPanel.removeAll();
-					rightPanel.add(panelCaLam, BorderLayout.CENTER);
-					rightPanel.add(panelBtnEdit, BorderLayout.SOUTH);
-					rightPanel.repaint();
-				}
-				if(tit.equals("sodo")) {
-					rightPanel.removeAll();
-					rightPanel.repaint();
-					rightPanel.add(sumPanel,BorderLayout.SOUTH);
-					rightPanel.add(scrollPane,BorderLayout.CENTER);
-					rightPanel.add(CusInfoPanel,BorderLayout.NORTH);
-					rightPanel.repaint();
-				}
+		tabbedPane.addChangeListener(e -> {
+			int a = tabbedPane.getSelectedIndex();
+			String tit = tabbedPane.getTitleAt(a);
+			System.out.println(tabbedPane.getTitleAt(a));
+			if(tit.equals("lich")) {
+				rightPanel.removeAll();
+				rightPanel.add(panelCaLam, BorderLayout.CENTER);
+				rightPanel.add(panelBtnEdit, BorderLayout.SOUTH);
+				rightPanel.repaint();
+			}
+			if(tit.equals("sodo")) {
+				rightPanel.removeAll();
+				rightPanel.repaint();
+				rightPanel.add(sumPanel,BorderLayout.SOUTH);
+				rightPanel.add(scrollPane,BorderLayout.CENTER);
+				rightPanel.add(CusInfoPanel,BorderLayout.NORTH);
+				rightPanel.repaint();
 			}
 		});
 		
@@ -207,45 +196,42 @@ public class MainForm extends JFrame {
 		JButton btnCancelEdit = new JButton("Cancel");
 		btnCancelEdit.setVisible(false);
 		btnEdit.setEnabled(false);
-		ActionListener editCaLam = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(e.getActionCommand().equals("Chỉnh sửa")){
-					btnOkEdit.setVisible(true);
-					btnCancelEdit.setVisible(true);
-					btnEdit.setVisible(false);
-					txtCa.setVisible(false);
-					cbCa.setEnabled(true);
-					txtGhiChu.setEditable(true);
-					txtTangCa.setEnabled(true);
-					txtTangCa.setEditable(true);
-				}
-				if(e.getActionCommand().equals("OK")){
-					int id = currentLich.getId();
-					int ca = cbCa.getSelectedIndex();
-					int tangca = Integer.parseInt(txtTangCa.getText());
-					String ghichu = txtGhiChu.getText();
-					DataStorage.loader.updateLich(id,ca,tangca,ghichu);
-					txtCa.setText(cbCa.getSelectedItem().toString());
-					txtCa.setVisible(true);
-					cbCa.setEnabled(false);
-					txtGhiChu.setEditable(false);
-					txtTangCa.setEnabled(false);
-					btnOkEdit.setVisible(false);
-					btnCancelEdit.setVisible(false);
-					btnEdit.setVisible(true);
-					lichPane.reloadLichPane();
+		ActionListener editCaLam = e -> {
+			if(e.getActionCommand().equals("Chỉnh sửa")){
+				btnOkEdit.setVisible(true);
+				btnCancelEdit.setVisible(true);
+				btnEdit.setVisible(false);
+				txtCa.setVisible(false);
+				cbCa.setEnabled(true);
+				txtGhiChu.setEditable(true);
+				txtTangCa.setEnabled(true);
+				txtTangCa.setEditable(true);
+			}
+			if(e.getActionCommand().equals("OK")){
+				int id = currentLich.getId();
+				int ca = cbCa.getSelectedIndex();
+				int tangca = Integer.parseInt(txtTangCa.getText());
+				String ghichu = txtGhiChu.getText();
+				DataStorage.loader.updateLich(id,ca,tangca,ghichu);
+				txtCa.setText(cbCa.getSelectedItem().toString());
+				txtCa.setVisible(true);
+				cbCa.setEnabled(false);
+				txtGhiChu.setEditable(false);
+				txtTangCa.setEnabled(false);
+				btnOkEdit.setVisible(false);
+				btnCancelEdit.setVisible(false);
+				btnEdit.setVisible(true);
+				lichPane.reloadLichPane();
 
-				}
-				if(e.getActionCommand().equals("Cancel")){
-					txtCa.setVisible(true);
-					cbCa.setEnabled(false);
-					txtGhiChu.setEditable(false);
-					txtTangCa.setEnabled(false);
-					btnOkEdit.setVisible(false);
-					btnCancelEdit.setVisible(false);
-					btnEdit.setVisible(true);
-				}
+			}
+			if(e.getActionCommand().equals("Cancel")){
+				txtCa.setVisible(true);
+				cbCa.setEnabled(false);
+				txtGhiChu.setEditable(false);
+				txtTangCa.setEnabled(false);
+				btnOkEdit.setVisible(false);
+				btnCancelEdit.setVisible(false);
+				btnEdit.setVisible(true);
 			}
 		};
 		btnEdit.addActionListener(editCaLam);
@@ -405,15 +391,15 @@ public class MainForm extends JFrame {
 
 
 	public DefaultTableModel getRoomInfoModel(int id_ql) {
-		listDongChungTu = DataStorage.loader.getListDongCT(id_ql);
-		roomInfoModel = new DefaultTableModel() {
+		ArrayList<DongChungTu> listDongChungTu = DataStorage.loader.getListDongCT(id_ql);
+		DefaultTableModel roomInfoModel = new DefaultTableModel() {
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				// TODO Auto-generated method stub
 				return false;
 			}
-			
+
 		};
 		sum=0;
 		xSum=0;
@@ -463,12 +449,6 @@ public class MainForm extends JFrame {
 	}
 	public void setSum(float sum) {
 		this.sum = sum;
-	}
-	public JTabbedPane getTabbedPane() {
-		return tabbedPane;
-	}
-	public void setTabbedPane(JTabbedPane tabbedPane) {
-		this.tabbedPane = tabbedPane;
 	}
 	public float getxSum() {
 		return xSum;
@@ -562,6 +542,12 @@ public class MainForm extends JFrame {
 					}
 					
 					new TimeKeepingDialog(lich);
+				}
+				if(btn.getName().equals("QL DV")){
+					QLDichVu dvPane = new QLDichVu();
+					tabbedPane.addTab("qldv", null, dvPane, null);
+					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(dvPane), getTitlePanel(tabbedPane, dvPane, "Quản lý DV"));
+					tabbedPane.setSelectedComponent(dvPane);
 				}
 			}
 	 };
