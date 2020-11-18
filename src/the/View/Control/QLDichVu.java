@@ -56,6 +56,7 @@ public class QLDichVu extends JLayeredPane {
         table = new JTable();
         scrollPane.setViewportView(table);
         table.setModel(model);
+        table.setFont(new Font(Font.SANS_SERIF,Font.BOLD,15));
     }
 
     public DefaultTableModel getDvModel(){

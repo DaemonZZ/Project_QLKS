@@ -79,27 +79,75 @@ public class MainForm extends JFrame {
 		JMenu mnFile = new JMenu("Hệ thống");
 		menuBar.add(mnFile);
 		
+		JMenuItem itemLogOut = new JMenuItem("Chuyển tài khoản");
+		mnFile.add(itemLogOut);
+		
+		JMenuItem itemClose = new JMenuItem("Đóng");
+		mnFile.add(itemClose);
+		
 		JMenu mnQuanLy = new JMenu("Quản Lý");
 		menuBar.add(mnQuanLy);
 		
-		JMenuItem itemQLNV = new JMenuItem("Danh Sách Nhân Viên");
+		JMenuItem itemQLNV = new JMenuItem("Quản lý Đăng Nhập");
 		itemQLNV.addActionListener(e -> {
 			new AccountManagementForm();
 			m.setEnabled(false);
 		});
+
+		JMenuItem itemQLDV = new JMenuItem("Quản lý dịch vụ");
+		itemQLDV.addActionListener(e->{
+			QLDichVu dvPane = new QLDichVu();
+			tabbedPane.addTab("qldv", null, dvPane, null);
+			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(dvPane), getTitlePanel(tabbedPane, dvPane, "Quản lý DV"));
+			tabbedPane.setSelectedComponent(dvPane);
+		});
 		mnQuanLy.add(itemQLNV);
+		mnQuanLy.add(itemQLDV);
+		
+		JMenuItem itemQLPhong = new JMenuItem("Quản lý Phòng");
+		mnQuanLy.add(itemQLPhong);
+		
+		JMenuItem itemQLKH = new JMenuItem("Quản lý Khách Hàng");
+		mnQuanLy.add(itemQLKH);
+		
+		JMenuItem itemKho = new JMenuItem("Quản lý Kho");
+		mnQuanLy.add(itemKho);
 		
 		JMenu mnThongKe = new JMenu("Thống Kê");
 		menuBar.add(mnThongKe);
 		
+		JMenuItem itemChamCong = new JMenuItem("Bảng chấm công");
+		mnThongKe.add(itemChamCong);
+		
+		JMenuItem itemHoSoPhong = new JMenuItem("Hồ sơ phòng");
+		mnThongKe.add(itemHoSoPhong);
+		
+		JMenuItem itemDoanhThu = new JMenuItem("Thống kê doanh thu");
+		mnThongKe.add(itemDoanhThu);
+		
 		JMenu mnBaoCao = new JMenu("Báo Cáo");
 		menuBar.add(mnBaoCao);
+		
+		JMenuItem itemBaoCao = new JMenuItem("Lịch sử báo cáo");
+		mnBaoCao.add(itemBaoCao);
 		
 		JMenu mnTienIch = new JMenu("Tiện Ích");
 		menuBar.add(mnTienIch);
 		
+		JMenuItem itemDanhBa = new JMenuItem("Danh Bạ điện thoại");
+		mnTienIch.add(itemDanhBa);
+		
+		JMenuItem itemClock = new JMenuItem("Giờ thế giới");
+		mnTienIch.add(itemClock);
+		
 		JMenu mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
+		
+		JMenuItem itemHelp = new JMenuItem("Hướng dãn sử dụng");
+		mnAbout.add(itemHelp);
+		
+		JMenuItem itemAbout = new JMenuItem("Thông tin phần mềm");
+		mnAbout.add(itemAbout);
 		
 		LargeButton btnDangXuat = new LargeButton("logout.png","Log Out");
 		btnDangXuat.setPreferredSize(new Dimension(70,80));

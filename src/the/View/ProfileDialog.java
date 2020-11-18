@@ -401,11 +401,11 @@ public class ProfileDialog extends JDialog {
                         DataStorage.loader.setCheckoutInfo(current_idQL, sum);
                         DataStorage.loader.setSttPhong(selectedRoom, 1);
                         SoDoPane.s.reloadRoomList();
-                        xuatHoaDon(1, 500000f);
                     } else {
                         DataStorage.loader.setCheckoutInfo(current_idQL, sum * VAT);
                         DataStorage.loader.setSttPhong(selectedRoom, 1);
                         SoDoPane.s.reloadRoomList();
+                        xuatHoaDon(1, 500000f);
 
                     }
 
