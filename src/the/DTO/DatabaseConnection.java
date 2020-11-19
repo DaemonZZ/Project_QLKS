@@ -198,7 +198,30 @@ public class DatabaseConnection {
         }
         return gia;
     }
-
+    public ArrayList<QuanLyPhong> getlistAllQLP(){
+        ArrayList<QuanLyPhong> list = new ArrayList<>();
+        String sql = "select * from QuanLyPhong";
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                QuanLyPhong q = new QuanLyPhong();
+                q.setId(rs.getInt(1));
+                q.setId_Dk(rs.getInt(2));
+                q.setId_KH(rs.getInt(3));
+                q.setMaPhong(rs.getNString(4));
+                q.setCI(rs.getDate(5).toLocalDate());
+                if(rs.getDate(6)!=null) q.setCO(rs.getDate(6).toLocalDate());
+                q.setGia(rs.getFloat(7));
+                q.setGhiChu(rs.getNString(8));
+                q.setTrangThai(rs.getInt(9));
+                list.add(q);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+    }
     // Lấy thông tin phòng hiện tại
     //Bao gồm những phòng đang còn ở
     public ArrayList<QuanLyPhong> getCurrentRoomInfo() {
@@ -537,7 +560,7 @@ public class DatabaseConnection {
     //Xóa khách hàng
     public boolean delKH(int id) {
         boolean b = false;
-        String sql = "Delete from KhachHang where id="+id;
+        String sql = "Delete from KhachHang where id_kh="+id;
         try {
             Statement st = conn.createStatement();
             b= st.executeUpdate(sql)>0;

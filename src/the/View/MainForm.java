@@ -1,12 +1,7 @@
 package the.View;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -30,6 +25,11 @@ public class MainForm extends JFrame {
 	private final JTable table;
 
 	private String selectedRoom="";
+
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+
 	private JTabbedPane tabbedPane;
 	private float sum=0,xSum=0;
 	private QuanLyPhong ql;
@@ -43,12 +43,49 @@ public class MainForm extends JFrame {
 	JPanel largeBtnPanel;
 	public static int maxIdQL = new DatabaseConnection().nextId_QL()-1;
 	private LichPane lichPane;
+	private JComboBox cbCI;
+	private JTextField txtSum;
+
+	public JComboBox getCbCI() {
+		return cbCI;
+	}
+
+	public JTextField getTxtSum() {
+		return txtSum;
+	}
+
+	public JTextField getTxtCO() {
+		return txtCO;
+	}
+
+	public JTextField getTxtTen() {
+		return txtTen;
+	}
+
+
+
+	private JTextField txtCO;
+	private JTextField txtTen;
+	private JPanel pnBound;
+	private JPanel pnel;
+
+	public JTable getTbDichVu() {
+		return tbDichVu;
+	}
+
+	private JTable tbDichVu;
+
+	public JTextField getTxtPhong() {
+		return txtPhong;
+	}
+
+	private JTextField txtPhong;
 
 	public MainForm(int accessRight) {
 		m=this;
 		setIconImage(Toolkit.getDefaultToolkit().getImage("img\\appicon.png"));
 		getContentPane().setFont(new Font("Tahoma", Font.BOLD, 11));
-		setTitle("Quản lý Khách Sạn");
+
 		setSize(1120, 665);
 		getContentPane().setLayout(new BorderLayout());
 		
@@ -74,6 +111,7 @@ public class MainForm extends JFrame {
 		
 		rightPanel.setLayout(new BorderLayout());
 		rightPanel.setPreferredSize(new Dimension(400,1000));
+
 		
 		
 		JMenu mnFile = new JMenu("Hệ thống");
@@ -81,73 +119,80 @@ public class MainForm extends JFrame {
 		
 		JMenuItem itemLogOut = new JMenuItem("Chuyển tài khoản");
 		mnFile.add(itemLogOut);
+		itemLogOut.addActionListener(menuItemClicked);
 		
 		JMenuItem itemClose = new JMenuItem("Đóng");
 		mnFile.add(itemClose);
+		itemClose.addActionListener(menuItemClicked);
 		
 		JMenu mnQuanLy = new JMenu("Quản Lý");
 		menuBar.add(mnQuanLy);
+		mnQuanLy.setEnabled(false);
 		
 		JMenuItem itemQLNV = new JMenuItem("Quản lý Đăng Nhập");
-		itemQLNV.addActionListener(e -> {
-			new AccountManagementForm();
-			m.setEnabled(false);
-		});
+		itemQLNV.addActionListener(menuItemClicked);
 
 		JMenuItem itemQLDV = new JMenuItem("Quản lý dịch vụ");
-		itemQLDV.addActionListener(e->{
-			QLDichVu dvPane = new QLDichVu();
-			tabbedPane.addTab("qldv", null, dvPane, null);
-			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(dvPane), getTitlePanel(tabbedPane, dvPane, "Quản lý DV"));
-			tabbedPane.setSelectedComponent(dvPane);
-		});
+		itemQLDV.addActionListener(menuItemClicked);
 		mnQuanLy.add(itemQLNV);
 		mnQuanLy.add(itemQLDV);
 		
 		JMenuItem itemQLPhong = new JMenuItem("Quản lý Phòng");
 		mnQuanLy.add(itemQLPhong);
+		itemQLPhong.addActionListener(menuItemClicked);
 		
 		JMenuItem itemQLKH = new JMenuItem("Quản lý Khách Hàng");
 		mnQuanLy.add(itemQLKH);
+		itemQLKH.addActionListener(menuItemClicked);
 		
 		JMenuItem itemKho = new JMenuItem("Quản lý Kho");
 		mnQuanLy.add(itemKho);
+		itemKho.addActionListener(menuItemClicked);
 		
 		JMenu mnThongKe = new JMenu("Thống Kê");
 		menuBar.add(mnThongKe);
 		
 		JMenuItem itemChamCong = new JMenuItem("Bảng chấm công");
 		mnThongKe.add(itemChamCong);
+		itemChamCong.addActionListener(menuItemClicked);
 		
 		JMenuItem itemHoSoPhong = new JMenuItem("Hồ sơ phòng");
 		mnThongKe.add(itemHoSoPhong);
+		itemHoSoPhong.addActionListener(menuItemClicked);
 		
 		JMenuItem itemDoanhThu = new JMenuItem("Thống kê doanh thu");
 		mnThongKe.add(itemDoanhThu);
+		itemDoanhThu.setEnabled(false);
+		itemDoanhThu.addActionListener(menuItemClicked);
 		
 		JMenu mnBaoCao = new JMenu("Báo Cáo");
 		menuBar.add(mnBaoCao);
-		
+
 		JMenuItem itemBaoCao = new JMenuItem("Lịch sử báo cáo");
 		mnBaoCao.add(itemBaoCao);
+		itemBaoCao.addActionListener(menuItemClicked);
 		
 		JMenu mnTienIch = new JMenu("Tiện Ích");
 		menuBar.add(mnTienIch);
 		
 		JMenuItem itemDanhBa = new JMenuItem("Danh Bạ điện thoại");
 		mnTienIch.add(itemDanhBa);
+		itemDanhBa.addActionListener(menuItemClicked);
 		
 		JMenuItem itemClock = new JMenuItem("Giờ thế giới");
 		mnTienIch.add(itemClock);
+		itemClock.addActionListener(menuItemClicked);
 		
 		JMenu mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
 		
 		JMenuItem itemHelp = new JMenuItem("Hướng dãn sử dụng");
 		mnAbout.add(itemHelp);
+		itemHelp.addActionListener(menuItemClicked);
 		
 		JMenuItem itemAbout = new JMenuItem("Thông tin phần mềm");
 		mnAbout.add(itemAbout);
+		itemAbout.addActionListener(menuItemClicked);
 		
 		LargeButton btnDangXuat = new LargeButton("logout.png","Log Out");
 		btnDangXuat.setPreferredSize(new Dimension(70,80));
@@ -192,23 +237,7 @@ public class MainForm extends JFrame {
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addChangeListener(e -> {
-			int a = tabbedPane.getSelectedIndex();
-			String tit = tabbedPane.getTitleAt(a);
-			System.out.println(tabbedPane.getTitleAt(a));
-			if(tit.equals("lich")) {
-				rightPanel.removeAll();
-				rightPanel.add(panelCaLam, BorderLayout.CENTER);
-				rightPanel.add(panelBtnEdit, BorderLayout.SOUTH);
-				rightPanel.repaint();
-			}
-			if(tit.equals("sodo")) {
-				rightPanel.removeAll();
-				rightPanel.repaint();
-				rightPanel.add(sumPanel,BorderLayout.SOUTH);
-				rightPanel.add(scrollPane,BorderLayout.CENTER);
-				rightPanel.add(CusInfoPanel,BorderLayout.NORTH);
-				rightPanel.repaint();
-			}
+			changeTabEvent();
 		});
 		
 		tabbedPane.setBackground(Color.WHITE);
@@ -398,14 +427,19 @@ public class MainForm extends JFrame {
 		setVisible(true);
 		DataStorage.ld.setVisible(false);
 		if(accessRight==0){
+			setTitle("Quản lý Khách Sạn - ADMIN");
 			lichPane = new LichPane();
 			tabbedPane.addTab("lich", null, lichPane, null);
 			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(lichPane), getTitlePanel(tabbedPane, lichPane, "Lịch làm việc"));
 			tabbedPane.setSelectedComponent(lichPane);
 			lichPane.getBtnAdd().setEnabled(true);
 			btnEdit.setEnabled(true);
+
+			mnQuanLy.setEnabled(true);
+			itemDoanhThu.setEnabled(true);
 		}
 		if(accessRight==1){
+			setTitle("Quản lý Khách Sạn - Lễ tân");
 			JLayeredPane sodoPane = new SoDoPane();
 			tabbedPane.addTab("sodo", null, sodoPane, null);
 			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
@@ -437,6 +471,31 @@ public class MainForm extends JFrame {
 
 	}
 
+	private void changeTabEvent() {
+		int a = tabbedPane.getSelectedIndex();
+		String tit = tabbedPane.getTitleAt(a);
+		System.out.println(tabbedPane.getTitleAt(a));
+		if(tit.equals("lich")) {
+			rightPanel.removeAll();
+			rightPanel.add(panelCaLam, BorderLayout.CENTER);
+			rightPanel.add(panelBtnEdit, BorderLayout.SOUTH);
+			rightPanel.repaint();
+		}
+		if(tit.equals("sodo")) {
+			rightPanel.removeAll();
+			rightPanel.repaint();
+			rightPanel.add(sumPanel,BorderLayout.SOUTH);
+			rightPanel.add(scrollPane,BorderLayout.CENTER);
+			rightPanel.add(CusInfoPanel,BorderLayout.NORTH);
+			rightPanel.repaint();
+		}
+		if(tit.equals("qlkh")){
+			rightPanel.removeAll();
+			rightPanel.add(pnel,BorderLayout.CENTER);
+			rightPanel.repaint();
+		}
+	}
+
 
 	public DefaultTableModel getRoomInfoModel(int id_ql) {
 		ArrayList<DongChungTu> listDongChungTu = DataStorage.loader.getListDongCT(id_ql);
@@ -464,7 +523,7 @@ public class MainForm extends JFrame {
 		return roomInfoModel;
 	}
 	//Thêm nút close cho tab
-	 private static JPanel getTitlePanel(final JTabbedPane tabbedPane, final JLayeredPane panel, String title){
+	 public static JPanel getTitlePanel(final JTabbedPane tabbedPane, final JLayeredPane panel, String title){
 		  JPanel titlePanel = new JPanel(new BorderLayout());
 		  titlePanel.setOpaque(false);
 		  JLabel titleLbl = new JLabel(title);
@@ -513,6 +572,48 @@ public class MainForm extends JFrame {
 	public void setQl(QuanLyPhong ql) {
 		this.ql = ql;
 	}
+
+	private ActionListener menuItemClicked = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getActionCommand().equals("Quản lý dịch vụ")){
+				QLDichVu dvPane = new QLDichVu();
+				tabbedPane.addTab("qldv", null, dvPane, null);
+				tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(dvPane), getTitlePanel(tabbedPane, dvPane, "Quản lý DV"));
+				tabbedPane.setSelectedComponent(dvPane);
+			}
+			if(e.getActionCommand().equals("Quản lý Đăng Nhập")){
+				new AccountManagementForm();
+				m.setEnabled(false);
+			}
+			if(e.getActionCommand().equals("Chuyển tài khoản")){
+				DataSynchronizer.synchronizer.stop();
+				DataSynchronizer.synchronizer.syncAllData();
+				DataStorage.loader=null;
+				new LoginForm();
+				dispose();
+			}
+			if(e.getActionCommand().equals("Đóng")){
+				System.exit(0);
+			}
+			if(e.getActionCommand().equals("Hồ sơ phòng")){
+				MainForm.m.setEnabled(false);
+				String selected = MainForm.m.getSelectedRoom();
+				if(selected!=""){
+					new ProfileDialog(selected,0);
+				}
+				else{
+					new ProfileDialog();
+				}
+			}
+			if(e.getActionCommand().equals("Quản lý Khách Hàng")){
+				QLKhachHang khPane = new QLKhachHang();
+				tabbedPane.addTab("qlkh", null, khPane, null);
+				tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(khPane), getTitlePanel(tabbedPane, khPane, "Quản lý Khách hàng"));
+				tabbedPane.setSelectedComponent(khPane);
+			}
+		}
+	};
 
 	public  MouseListener largeBtnCliked = new MouseListener() {
 			
