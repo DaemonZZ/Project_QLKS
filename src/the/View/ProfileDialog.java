@@ -49,14 +49,12 @@ public class ProfileDialog extends JDialog {
     private JButton btnThem;
     private JButton btnCheckout;
     private JButton btnInHD;
-    private JButton btnDel;
     private JTable table1;
 
     public JTable getTable1() {
         return table1;
     }
 
-    private JButton btnGhiChu;
     private JButton btnHuyEdit;
     private JButton btnOk;
     private ArrayList<Phong> listPhong = DataStorage.loader.getListPhong();
