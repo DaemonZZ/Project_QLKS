@@ -122,4 +122,10 @@ public class QuanLyPhong {
 	public int hashCode() {
 		return Objects.hash(id, id_Dk, hoTen, maPhong, CI, CO, gia, ghiChu, trangThai, id_KH);
 	}
+
+	@Override
+	public String toString() {
+		return CI.toString();
+	}
 }
+

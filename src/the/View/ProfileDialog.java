@@ -5,6 +5,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import the.DTO.DataStorage;
 import the.Model.*;
 import the.DTO.DatabaseConnection;
+import the.View.Control.QLKhachHang;
 import the.View.Control.SoDoPane;
 
 import javax.swing.*;
@@ -154,6 +155,12 @@ public class ProfileDialog extends JDialog {
         setResizable(false);
         setLocationRelativeTo(null);
         setPreferredSize(new Dimension(960, 690));
+        btnQLKH.addActionListener(btn);
+        btnQl.addActionListener(btn);
+        if(LoginForm.accessRight!=0){
+            btnQl.setEnabled(false);
+            btnQLKH.setEnabled(false);
+        }
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -414,6 +421,14 @@ public class ProfileDialog extends JDialog {
                     xuatHoaDon(1, 500000f);
                 }
 //				System.out.println(System.getProperty("java.class.path").replace(':','\n'));
+            }
+            if(e.getActionCommand().equals("Quản lý Khách Hàng")){
+                QLKhachHang khPane = new QLKhachHang();
+                MainForm.m.getTabbedPane().addTab("qlkh", null, khPane, null);
+                MainForm.m.getTabbedPane().setTabComponentAt(MainForm.m.getTabbedPane().indexOfComponent(khPane), MainForm.m.getTitlePanel(MainForm.m.getTabbedPane(), khPane, "Quản lý Khách hàng"));
+                MainForm.m.getTabbedPane().setSelectedComponent(khPane);
+                MainForm.m.setEnabled(true);
+                dispose();
             }
         }
     };

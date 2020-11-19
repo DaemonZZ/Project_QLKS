@@ -19,6 +19,16 @@ public class DataStorage {
     private ArrayList<DongChungTu> listDongCT;
     private ArrayList<LoaiPhong> listLoaiPhong;
     private ArrayList<ChamCong> listChamCong;
+    private ArrayList<QuanLyPhong> listAllQLP;
+
+    public ArrayList<QuanLyPhong> getListAllQLP() {
+        return listAllQLP;
+    }
+
+    public void setListAllQLP(ArrayList<QuanLyPhong> listAllQLP) {
+        this.listAllQLP = listAllQLP;
+    }
+
     public static LoadingPanel ld = new LoadingPanel();
 
     public ArrayList<ChamCong> getListChamCong() {
@@ -127,6 +137,7 @@ public class DataStorage {
         listDongCT = dbc.getListDongChungTu();
         listLoaiPhong = dbc.getListLoaiPhong();
         listChamCong = dbc.getlistChamCong();
+        listAllQLP = dbc.getlistAllQLP();
     }
 
     /**
