@@ -26,6 +26,7 @@ public class MainForm extends JFrame {
 
 	private String selectedRoom="";
 
+
 	public JTabbedPane getTabbedPane() {
 		return tabbedPane;
 	}
@@ -203,25 +204,21 @@ public class MainForm extends JFrame {
 		LargeButton btnSodo = new LargeButton("room.png", "Sơ đồ");
 		btnSodo.setPreferredSize(new Dimension(70,80));
 		btnSodo.setToolTipText("Sơ đồ phòng");
-		largeBtnPanel.add(btnSodo);
 		btnSodo.addMouseListener(largeBtnCliked);
 		
 		LargeButton btnlistDV	= new LargeButton("list.png", "QL DV");
 		btnlistDV.setPreferredSize(new Dimension(70,80));
 		btnlistDV.setToolTipText("Quản lý dịch vụ");
-		largeBtnPanel.add(btnlistDV);
 		btnlistDV.addMouseListener(largeBtnCliked);
 
 		LargeButton btnRoomProfile = new LargeButton("profile.png","Hồ Sơ Phòng");
 		btnRoomProfile.setPreferredSize(new Dimension(70,80));
 		btnRoomProfile.setToolTipText("Hồ Sơ Phòng");
-		largeBtnPanel.add(btnRoomProfile);
 		btnRoomProfile.addMouseListener(largeBtnCliked);
 		
 		LargeButton btnCalendar = new LargeButton("calendar.png","Lịch Làm việc");
 		btnCalendar.setPreferredSize(new Dimension(70,80));
 		btnCalendar.setToolTipText("Lịch làm việc");
-		largeBtnPanel.add(btnCalendar);
 		btnCalendar.addMouseListener(largeBtnCliked);
 
 		LargeButton btnChamCong = new LargeButton("chamcong.png","C.Công");
@@ -232,8 +229,17 @@ public class MainForm extends JFrame {
 		LargeButton btnReport = new LargeButton("baocao.png","Báo Cáo");
 		btnReport.setPreferredSize(new Dimension(70,80));
 		btnReport.setToolTipText("Báo cáo ca làm việc");
-		largeBtnPanel.add(btnReport);
 		btnReport.addMouseListener(largeBtnCliked);
+
+		LargeButton btnDatPhong = new LargeButton("booking.png","Đ.Phòng");
+		btnDatPhong.setPreferredSize(new Dimension(70,80));
+		btnDatPhong.setToolTipText("Danh sách phòng đặt");
+		btnDatPhong.addMouseListener(largeBtnCliked);
+
+		LargeButton btnQLKH = new LargeButton("khachhang.png","QLKH");
+		btnQLKH.setPreferredSize(new Dimension(70,80));
+		btnQLKH.setToolTipText("Quản lý Khách Hàng");
+		btnQLKH.addMouseListener(largeBtnCliked);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addChangeListener(e -> {
@@ -435,8 +441,15 @@ public class MainForm extends JFrame {
 			lichPane.getBtnAdd().setEnabled(true);
 			btnEdit.setEnabled(true);
 
+			largeBtnPanel.add(btnCalendar);
+			largeBtnPanel.add(btnlistDV);
+			largeBtnPanel.add(btnRoomProfile);
+			largeBtnPanel.add(btnQLKH);
+
 			mnQuanLy.setEnabled(true);
 			itemDoanhThu.setEnabled(true);
+
+
 		}
 		if(accessRight==1){
 			setTitle("Quản lý Khách Sạn - Lễ tân");
@@ -445,7 +458,13 @@ public class MainForm extends JFrame {
 			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
 			tabbedPane.setSelectedComponent(sodoPane);
 
+			largeBtnPanel.add(btnSodo);
+			largeBtnPanel.add(btnlistDV);
+			largeBtnPanel.add(btnDatPhong);
+			largeBtnPanel.add(btnRoomProfile);
+			largeBtnPanel.add(btnCalendar);
 			largeBtnPanel.add(btnChamCong);
+			largeBtnPanel.add(btnReport);
 			sumPanel.getBtnThemDV().setEnabled(true);
 			sumPanel.getBtnTraPhong().setEnabled(true);
 			sumPanel.getBtnXoaDV().setEnabled(true);
@@ -467,6 +486,8 @@ public class MainForm extends JFrame {
 			tabbedPane.setSelectedComponent(sodoPane);
 
 			largeBtnPanel.add(btnChamCong);
+			largeBtnPanel.add(btnDatPhong);
+			largeBtnPanel.add(btnQLKH);
 		}
 
 	}
@@ -493,6 +514,9 @@ public class MainForm extends JFrame {
 			rightPanel.removeAll();
 			rightPanel.add(pnel,BorderLayout.CENTER);
 			rightPanel.repaint();
+		}
+		if(tit.equals("dk")){
+			rightPanel.removeAll();
 		}
 	}
 
@@ -663,6 +687,13 @@ public class MainForm extends JFrame {
 					m.setEnabled(false);
 					new ProfileDialog();
 				}
+				if(btn.getName().equals("Đ.Phòng")){
+					DkPane dkPane = new DkPane();
+
+					tabbedPane.addTab("dk", null, dkPane, null);
+					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(dkPane), getTitlePanel(tabbedPane, dkPane, "Danh sách phòng đặt"));
+					tabbedPane.setSelectedComponent(dkPane);
+				}
 				
 				if(btn.getName().equals("Lịch Làm việc")) {
 					lichPane = new LichPane();
@@ -697,6 +728,12 @@ public class MainForm extends JFrame {
 					tabbedPane.addTab("qldv", null, dvPane, null);
 					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(dvPane), getTitlePanel(tabbedPane, dvPane, "Quản lý DV"));
 					tabbedPane.setSelectedComponent(dvPane);
+				}
+				if(btn.getName().equals("QLKH")){
+					QLKhachHang khPane = new QLKhachHang();
+					tabbedPane.addTab("qlkh", null, khPane, null);
+					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(khPane), getTitlePanel(tabbedPane, khPane, "Quản lý Khách hàng"));
+					tabbedPane.setSelectedComponent(khPane);
 				}
 			}
 	 };
@@ -792,12 +829,7 @@ public class MainForm extends JFrame {
 		this.txtCa = txtCa;
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new DataStorage(0);
-		Thread sync = new DataSynchronizer();
-		sync.start();
-		new MainForm(1);
 
-	}
+
+
 }

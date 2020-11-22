@@ -30,13 +30,16 @@ public class DataSynchronizer extends Thread {
 
     public void syncAllData() {
         System.out.println("Syncing.....");
+        syncNV();
+        syncDoan();
         syncKH();
+        syncDangky();
         syncQLP();
         syncChungTu();
         syncDongChungTu();
         syncPhong();
         syncLich();
-        syncNV();
+        syncDichVu();
     }
 
     public void syncQLP() {
@@ -242,6 +245,10 @@ public class DataSynchronizer extends Thread {
             listNewId.add(c.getSoCT());
             if (!oldData.contains(c)) diffList.add(c);
         }
+        for (ChungTu item : oldData
+        ) {
+            listOldId.add(item.getSoCT());
+        }
         for (Integer id : listOldId
         ) {
             if (!listNewId.contains(id)) dbc.delCT(id);
@@ -271,6 +278,10 @@ public class DataSynchronizer extends Thread {
             listNewId.add(c.getiD());
             if (!oldData.contains(c)) diffList.add(c);
         }
+        for (DichVu item : oldData
+        ) {
+            listOldId.add(item.getiD());
+        }
         for (Integer id : listOldId
         ) {
             if (!listNewId.contains(id)) dbc.delDV(id);
@@ -281,6 +292,63 @@ public class DataSynchronizer extends Thread {
                 dbc.addDV(c);
             } else {
                 dbc.editDV(c);
+            }
+        }
+    }
+    public void syncDangky(){
+        ArrayList<DangKy> oldData = dbc.getListDangKi();
+        ArrayList<DangKy> newData = DataStorage.loader.getListDangKy();
+        ArrayList<DangKy> diffList = new ArrayList<>();
+        ArrayList<Integer> listNewId = new ArrayList<>();
+        ArrayList<Integer> listOldId = new ArrayList<>();
+        int max = dbc.nextID_DK()-1;
+        for (DangKy d : newData
+             ) {
+            listNewId.add(d.getId());
+            if (!oldData.contains(d)) diffList.add(d);
+        }
+        for (DangKy item : oldData
+        ) {
+            listOldId.add(item.getId());
+        }
+        for (Integer id:listOldId
+             ) {
+
+            if (!listNewId.contains(id)) {
+                dbc.delDangKy(id);
+            }
+        }
+        for (DangKy d: diffList
+             ) {
+            if (d.getId() > max) {
+                dbc.addDangKy(d);
+            } else {
+                dbc.editDangKy(d);
+            }
+        }
+    }
+    public void syncDoan(){
+        ArrayList<Doan> oldData = dbc.getListDoan();
+        ArrayList<Doan> newData = DataStorage.loader.getListDoan();
+        ArrayList<Doan> diffList = new ArrayList<>();
+        ArrayList<Integer> listNewId = new ArrayList<>();
+        ArrayList<Integer> listOldId = new ArrayList<>();
+        int max = dbc.nextDoan()-1;
+        for (Doan d : newData
+        ) {
+            listNewId.add(d.getId());
+            if (!oldData.contains(d)) diffList.add(d);
+        }
+        for (Integer id:listOldId
+        ) {
+            if (!listNewId.contains(id)) dbc.delDoan(id);
+        }
+        for (Doan d: diffList
+        ) {
+            if (d.getId() > max) {
+                dbc.addDoan(d);
+            } else {
+                dbc.editDoan(d);
             }
         }
     }

@@ -58,6 +58,8 @@ public class ProfileDialog extends JDialog {
 
     private JButton btnHuyEdit;
     private JButton btnOk;
+    private JButton btnDel;
+    private JButton btnGhiChu;
     private ArrayList<Phong> listPhong = DataStorage.loader.getListPhong();
     private ArrayList<LoaiPhong> listLoai = DataStorage.loader.getListLoaiPhong();
     private ArrayList<DefaultMutableTreeNode> listLeaf = new ArrayList<>();

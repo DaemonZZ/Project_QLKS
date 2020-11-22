@@ -272,9 +272,6 @@ public class OrderDialog extends JDialog {
 				MainForm.m.setEnabled(true);
 				SoDoPane.s.reloadRoomList();
 				SoDoPane.s.repaint();
-//				System.out.println("KH:" + k.getId() + "\n " +
-//						"QLP: "+ q.getId()+"\n " +
-//						"CT: "+c.getSoCT());
 				dispose();
 
 			}

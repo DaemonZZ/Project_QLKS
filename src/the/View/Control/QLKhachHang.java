@@ -64,6 +64,7 @@ public class QLKhachHang extends JLayeredPane {
         table.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                MainForm.m.getTbDichVu().setModel(new DefaultTableModel());
                 int idkh = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),0));
                 DefaultComboBoxModel<QuanLyPhong> model = new DefaultComboBoxModel();
                 for (QuanLyPhong q: DataStorage.loader.getListAllQLP()
@@ -149,6 +150,13 @@ public class QLKhachHang extends JLayeredPane {
         input = new JFrame();
         input.add(panel);
         input.pack();
+        input.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainForm.m.setEnabled(true);
+                input.dispose();
+            }
+        });
         input.setLocationRelativeTo(null);
         input.setVisible(true);
     }

@@ -882,7 +882,7 @@ public class DatabaseConnection {
         return next + 1;
     }
     public int nextDV() {
-        String sql = "select max(ID) from DichVu";
+        String sql = "select max(ID_DV) from DichVu";
         int next = 0;
         try {
             Statement st = conn.createStatement();
@@ -1062,6 +1062,169 @@ public class DatabaseConnection {
             st.setFloat(7,c.getgTDK());
             st.setInt(8,c.getiD());
 
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public ArrayList<Doan> getListDoan(){
+        String sql = "select * from Doan";
+        ArrayList<Doan> list = new ArrayList<>();
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs =st.executeQuery(sql);
+            while (rs.next()){
+                Doan d = new Doan();
+                d.setId(rs.getInt(1));
+                d.setTenDoan(rs.getNString(2));
+                list.add(d);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+    }
+    public int nextDoan() {
+        String sql = "select max(ID) from Doan";
+        int next = 0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                next = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return next + 1;
+    }
+    public ArrayList<DangKy> getListDangKi(){
+        ArrayList<DangKy> list = new ArrayList<>();
+        String sql = "select * from Dangky";
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                DangKy d = new DangKy();
+                d.setId(rs.getInt(1));
+                d.setSoPhong(rs.getInt(2));
+                if(rs.getDate(3)!=null) d.setNgayDat(rs.getDate(3).toLocalDate());
+                if(rs.getDate(4)!=null)d.setTuNgay(rs.getDate(4).toLocalDate());
+                if(rs.getDate(5)!=null)d.setToiNgay(rs.getDate(5).toLocalDate());
+                d.setSoKhach(rs.getInt(6));
+                d.setNam(rs.getInt(7));
+                d.setNu(rs.getInt(8));
+                d.setTreEm(rs.getInt(9));
+                d.setId_kh(rs.getInt(10));
+                d.setId_nv(rs.getInt(11));
+                d.setCoc(rs.getFloat(12));
+
+                list.add(d);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+    }
+    public int nextID_DK(){
+        String sql = "select max(ID_DK) from DangKy";
+        int next = 0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                next = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return next + 1;
+    }
+    public void addDangKy(DangKy d){
+        String sql = "insert into DangKy values(?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,d.getId());
+            st.setInt(2,d.getSoPhong());
+            st.setDate(3,Date.valueOf(d.getNgayDat()));
+            st.setDate(4,Date.valueOf(d.getTuNgay()));
+            st.setDate(5,Date.valueOf(d.getToiNgay()));
+            st.setInt(6,d.getSoKhach());
+            st.setInt(7,d.getNam());
+            st.setInt(8,d.getNu());
+            st.setInt(9,d.getTreEm());
+            st.setInt(10,d.getId_kh());
+            st.setInt(11,d.getId_nv());
+            st.setFloat(12,d.getCoc());
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+    public void editDangKy(DangKy d){
+        String sql = "update DangKy set SoPhong=?, NgayDat=?, TuNgay=?, Denngay=?, SoKhach=?, Nam=?, Nu=?, TreEm=?, ID_KH=?,ID_NV=?, TienCoc=? where ID_DK = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(12,d.getId());
+            st.setInt(1,d.getSoPhong());
+            st.setDate(2,Date.valueOf(d.getNgayDat()));
+            st.setDate(3,Date.valueOf(d.getTuNgay()));
+            st.setDate(4,Date.valueOf(d.getToiNgay()));
+            st.setInt(5,d.getSoKhach());
+            st.setInt(6,d.getNam());
+            st.setInt(7,d.getNu());
+            st.setInt(8,d.getTreEm());
+            st.setInt(9,d.getId_kh());
+            st.setInt(10,d.getId_nv());
+            st.setFloat(11,d.getCoc());
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void delDangKy(int id){
+        String sql = "Delete from DangKy where ID_DK = "+id;
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+
+    public void delDoan(Integer id) {
+        String sql = "Delete from Doan where ID = "+id;
+        try {
+            Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void addDoan(Doan d) {
+        String sql = "insert into Doan values (?,?)";
+        try {
+            PreparedStatement st =conn.prepareStatement(sql);
+            st.setInt(1,d.getId());
+            st.setNString(2,d.getTenDoan());
+            st.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public void editDoan(Doan d) {
+        String sql= "update doan set TenDoan=? where id=?";
+        try {
+            PreparedStatement st =conn.prepareStatement(sql);
+            st.setInt(2,d.getId());
+            st.setNString(1,d.getTenDoan());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

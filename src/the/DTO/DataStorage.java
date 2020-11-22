@@ -20,6 +20,12 @@ public class DataStorage {
     private ArrayList<LoaiPhong> listLoaiPhong;
     private ArrayList<ChamCong> listChamCong;
     private ArrayList<QuanLyPhong> listAllQLP;
+    private ArrayList<Doan> listDoan;
+    private ArrayList<DangKy> listDangKy;
+
+    public ArrayList<Doan> getListDoan() {
+        return listDoan;
+    }
 
     public ArrayList<QuanLyPhong> getListAllQLP() {
         return listAllQLP;
@@ -121,6 +127,14 @@ public class DataStorage {
         this.listNV = listNV;
     }
 
+    public ArrayList<DangKy> getListDangKy() {
+        return listDangKy;
+    }
+
+    public void setListDangKy(ArrayList<DangKy> listDangKy) {
+        this.listDangKy = listDangKy;
+    }
+
     public DataStorage(int AR) {
         loader = this;
 
@@ -138,6 +152,8 @@ public class DataStorage {
         listLoaiPhong = dbc.getListLoaiPhong();
         listChamCong = dbc.getlistChamCong();
         listAllQLP = dbc.getlistAllQLP();
+        listDoan = dbc.getListDoan();
+        listDangKy= dbc.getListDangKi();
     }
 
     /**
@@ -179,7 +195,7 @@ public class DataStorage {
              ) {
             if(ql.getId()>max) max=ql.getId();
         }
-        return max;
+        return max+1;
     }
 
     /**
@@ -248,6 +264,24 @@ public class DataStorage {
         for (DichVu c: listDV
         ) {
             if(c.getiD()>max) max = c.getiD();
+        }
+        return max+1;
+    }
+
+    public int nextDangKy(){
+        int max=0;
+        for (DangKy c: listDangKy
+        ) {
+            if(c.getId()>max) max = c.getId();
+        }
+        return max+1;
+    }
+
+    public int nextDoan(){
+        int max=0;
+        for (Doan c: listDoan
+        ) {
+            if(c.getId()>max) max = c.getId();
         }
         return max+1;
     }
@@ -381,5 +415,39 @@ public class DataStorage {
             if(p.getMaPhong().equals(maPhong)) return p.getTrangThai();
         }
         return -1;
+    }
+
+    public String getTenLoai(int loai) {
+        for (LoaiPhong l: listLoaiPhong
+             ) {
+            if(l.getId()==loai) return l.getTenLoai();
+        }
+        return "";
+    }
+
+    public DangKy getDangKy(int id){
+        DangKy d = new DangKy();
+        for (DangKy l: listDangKy
+        ) {
+            if(l.getId()==id) d=l;
+        }
+        return d;
+    }
+    public String getTenDoan(int id){
+        Doan d = new Doan();
+        for (Doan it:listDoan
+             ) {
+            if(it.getId()==id) d=it;
+        }
+        return d.getTenDoan();
+    }
+
+    public Phong getPhong(String maPhong) {
+        Phong p =new Phong();
+        for (Phong it:listPhong
+             ) {
+            if(it.getMaPhong().equals(maPhong)) p = it;
+        }
+        return p;
     }
 }
