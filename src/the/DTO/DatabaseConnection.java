@@ -928,7 +928,7 @@ public class DatabaseConnection {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1,nextDongCT());
             st.setInt(2,d.getSoCT());
-            st.setInt(3,d.getId_DV());
+            st.setInt(3,d.getId_DV()); 
             st.setFloat(4,d.getSoLuong());
             st.setFloat(5,d.getDonGia());
             st.setNString(6,d.getGhiChu());
@@ -1009,7 +1009,7 @@ public class DatabaseConnection {
     }
 
     public void delCT(Integer id) {
-        String sql = "Delete from ChungTu where id="+id;
+        String sql = "Delete from ChungTu where soct="+id;
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -1194,6 +1194,7 @@ public class DatabaseConnection {
             throwables.printStackTrace();
         }
     }
+
 
 
     public void delDoan(Integer id) {

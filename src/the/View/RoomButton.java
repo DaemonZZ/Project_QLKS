@@ -20,6 +20,7 @@ public class RoomButton extends JPanel implements MouseListener{
 	private int loai;
 	private float Gia;
 	private float sum;
+	private int soNguoi;
 	private JTextField color;
 	
 	Color _trangThai;
@@ -73,7 +74,7 @@ public class RoomButton extends JPanel implements MouseListener{
 		this.color = color;
 	}
 
-	public RoomButton(String maPhong, int trangThai, int loai, float gia, float sum) {
+	public RoomButton(String maPhong, int trangThai, int loai, float gia, float sum,int soNguoi) {
 		
 		super();
 		
@@ -153,7 +154,7 @@ public class RoomButton extends JPanel implements MouseListener{
 		add(color);
 		color.setColumns(10);
 		
-		JLabel lbThongTin = new JLabel("<html>Loại Phòng: "+_loai+"<br>Giá: "+gia+"<br>Trạng thái: 0</html>");
+		JLabel lbThongTin = new JLabel("<html>Loại Phòng: "+_loai+"<br>Giá: "+gia+"<br>Số người tối đa: "+soNguoi+"</html>");
 		lbThongTin.setBounds(10, 57, 101, 59);
 		add(lbThongTin);
 		

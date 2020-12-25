@@ -450,4 +450,12 @@ public class DataStorage {
         }
         return p;
     }
+    public void updateDongCT(int oldCT,int newCT){
+        for (DongChungTu d: listDongCT
+             ) {
+            if(d.getSoCT()==oldCT){
+                d.setSoCT(newCT);
+            }
+        }
+    }
 }

@@ -3,6 +3,7 @@ package the.View;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 import the.DTO.DataStorage;
+import the.DTO.DataSynchronizer;
 import the.Model.*;
 import the.DTO.DatabaseConnection;
 import the.View.Control.QLKhachHang;
@@ -59,7 +60,7 @@ public class ProfileDialog extends JDialog {
     private JButton btnHuyEdit;
     private JButton btnOk;
     private JButton btnDel;
-    private JButton btnGhiChu;
+    private JButton btnGop;
     private ArrayList<Phong> listPhong = DataStorage.loader.getListPhong();
     private ArrayList<LoaiPhong> listLoai = DataStorage.loader.getListLoaiPhong();
     private ArrayList<DefaultMutableTreeNode> listLeaf = new ArrayList<>();
@@ -201,6 +202,7 @@ public class ProfileDialog extends JDialog {
         btnOk.addActionListener(btn);
         btnHuyEdit.addActionListener(btn);
         btnInHD.addActionListener(btn);
+        btnGop.addActionListener(btn);
         pack();
         setVisible(true);
     }
@@ -412,7 +414,8 @@ public class ProfileDialog extends JDialog {
                         DataStorage.loader.setCheckoutInfo(current_idQL, sum * VAT);
                         DataStorage.loader.setSttPhong(selectedRoom, 1);
                         SoDoPane.s.reloadRoomList();
-                        xuatHoaDon(1, 500000f);
+
+                        xuatHoaDon(DataStorage.loader.getSoCT(current_idQL), sum);
 
                     }
 
@@ -420,7 +423,12 @@ public class ProfileDialog extends JDialog {
             }
             if (e.getActionCommand().equals("In HD")) {
                 if (DataStorage.loader.checkSttPhong(selectedRoom) == 4 || DataStorage.loader.checkSttPhong(selectedRoom) == 5) {
-                    xuatHoaDon(1, 500000f);
+                    ArrayList<DongChungTu> listDongChungTu = DataStorage.loader.getListDongCT(current_idQL);
+                    float sum = 0;
+                    for (DongChungTu item : listDongChungTu) {
+                        sum += (item.getDonGia() * item.getSoLuong());
+                    }
+                    xuatHoaDon(DataStorage.loader.getSoCT(current_idQL), sum);
                 }
 //				System.out.println(System.getProperty("java.class.path").replace(':','\n'));
             }
@@ -431,6 +439,10 @@ public class ProfileDialog extends JDialog {
                 MainForm.m.getTabbedPane().setSelectedComponent(khPane);
                 MainForm.m.setEnabled(true);
                 dispose();
+            }
+            if(e.getActionCommand().equals("Gộp HD")){
+                new ChooseRoom(selectedRoom);
+                reload();
             }
         }
     };
@@ -454,9 +466,108 @@ public class ProfileDialog extends JDialog {
         }
     }
 
-    public static void main(String[] args) {
-        new ProfileDialog("107", 1);
 
+
+}
+class ChooseRoom extends JDialog{
+    private ArrayList<JCheckBox> listPhong;
+    private String phongThanhToan;
+
+    public ChooseRoom(String p) {
+        this.phongThanhToan=p;
+        setModal(true);
+        setTitle("Chon phòng");
+        Container con = this.getContentPane();
+        setLayout(new BoxLayout(con,BoxLayout.Y_AXIS));
+        add(new JLabel("Chọn phòng:"));
+        listPhong= new ArrayList<>();
+        for (Phong r: DataStorage.loader.getListPhong()
+             ) {
+            if(!r.equals(p)&&r.getTrangThai()>=4){
+                listPhong.add(new JCheckBox(r.getMaPhong()));
+            }
+        }
+        for (JCheckBox cb:listPhong
+             ) {
+            con.add(cb);
+        }
+        JPanel pn = new JPanel();
+        pn.setLayout(new FlowLayout());
+        JButton btnOK = new JButton("OK");
+        btnOK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onOK();
+            }
+        });
+        pn.add(btnOK);
+        con.add(pn);
+
+        pack();
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setVisible(true);
     }
+
+    private void onOK() {
+        ArrayList<String> listP =new ArrayList<>();
+        ArrayList<QuanLyPhong> listQL = new ArrayList<>();
+        ArrayList<ChungTu> listct = new ArrayList<>();
+        int sct=0;
+        for (JCheckBox l : listPhong
+             ) {
+            if(l.isSelected()) listP.add(l.getText());
+        }
+        if(!listP.isEmpty()){
+            for (String p:listP
+                 ) {
+                DataStorage.loader.setSttPhong(p,0);
+                }
+
+
+            for (String p:listP
+                 ) {
+                for (QuanLyPhong q: DataStorage.loader.getCurrentRoomInfo()
+                     ) {
+                    if(q.getMaPhong().equals(p)) listQL.add(q);
+                    if(q.getMaPhong().equals(phongThanhToan)){
+                        for (ChungTu c : DataStorage.loader.getListChungTu()
+                             ) {
+                            if(c.getId_QL()==q.getId()) sct=c.getSoCT();
+                        }
+                    }
+                }
+            }
+
+            for (QuanLyPhong q: listQL
+                 ) {
+                for (ChungTu c: DataStorage.loader.getListChungTu()
+                     ) {
+                    if(c.getId_QL()==q.getId()){
+                        DataStorage.loader.updateDongCT(c.getSoCT(),sct);
+                        listct.add(c);
+                    }
+                }
+            }
+            for (ChungTu c: listct
+                 ) {
+                DataStorage.loader.getListChungTu().remove(c);
+            }
+            DataSynchronizer.synchronizer.syncChungTu();
+            for (QuanLyPhong q: listQL
+                 ) {
+                DataStorage.loader.getCurrentRoomInfo().remove(q);
+            }
+
+            System.out.println("Gộp ok");
+        }
+        else {
+            System.out.println("Co gi dau ma gop");
+        }
+        SoDoPane.s.reloadRoomList();
+        dispose();
+    }
+
+
 
 }

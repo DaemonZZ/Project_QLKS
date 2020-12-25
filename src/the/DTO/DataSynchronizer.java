@@ -54,6 +54,7 @@ public class DataSynchronizer extends Thread {
             listNewId.add(item.getId());
             if (!olddata.contains(item)) {
                 diffList.add(item);
+                System.out.println(item.getId());
             }
         }
 
@@ -140,6 +141,8 @@ public class DataSynchronizer extends Thread {
         ArrayList<Lich> oldData = dbc.getlistLich();
         ArrayList<Lich> newData = DataStorage.loader.getListLich();
         ArrayList<Lich> diffList = new ArrayList<>();
+        int max = dbc.nextIdLich() - 1;
+
         for (Lich l : newData
         ) {
             if (!oldData.contains(l)) {
@@ -150,7 +153,7 @@ public class DataSynchronizer extends Thread {
 
         for (Lich l : diffList
         ) {
-            if (l.getId() == 0) dbc.addLich(l);
+            if (l.getId() > max) dbc.addLich(l);
             else dbc.updateLich(l);
         }
     }

@@ -184,6 +184,7 @@ public class AddServiceDialog extends JDialog {
         } else {
             DataStorage.loader.getListDongCT().add(dong);
         }
+        SoDoPane.s.reloadTable();
         if (ProfileDialog.p != null) ProfileDialog.p.getTable1().setModel(new DefaultTableModel());
         if (ProfileDialog.p != null) ProfileDialog.p.getTable1().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
     }

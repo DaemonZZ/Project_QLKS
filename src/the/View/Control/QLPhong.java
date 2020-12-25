@@ -1,7 +1,13 @@
 package the.View.Control;
 
+import the.DTO.DataStorage;
+import the.Model.DichVu;
+import the.Model.Phong;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class QLPhong extends JLayeredPane {
     private JTable table;
@@ -30,7 +36,34 @@ public class QLPhong extends JLayeredPane {
         add(scrollPane, BorderLayout.CENTER);
 
         table = new JTable();
+        table.setModel(getModelPhong());
         scrollPane.setViewportView(table);
+    }
+
+    public DefaultTableModel getModelPhong(){
+        ArrayList<Phong> listPhong = DataStorage.loader.getListPhong();
+        DefaultTableModel dvModel = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+        };
+        dvModel.addColumn("Mã Phòng");
+        dvModel.addColumn("Tầng");
+        dvModel.addColumn("Loại phòng");
+        dvModel.addColumn("Đơn giá");
+        dvModel.addColumn("Trạng thái");
+        dvModel.addColumn("Phone");
+        dvModel.addColumn("Giường");
+        dvModel.addColumn("Số Người");
+
+        for (Phong item : listPhong) {
+            String loai = DataStorage.loader.getTenLoai(item.getLoai());
+            dvModel.addRow(new String[] {item.getMaPhong(),item.getTang()+"",loai,item.getDonGia()+"",item.getPhone(),item.getSoGiuong()+"",item.getSoNguoi()+""});
+        }
+        return dvModel;
     }
 
 }

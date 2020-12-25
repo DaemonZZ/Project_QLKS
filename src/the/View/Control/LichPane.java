@@ -1,6 +1,8 @@
 package the.View.Control;
 
 import the.DTO.DataStorage;
+import the.DTO.DataSynchronizer;
+import the.Model.ChamCong;
 import the.Model.Lich;
 import the.Model.NhanVien;
 import the.DTO.DatabaseConnection;
@@ -51,13 +53,16 @@ public class LichPane extends JLayeredPane {
                         for (LocalDate ngay: listNgay
                              ) {
                             if(!isExist(ngay,nv)){
-                                DataStorage.loader.getListLich().add(new Lich(ngay, nv.getiD(), 4 , 0 , ""));
+                                Lich l =new Lich(DataStorage.loader.nextLich(),ngay, nv.getiD(), 4 , 0 , "");
+                                DataStorage.loader.getListLich().add(l);
+                                System.out.println(l.getId()+" alo");
                             }
 
                         }
                     }
 
                 }
+                DataSynchronizer.synchronizer.syncLich();
                 reloadLichPane();
             }
         });

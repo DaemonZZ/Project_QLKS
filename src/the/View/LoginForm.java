@@ -51,7 +51,7 @@ public class LoginForm extends JFrame {
                 comboBox.setModel(md);
             }
         });
-        comboBox_1.setModel(new DefaultComboBoxModel(new String[]{"Quản Trị", "Lễ Tân", "Kinh Doanh", "Buồng Phòng", "Kế Toán"}));
+        comboBox_1.setModel(new DefaultComboBoxModel(new String[]{"Quản Trị", "Lễ Tân", "Kế Toán"}));
         comboBox_1.setSelectedIndex(1);
         comboBox_1.setBounds(83, 148, 163, 22);
         getContentPane().add(comboBox_1);

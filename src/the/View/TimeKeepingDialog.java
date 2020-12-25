@@ -142,6 +142,7 @@ public class TimeKeepingDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        System.out.println(infoCheck() + "abc");
 
         if (infoCheck() == OFF) {
             btnCheckin.setEnabled(false);
@@ -167,7 +168,6 @@ public class TimeKeepingDialog extends JDialog {
     }
 
     private void onCancel() {
-        // add your code here if necessary
         DataStorage.loader.setListChamCong(new DatabaseConnection().getlistChamCong());
         dispose();
     }

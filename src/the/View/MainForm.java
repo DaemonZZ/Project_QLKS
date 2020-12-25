@@ -240,7 +240,12 @@ public class MainForm extends JFrame {
 		btnQLKH.setPreferredSize(new Dimension(70,80));
 		btnQLKH.setToolTipText("Quản lý Khách Hàng");
 		btnQLKH.addMouseListener(largeBtnCliked);
-		
+
+		LargeButton btnDoanhThu = new LargeButton("chart.png","Doanh Thu");
+		btnDoanhThu.setPreferredSize(new Dimension(70,80));
+		btnDoanhThu.setToolTipText("Báo cáo tài chính");
+		btnDoanhThu.addMouseListener(largeBtnCliked);
+
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addChangeListener(e -> {
 			changeTabEvent();
@@ -441,10 +446,17 @@ public class MainForm extends JFrame {
 			lichPane.getBtnAdd().setEnabled(true);
 			btnEdit.setEnabled(true);
 
+			LargeButton btnQLPhong = new LargeButton("qlphong.png","QL Phòng");
+			btnQLPhong.setPreferredSize(new Dimension(70,80));
+			btnQLPhong.setToolTipText("Quản lý phòng");
+			btnQLPhong.addMouseListener(largeBtnCliked);
+
 			largeBtnPanel.add(btnCalendar);
 			largeBtnPanel.add(btnlistDV);
 			largeBtnPanel.add(btnRoomProfile);
 			largeBtnPanel.add(btnQLKH);
+			largeBtnPanel.add(btnQLPhong);
+			largeBtnPanel.add(btnDoanhThu);
 
 			mnQuanLy.setEnabled(true);
 			itemDoanhThu.setEnabled(true);
@@ -476,10 +488,13 @@ public class MainForm extends JFrame {
 			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
 			tabbedPane.setSelectedComponent(sodoPane);
 
+			largeBtnPanel.add(btnCalendar);
+			largeBtnPanel.add(btnSodo);
+			largeBtnPanel.add(btnRoomProfile);
 			largeBtnPanel.add(btnChamCong);
 		}
 
-		if(accessRight==4){
+		if(accessRight==2){
 			JLayeredPane sodoPane = new SoDoPane();
 			tabbedPane.addTab("sodo", null, sodoPane, null);
 			tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
@@ -734,6 +749,13 @@ public class MainForm extends JFrame {
 					tabbedPane.addTab("qlkh", null, khPane, null);
 					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(khPane), getTitlePanel(tabbedPane, khPane, "Quản lý Khách hàng"));
 					tabbedPane.setSelectedComponent(khPane);
+				}
+
+				if(btn.getName().equals("QL Phòng")){
+					QLPhong qlpPane = new QLPhong();
+					tabbedPane.addTab("qlphong", null, qlpPane, null);
+					tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(qlpPane), getTitlePanel(tabbedPane, qlpPane, "Quản ly Phòng"));
+					tabbedPane.setSelectedComponent(qlpPane);
 				}
 			}
 	 };
