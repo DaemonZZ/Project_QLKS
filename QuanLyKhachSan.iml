@@ -50,5 +50,6 @@
     <orderEntry type="library" name="commons-digester3-3.2-javadoc" level="project" />
     <orderEntry type="library" name="commons-beanutils-1.8.3" level="project" />
     <orderEntry type="library" name="xercesImpl" level="project" />
+    <orderEntry type="library" name="jfreechart-1.5.0" level="project" />
   </component>
 </module>
