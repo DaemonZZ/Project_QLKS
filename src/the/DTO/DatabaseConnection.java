@@ -118,7 +118,7 @@ public class DatabaseConnection {
         return b;
     }
 
-    public boolean themNV(NhanVien n)  {
+    public boolean themNV(NhanVien n) {
         boolean b = false;
         String sql = "insert into NhanVien(ID_NV,HoTen,DienThoai,TaiKhoan,MatKhau,Loai) values(?,?,?,?,?,?)";
         PreparedStatement st = null;
@@ -198,20 +198,21 @@ public class DatabaseConnection {
         }
         return gia;
     }
-    public ArrayList<QuanLyPhong> getlistAllQLP(){
+
+    public ArrayList<QuanLyPhong> getlistAllQLP() {
         ArrayList<QuanLyPhong> list = new ArrayList<>();
         String sql = "select * from QuanLyPhong";
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 QuanLyPhong q = new QuanLyPhong();
                 q.setId(rs.getInt(1));
                 q.setId_Dk(rs.getInt(2));
                 q.setId_KH(rs.getInt(3));
                 q.setMaPhong(rs.getNString(4));
                 q.setCI(rs.getDate(5).toLocalDate());
-                if(rs.getDate(6)!=null) q.setCO(rs.getDate(6).toLocalDate());
+                if (rs.getDate(6) != null) q.setCO(rs.getDate(6).toLocalDate());
                 q.setGia(rs.getFloat(7));
                 q.setGhiChu(rs.getNString(8));
                 q.setTrangThai(rs.getInt(9));
@@ -222,6 +223,7 @@ public class DatabaseConnection {
         }
         return list;
     }
+
     // Lấy thông tin phòng hiện tại
     //Bao gồm những phòng đang còn ở
     public ArrayList<QuanLyPhong> getCurrentRoomInfo() {
@@ -322,7 +324,7 @@ public class DatabaseConnection {
             while (rs.next()) {
                 ChungTu c = new ChungTu();
                 c.setSoCT(rs.getInt(1));
-                if(rs.getDate(2)!=null) c.setNgayCT(rs.getDate(2).toLocalDate());
+                if (rs.getDate(2) != null) c.setNgayCT(rs.getDate(2).toLocalDate());
                 c.setLoai(rs.getInt(3));
                 c.setId_KH(rs.getInt(4));
                 c.setId_NV(rs.getInt(5));
@@ -368,17 +370,17 @@ public class DatabaseConnection {
         String sql = "update Chungtu set ngayct = ?, loai = ?, id_kh=?, id_nv=?, NoiDung=?, Giam =?,vat=?,sohoadon=?,id_ql=? where SoCT=?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            if(c.getNgayCT()!=null) st.setDate(1,Date.valueOf(c.getNgayCT()));
-            else st.setDate(1,null);
-            st.setInt(2,c.getLoai());
-            st.setInt(3,c.getId_KH());
-            st.setInt(4,c.getId_NV());
-            st.setNString(5,c.getNoiDung());
-            st.setFloat(6,c.getGiam());
-            st.setFloat(7,c.getVAT());
-            st.setNString(8,c.getSoHD());
-            st.setInt(9,c.getId_QL());
-            st.setInt(10,c.getSoCT());
+            if (c.getNgayCT() != null) st.setDate(1, Date.valueOf(c.getNgayCT()));
+            else st.setDate(1, null);
+            st.setInt(2, c.getLoai());
+            st.setInt(3, c.getId_KH());
+            st.setInt(4, c.getId_NV());
+            st.setNString(5, c.getNoiDung());
+            st.setFloat(6, c.getGiam());
+            st.setFloat(7, c.getVAT());
+            st.setNString(8, c.getSoHD());
+            st.setInt(9, c.getId_QL());
+            st.setInt(10, c.getSoCT());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -540,17 +542,17 @@ public class DatabaseConnection {
         String sql = "Update KhachHang set Hoten=?, Gioitinh=?, DonVi =?,CMND=?,NgayCap=?, Noicap=?, Loai=?, QuocTich =?, id_doan=? where id_kh = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setNString(1,k.getHoTen());
-            st.setInt(2,k.getGioiTinh());
-            st.setNString(3,k.getDonVi());
+            st.setNString(1, k.getHoTen());
+            st.setInt(2, k.getGioiTinh());
+            st.setNString(3, k.getDonVi());
             st.setNString(4, k.getcMND());
-            st.setNString(5,k.getNgayCap());
-            st.setNString(6,k.getNoiCap());
-            st.setInt(7,k.getLoai());
-            st.setNString(8,k.getQuocTich());
-            st.setInt(9,k.getIdDoan());
-            st.setInt(10,k.getId());
-            b= st.executeUpdate()>0;
+            st.setNString(5, k.getNgayCap());
+            st.setNString(6, k.getNoiCap());
+            st.setInt(7, k.getLoai());
+            st.setNString(8, k.getQuocTich());
+            st.setInt(9, k.getIdDoan());
+            st.setInt(10, k.getId());
+            b = st.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -560,10 +562,10 @@ public class DatabaseConnection {
     //Xóa khách hàng
     public boolean delKH(int id) {
         boolean b = false;
-        String sql = "Delete from KhachHang where id_kh="+id;
+        String sql = "Delete from KhachHang where id_kh=" + id;
         try {
             Statement st = conn.createStatement();
-            b= st.executeUpdate(sql)>0;
+            b = st.executeUpdate(sql) > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -759,10 +761,10 @@ public class DatabaseConnection {
         String sql = "update LichLamViec set ID_Ca = ? , TangCa = ? , GhiChu = ? where Id_Lich = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1,lich.getId_Ca());
-            st.setInt(2,lich.getTangCa());
-            st.setNString(3,lich.getGhiChu());
-            st.setInt(4,lich.getId());
+            st.setInt(1, lich.getId_Ca());
+            st.setInt(2, lich.getTangCa());
+            st.setNString(3, lich.getGhiChu());
+            st.setInt(4, lich.getId());
             int a = st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -776,7 +778,7 @@ public class DatabaseConnection {
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            while (rs.next()){
+            while (rs.next()) {
                 CaLamViec ca = new CaLamViec();
                 ca.setiD(rs.getInt(1));
                 ca.setTenCa(rs.getNString(2));
@@ -793,18 +795,18 @@ public class DatabaseConnection {
     public boolean editRoominfo(QuanLyPhong n) {
         String sql = "update QuanLyPhong set ID_DK = ? , ID_KH=?, MaPhong=?, Checkin=?, Checkout=?, Gia=?, GhiChu=?, TrangThai=? where id_ql = ?";
         try {
-            PreparedStatement st= conn.prepareStatement(sql);
-            st.setInt(9,n.getId());
-            st.setInt(1,n.getId_Dk());
-            st.setInt(2,n.getId_KH());
-            st.setNString(3,n.getMaPhong());
-            st.setDate(4,Date.valueOf(n.getCI()));
-            if(n.getCO()!=null) st.setDate(5,Date.valueOf(n.getCO()));
-            else st.setDate(5,null);
-            st.setFloat(6,n.getGia());
-            st.setNString(7,n.getGhiChu());
-            st.setInt(8,n.getTrangThai());
-            return st.executeUpdate()>0;
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(9, n.getId());
+            st.setInt(1, n.getId_Dk());
+            st.setInt(2, n.getId_KH());
+            st.setNString(3, n.getMaPhong());
+            st.setDate(4, Date.valueOf(n.getCI()));
+            if (n.getCO() != null) st.setDate(5, Date.valueOf(n.getCO()));
+            else st.setDate(5, null);
+            st.setFloat(6, n.getGia());
+            st.setNString(7, n.getGhiChu());
+            st.setInt(8, n.getTrangThai());
+            return st.executeUpdate() > 0;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -815,16 +817,16 @@ public class DatabaseConnection {
     public boolean editPhong(Phong p) {
         String sql = "update Phong set tang = ?, id_loai = ?, dongia = ?, trangthai=?, Phone = ?,Giuong = ?, Nguoi=? where MaPhong = ?";
         try {
-            PreparedStatement st= conn.prepareStatement(sql);
-            st.setInt(1,p.getTang());
-            st.setInt(2,p.getLoai());
-            st.setFloat(3,p.getDonGia());
-            st.setInt(4,p.getTrangThai());
-            st.setNString(5,p.getPhone());
-            st.setInt(6,p.getSoGiuong());
-            st.setInt(7,p.getSoNguoi());
-            st.setNString(8,p.getMaPhong());
-            return st.executeUpdate()>0;
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, p.getTang());
+            st.setInt(2, p.getLoai());
+            st.setFloat(3, p.getDonGia());
+            st.setInt(4, p.getTrangThai());
+            st.setNString(5, p.getPhone());
+            st.setInt(6, p.getSoGiuong());
+            st.setInt(7, p.getSoNguoi());
+            st.setNString(8, p.getMaPhong());
+            return st.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -847,18 +849,18 @@ public class DatabaseConnection {
         return next + 1;
     }
 
-    public ArrayList<ChamCong> getlistChamCong(){
+    public ArrayList<ChamCong> getlistChamCong() {
         String sql = "select * from ChamCong";
         ArrayList<ChamCong> list = new ArrayList<>();
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            while (rs.next()){
+            while (rs.next()) {
                 ChamCong c = new ChamCong();
                 c.setId(rs.getInt(1));
                 c.setId_lich(rs.getInt(2));
-                if(rs.getTime(3)!=null) c.setVao(rs.getTime(3).toLocalTime());
-                if(rs.getTime(4)!=null) c.setRa(rs.getTime(4).toLocalTime());
+                if (rs.getTime(3) != null) c.setVao(rs.getTime(3).toLocalTime());
+                if (rs.getTime(4) != null) c.setRa(rs.getTime(4).toLocalTime());
                 list.add(c);
             }
         } catch (SQLException throwables) {
@@ -866,6 +868,7 @@ public class DatabaseConnection {
         }
         return list;
     }
+
     public int nextChamCong() {
         String sql = "select max(ID) from ChamCong";
         int next = 0;
@@ -881,6 +884,7 @@ public class DatabaseConnection {
         }
         return next + 1;
     }
+
     public int nextDV() {
         String sql = "select max(ID_DV) from DichVu";
         int next = 0;
@@ -901,9 +905,9 @@ public class DatabaseConnection {
         String sql = "insert into ChamCong(ID,ID_LICH,Vao) values (?,?,?)";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1,nextChamCong());
-            st.setInt(2,c.getId_lich());
-            st.setTime(3,Time.valueOf(c.getVao()));
+            st.setInt(1, nextChamCong());
+            st.setInt(2, c.getId_lich());
+            st.setTime(3, Time.valueOf(c.getVao()));
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -914,8 +918,8 @@ public class DatabaseConnection {
         String sql = "update ChamCong set Ra = ? where Id = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setTime(1,Time.valueOf(c.getRa()));
-            st.setInt(2,c.getId());
+            st.setTime(1, Time.valueOf(c.getRa()));
+            st.setInt(2, c.getId());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -926,13 +930,13 @@ public class DatabaseConnection {
         String sql = "insert into DongChungTu values(?,?,?,?,?,?,?)";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1,nextDongCT());
-            st.setInt(2,d.getSoCT());
-            st.setInt(3,d.getId_DV()); 
-            st.setFloat(4,d.getSoLuong());
-            st.setFloat(5,d.getDonGia());
-            st.setNString(6,d.getGhiChu());
-            st.setNString(7,d.getMaPhong());
+            st.setInt(1, nextDongCT());
+            st.setInt(2, d.getSoCT());
+            st.setInt(3, d.getId_DV());
+            st.setFloat(4, d.getSoLuong());
+            st.setFloat(5, d.getDonGia());
+            st.setNString(6, d.getGhiChu());
+            st.setNString(7, d.getMaPhong());
             return st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -944,13 +948,13 @@ public class DatabaseConnection {
         String sql = "Update DongChungTu set SoCT = ?, ID_DV=?, Soluong = ?, DonGia=?, GhiChu=?,MaPhong = ? where id=?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1,d.getSoCT());
-            st.setInt(2,d.getId_DV());
-            st.setFloat(3,d.getSoLuong());
-            st.setFloat(4,d.getDonGia());
-            st.setNString(5,d.getGhiChu());
-            st.setNString(6,d.getMaPhong());
-            st.setInt(7,d.getId());
+            st.setInt(1, d.getSoCT());
+            st.setInt(2, d.getId_DV());
+            st.setFloat(3, d.getSoLuong());
+            st.setFloat(4, d.getDonGia());
+            st.setNString(5, d.getGhiChu());
+            st.setNString(6, d.getMaPhong());
+            st.setInt(7, d.getId());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -959,7 +963,7 @@ public class DatabaseConnection {
     }
 
     public void delQLP(int item) {
-        String sql = "Delete from QuanLyPhong  where id_ql="+item;
+        String sql = "Delete from QuanLyPhong  where id_ql=" + item;
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -969,7 +973,7 @@ public class DatabaseConnection {
     }
 
     public void delPhong(String item) {
-        String sql = "Delete from Phong where MaPhong='"+item+"'";
+        String sql = "Delete from Phong where MaPhong='" + item + "'";
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -979,7 +983,7 @@ public class DatabaseConnection {
     }
 
     public void delLich(Lich item) {
-        String sql = "Delete from LichLamViec where id_lich="+item.getId();
+        String sql = "Delete from LichLamViec where id_lich=" + item.getId();
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -989,7 +993,7 @@ public class DatabaseConnection {
     }
 
     public void delChamCong(ChamCong item) {
-        String sql = "Delete from ChamCong where id="+item.getId();
+        String sql = "Delete from ChamCong where id=" + item.getId();
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -999,7 +1003,7 @@ public class DatabaseConnection {
     }
 
     public void delDCT(int item) {
-        String sql = "Delete from DongChungTu where id="+item;
+        String sql = "Delete from DongChungTu where id=" + item;
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -1009,7 +1013,7 @@ public class DatabaseConnection {
     }
 
     public void delCT(Integer id) {
-        String sql = "Delete from ChungTu where soct="+id;
+        String sql = "Delete from ChungTu where soct=" + id;
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -1020,7 +1024,7 @@ public class DatabaseConnection {
 
 
     public void delDV(Integer id) {
-        String sql = "Delete from DichVu where id="+id;
+        String sql = "Delete from DichVu where id=" + id;
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -1033,14 +1037,14 @@ public class DatabaseConnection {
         String sql = "insert into DichVu values(?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1,c.getiD());
-            st.setNString(2,c.getTenDV());
-            st.setNString(3,c.getDonViTinh());
-            st.setFloat(4,c.getDonGIa());
-            st.setNString(5,c.getGhiChu());
-            st.setInt(6,c.getLoai());
-            st.setFloat(7,c.getsLDK());
-            st.setFloat(8,c.getgTDK());
+            st.setInt(1, c.getiD());
+            st.setNString(2, c.getTenDV());
+            st.setNString(3, c.getDonViTinh());
+            st.setFloat(4, c.getDonGIa());
+            st.setNString(5, c.getGhiChu());
+            st.setInt(6, c.getLoai());
+            st.setFloat(7, c.getsLDK());
+            st.setFloat(8, c.getgTDK());
 
             st.executeUpdate();
         } catch (SQLException throwables) {
@@ -1053,27 +1057,28 @@ public class DatabaseConnection {
         try {
             PreparedStatement st = conn.prepareStatement(sql);
 
-            st.setNString(1,c.getTenDV());
-            st.setNString(2,c.getDonViTinh());
-            st.setFloat(3,c.getDonGIa());
-            st.setNString(4,c.getGhiChu());
-            st.setInt(5,c.getLoai());
-            st.setFloat(6,c.getsLDK());
-            st.setFloat(7,c.getgTDK());
-            st.setInt(8,c.getiD());
+            st.setNString(1, c.getTenDV());
+            st.setNString(2, c.getDonViTinh());
+            st.setFloat(3, c.getDonGIa());
+            st.setNString(4, c.getGhiChu());
+            st.setInt(5, c.getLoai());
+            st.setFloat(6, c.getsLDK());
+            st.setFloat(7, c.getgTDK());
+            st.setInt(8, c.getiD());
 
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-    public ArrayList<Doan> getListDoan(){
+
+    public ArrayList<Doan> getListDoan() {
         String sql = "select * from Doan";
         ArrayList<Doan> list = new ArrayList<>();
         try {
             Statement st = conn.createStatement();
-            ResultSet rs =st.executeQuery(sql);
-            while (rs.next()){
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
                 Doan d = new Doan();
                 d.setId(rs.getInt(1));
                 d.setTenDoan(rs.getNString(2));
@@ -1084,6 +1089,7 @@ public class DatabaseConnection {
         }
         return list;
     }
+
     public int nextDoan() {
         String sql = "select max(ID) from Doan";
         int next = 0;
@@ -1099,19 +1105,20 @@ public class DatabaseConnection {
         }
         return next + 1;
     }
-    public ArrayList<DangKy> getListDangKi(){
+
+    public ArrayList<DangKy> getListDangKi() {
         ArrayList<DangKy> list = new ArrayList<>();
         String sql = "select * from Dangky";
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            while (rs.next()){
+            while (rs.next()) {
                 DangKy d = new DangKy();
                 d.setId(rs.getInt(1));
                 d.setSoPhong(rs.getInt(2));
-                if(rs.getDate(3)!=null) d.setNgayDat(rs.getDate(3).toLocalDate());
-                if(rs.getDate(4)!=null)d.setTuNgay(rs.getDate(4).toLocalDate());
-                if(rs.getDate(5)!=null)d.setToiNgay(rs.getDate(5).toLocalDate());
+                if (rs.getDate(3) != null) d.setNgayDat(rs.getDate(3).toLocalDate());
+                if (rs.getDate(4) != null) d.setTuNgay(rs.getDate(4).toLocalDate());
+                if (rs.getDate(5) != null) d.setToiNgay(rs.getDate(5).toLocalDate());
                 d.setSoKhach(rs.getInt(6));
                 d.setNam(rs.getInt(7));
                 d.setNu(rs.getInt(8));
@@ -1127,7 +1134,8 @@ public class DatabaseConnection {
         }
         return list;
     }
-    public int nextID_DK(){
+
+    public int nextID_DK() {
         String sql = "select max(ID_DK) from DangKy";
         int next = 0;
         try {
@@ -1142,51 +1150,54 @@ public class DatabaseConnection {
         }
         return next + 1;
     }
-    public void addDangKy(DangKy d){
+
+    public void addDangKy(DangKy d) {
         String sql = "insert into DangKy values(?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1,d.getId());
-            st.setInt(2,d.getSoPhong());
-            st.setDate(3,Date.valueOf(d.getNgayDat()));
-            st.setDate(4,Date.valueOf(d.getTuNgay()));
-            st.setDate(5,Date.valueOf(d.getToiNgay()));
-            st.setInt(6,d.getSoKhach());
-            st.setInt(7,d.getNam());
-            st.setInt(8,d.getNu());
-            st.setInt(9,d.getTreEm());
-            st.setInt(10,d.getId_kh());
-            st.setInt(11,d.getId_nv());
-            st.setFloat(12,d.getCoc());
+            st.setInt(1, d.getId());
+            st.setInt(2, d.getSoPhong());
+            st.setDate(3, Date.valueOf(d.getNgayDat()));
+            st.setDate(4, Date.valueOf(d.getTuNgay()));
+            st.setDate(5, Date.valueOf(d.getToiNgay()));
+            st.setInt(6, d.getSoKhach());
+            st.setInt(7, d.getNam());
+            st.setInt(8, d.getNu());
+            st.setInt(9, d.getTreEm());
+            st.setInt(10, d.getId_kh());
+            st.setInt(11, d.getId_nv());
+            st.setFloat(12, d.getCoc());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
     }
-    public void editDangKy(DangKy d){
+
+    public void editDangKy(DangKy d) {
         String sql = "update DangKy set SoPhong=?, NgayDat=?, TuNgay=?, Denngay=?, SoKhach=?, Nam=?, Nu=?, TreEm=?, ID_KH=?,ID_NV=?, TienCoc=? where ID_DK = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(12,d.getId());
-            st.setInt(1,d.getSoPhong());
-            st.setDate(2,Date.valueOf(d.getNgayDat()));
-            st.setDate(3,Date.valueOf(d.getTuNgay()));
-            st.setDate(4,Date.valueOf(d.getToiNgay()));
-            st.setInt(5,d.getSoKhach());
-            st.setInt(6,d.getNam());
-            st.setInt(7,d.getNu());
-            st.setInt(8,d.getTreEm());
-            st.setInt(9,d.getId_kh());
-            st.setInt(10,d.getId_nv());
-            st.setFloat(11,d.getCoc());
+            st.setInt(12, d.getId());
+            st.setInt(1, d.getSoPhong());
+            st.setDate(2, Date.valueOf(d.getNgayDat()));
+            st.setDate(3, Date.valueOf(d.getTuNgay()));
+            st.setDate(4, Date.valueOf(d.getToiNgay()));
+            st.setInt(5, d.getSoKhach());
+            st.setInt(6, d.getNam());
+            st.setInt(7, d.getNu());
+            st.setInt(8, d.getTreEm());
+            st.setInt(9, d.getId_kh());
+            st.setInt(10, d.getId_nv());
+            st.setFloat(11, d.getCoc());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-    public void delDangKy(int id){
-        String sql = "Delete from DangKy where ID_DK = "+id;
+
+    public void delDangKy(int id) {
+        String sql = "Delete from DangKy where ID_DK = " + id;
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -1196,9 +1207,8 @@ public class DatabaseConnection {
     }
 
 
-
     public void delDoan(Integer id) {
-        String sql = "Delete from Doan where ID = "+id;
+        String sql = "Delete from Doan where ID = " + id;
         try {
             Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -1210,9 +1220,9 @@ public class DatabaseConnection {
     public void addDoan(Doan d) {
         String sql = "insert into Doan values (?,?)";
         try {
-            PreparedStatement st =conn.prepareStatement(sql);
-            st.setInt(1,d.getId());
-            st.setNString(2,d.getTenDoan());
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, d.getId());
+            st.setNString(2, d.getTenDoan());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -1221,11 +1231,11 @@ public class DatabaseConnection {
     }
 
     public void editDoan(Doan d) {
-        String sql= "update doan set TenDoan=? where id=?";
+        String sql = "update doan set TenDoan=? where id=?";
         try {
-            PreparedStatement st =conn.prepareStatement(sql);
-            st.setInt(2,d.getId());
-            st.setNString(1,d.getTenDoan());
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(2, d.getId());
+            st.setNString(1, d.getTenDoan());
             st.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

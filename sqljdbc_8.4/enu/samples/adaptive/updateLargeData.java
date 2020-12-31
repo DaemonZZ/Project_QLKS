@@ -17,6 +17,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,12 +32,12 @@ public class UpdateLargeData {
 
     public static void main(String[] args) {
 
-    	// Create a variable for the connection string.
+        // Create a variable for the connection string.
         String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=AdventureWorks;user=<user>;password=<password>";
 
         // Establish the connection.
         try (Connection con = DriverManager.getConnection(connectionUrl); Statement stmt = con.createStatement();
-                Statement stmt1 = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);) {
+             Statement stmt1 = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);) {
 
             createTable(stmt);
 

@@ -1,4 +1,5 @@
 package the.View;
+
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,193 +15,211 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 
 
-public class RoomButton extends JPanel implements MouseListener{
-	private String maPhong;
-	private int trangThai;
-	private int loai;
-	private float Gia;
-	private float sum;
-	private int soNguoi;
-	private JTextField color;
-	
-	Color _trangThai;
-	String _loai,stt;
-	
-	public String getMaPhong() {
-		return maPhong;
-	}
+public class RoomButton extends JPanel implements MouseListener {
+    private String maPhong;
+    private int trangThai;
+    private int loai;
+    private float Gia;
+    private float sum;
+    private int soNguoi;
+    private JTextField color;
 
-	public void setMaPhong(String maPhong) {
-		this.maPhong = maPhong;
-	}
+    Color _trangThai;
+    String _loai, stt;
 
-	public int getTrangThai() {
-		return trangThai;
-	}
+    public String getMaPhong() {
+        return maPhong;
+    }
 
-	public void setTrangThai(int trangThai) {
-		this.trangThai = trangThai;
-	}
+    public void setMaPhong(String maPhong) {
+        this.maPhong = maPhong;
+    }
 
-	public int getLoai() {
-		return loai;
-	}
+    public int getTrangThai() {
+        return trangThai;
+    }
 
-	public void setLoai(int loai) {
-		this.loai = loai;
-	}
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
+    }
 
-	public float getGia() {
-		return Gia;
-	}
+    public int getLoai() {
+        return loai;
+    }
 
-	public void setGia(float gia) {
-		Gia = gia;
-	}
+    public void setLoai(int loai) {
+        this.loai = loai;
+    }
 
-	public float getSum() {
-		return sum;
-	}
+    public float getGia() {
+        return Gia;
+    }
 
-	public void setSum(float sum) {
-		this.sum = sum;
-	}
+    public void setGia(float gia) {
+        Gia = gia;
+    }
 
-	public JTextField getColor() {
-		return color;
-	}
+    public float getSum() {
+        return sum;
+    }
 
-	public void setColor(JTextField color) {
-		this.color = color;
-	}
+    public void setSum(float sum) {
+        this.sum = sum;
+    }
 
-	public RoomButton(String maPhong, int trangThai, int loai, float gia, float sum,int soNguoi) {
-		
-		super();
-		
-		switch (trangThai) {
-		case 0: _trangThai=Color.YELLOW;
-			
-			break;
-		case 1: _trangThai=Color.CYAN;
-		
-			break;
-		case 2: _trangThai=Color.GREEN;
-		
-			break;
-		case 3: _trangThai=Color.GRAY;
-		
-			break;
-		case 4: _trangThai=Color.PINK;
-		
-			break;
-		case 5: _trangThai=Color.RED;
-		
-			break;
+    public JTextField getColor() {
+        return color;
+    }
 
-		
-		}
-		
-		switch (loai) {
-		case 1: _loai="Double";
-			
-			break;
-		case 2: _loai="Triple";
-		
-		break;
-		case 3: _loai="Family";
-		
-		break;
-		case 4: _loai="Double - VIP";
-		
-		break;
-		case 5: _loai="Triple - VIP";
-		
-		break;
-		case 6: _loai="Family - VIP";
-		
-		break;
-		case 7: _loai="Working";
-		
-		break;
-		case 8: _loai="Hall";
-		
-		break;
+    public void setColor(JTextField color) {
+        this.color = color;
+    }
 
-		default:
-			break;
-		}
-		setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
-		//setSize(120,120);
-		setBackground(SystemColor.info);
-		this.maPhong = maPhong;
-		this.trangThai = trangThai;
-		this.loai = loai;
-		Gia = gia;
-		this.sum = sum;
-		
-		setSize(160,150);
-		setLayout(null);
-		
-		JLabel lbMaPhong = new JLabel();
-		lbMaPhong.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lbMaPhong.setBounds(10, 11, 57, 19);
-		add(lbMaPhong);
-		lbMaPhong.setText(maPhong);
-		
-		color = new JTextField();
-		color.setEditable(false);
-		color.setBounds(77, 11, 31, 20);
-		add(color);
-		color.setColumns(10);
-		
-		JLabel lbThongTin = new JLabel("<html>Loại Phòng: "+_loai+"<br>Giá: "+gia+"<br>Số người tối đa: "+soNguoi+"</html>");
-		lbThongTin.setBounds(10, 57, 101, 59);
-		add(lbThongTin);
-		
-		JLabel lblNewLabel = new JLabel("______________");
-		lblNewLabel.setBounds(0, 32, 126, 14);
-		add(lblNewLabel);
-		
-		this.setToolTipText("Tổng tiền: "+sum+"đ");
-		
-		color.setBackground(_trangThai);
-		
-		setVisible(true);
-		
-		addMouseListener(this);
-		
-	}
-	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		setBackground(new Color(233, 235, 148));
-		setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, Color.ORANGE, null));
-		
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		setBackground(SystemColor.info);
-		setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		setBackground(new Color(233, 235, 148));
-		setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.RED, null));
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		setBackground(SystemColor.info);
-		setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
-	}
-	
+    public RoomButton(String maPhong, int trangThai, int loai, float gia, float sum, int soNguoi) {
+
+        super();
+
+        switch (trangThai) {
+            case 0:
+                _trangThai = Color.YELLOW;
+
+                break;
+            case 1:
+                _trangThai = Color.CYAN;
+
+                break;
+            case 2:
+                _trangThai = Color.GREEN;
+
+                break;
+            case 3:
+                _trangThai = Color.GRAY;
+
+                break;
+            case 4:
+                _trangThai = Color.PINK;
+
+                break;
+            case 5:
+                _trangThai = Color.RED;
+
+                break;
+
+
+        }
+
+        switch (loai) {
+            case 1:
+                _loai = "Double";
+
+                break;
+            case 2:
+                _loai = "Triple";
+
+                break;
+            case 3:
+                _loai = "Family";
+
+                break;
+            case 4:
+                _loai = "Double - VIP";
+
+                break;
+            case 5:
+                _loai = "Triple - VIP";
+
+                break;
+            case 6:
+                _loai = "Family - VIP";
+
+                break;
+            case 7:
+                _loai = "Working";
+
+                break;
+            case 8:
+                _loai = "Hall";
+
+                break;
+
+            default:
+                break;
+        }
+        setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
+        //setSize(120,120);
+        setBackground(SystemColor.info);
+        this.maPhong = maPhong;
+        this.trangThai = trangThai;
+        this.loai = loai;
+        Gia = gia;
+        this.sum = sum;
+
+        setSize(160, 150);
+        setLayout(null);
+
+        JLabel lbMaPhong = new JLabel();
+        lbMaPhong.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lbMaPhong.setBounds(10, 11, 57, 19);
+        add(lbMaPhong);
+        lbMaPhong.setText(maPhong);
+
+        color = new JTextField();
+        color.setEditable(false);
+        color.setBounds(77, 11, 31, 20);
+        add(color);
+        color.setColumns(10);
+
+        JLabel lbThongTin = new JLabel("<html>Loại Phòng: " + _loai + "<br>Giá: " + gia + "<br>Số người tối đa: " + soNguoi + "</html>");
+        lbThongTin.setBounds(10, 57, 101, 59);
+        add(lbThongTin);
+
+        JLabel lblNewLabel = new JLabel("______________");
+        lblNewLabel.setBounds(0, 32, 126, 14);
+        add(lblNewLabel);
+
+        this.setToolTipText("Tổng tiền: " + sum + "đ");
+
+        color.setBackground(_trangThai);
+
+        setVisible(true);
+
+        addMouseListener(this);
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        setBackground(new Color(233, 235, 148));
+        setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, Color.ORANGE, null));
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        setBackground(SystemColor.info);
+        setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        setBackground(new Color(233, 235, 148));
+        setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.RED, null));
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        setBackground(SystemColor.info);
+        setBorder(new BevelBorder(BevelBorder.RAISED, null, null, Color.DARK_GRAY, null));
+    }
+
 }

@@ -16,6 +16,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,65 +33,65 @@ public class ExecuteStoredProcedures {
 
         String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=AdventureWorks;user=<user>;password=<password>";
 
-		try (Connection con = DriverManager.getConnection(connectionUrl); Statement stmt = con.createStatement()) {
+        try (Connection con = DriverManager.getConnection(connectionUrl); Statement stmt = con.createStatement()) {
 
-			createTable(stmt);
-			createStoredProcedure(stmt);
+            createTable(stmt);
+            createStoredProcedure(stmt);
 
-			// Create test data as an example.
-			StringBuffer buffer = new StringBuffer(4000);
-			for (int i = 0; i < 4000; i++)
-				buffer.append((char) ('A'));
+            // Create test data as an example.
+            StringBuffer buffer = new StringBuffer(4000);
+            for (int i = 0; i < 4000; i++)
+                buffer.append((char) ('A'));
 
-			try (PreparedStatement pstmt = con.prepareStatement(
-					"UPDATE Document_JDBC_Sample " + "SET DocumentSummary = ? WHERE (DocumentID = 1)")) {
+            try (PreparedStatement pstmt = con.prepareStatement(
+                    "UPDATE Document_JDBC_Sample " + "SET DocumentSummary = ? WHERE (DocumentID = 1)")) {
 
-				pstmt.setString(1, buffer.toString());
-				pstmt.executeUpdate();
-			}
+                pstmt.setString(1, buffer.toString());
+                pstmt.executeUpdate();
+            }
 
-			// Query test data by using a stored procedure.
-			try (SQLServerCallableStatement cstmt = (SQLServerCallableStatement) con
-					.prepareCall("{call GetLargeDataValue(?, ?, ?, ?)}")) {
+            // Query test data by using a stored procedure.
+            try (SQLServerCallableStatement cstmt = (SQLServerCallableStatement) con
+                    .prepareCall("{call GetLargeDataValue(?, ?, ?, ?)}")) {
 
-				cstmt.setInt(1, 1);
-				cstmt.registerOutParameter(2, java.sql.Types.INTEGER);
-				cstmt.registerOutParameter(3, java.sql.Types.CHAR);
-				cstmt.registerOutParameter(4, java.sql.Types.LONGVARCHAR);
+                cstmt.setInt(1, 1);
+                cstmt.registerOutParameter(2, java.sql.Types.INTEGER);
+                cstmt.registerOutParameter(3, java.sql.Types.CHAR);
+                cstmt.registerOutParameter(4, java.sql.Types.LONGVARCHAR);
 
-				// Display the response buffering mode.
-				System.out.println("Response buffering mode is: " + cstmt.getResponseBuffering());
+                // Display the response buffering mode.
+                System.out.println("Response buffering mode is: " + cstmt.getResponseBuffering());
 
-				cstmt.execute();
-				System.out.println("DocumentID: " + cstmt.getInt(2));
-				System.out.println("Document_Title: " + cstmt.getString(3));
+                cstmt.execute();
+                System.out.println("DocumentID: " + cstmt.getInt(2));
+                System.out.println("Document_Title: " + cstmt.getString(3));
 
-				try (Reader reader = cstmt.getCharacterStream(4)) {
+                try (Reader reader = cstmt.getCharacterStream(4)) {
 
-					// If your application needs to re-read any portion of the value,
-					// it must call the mark method on the InputStream or Reader to
-					// start buffering data that is to be re-read after a subsequent
-					// call to the reset method.
-					reader.mark(4000);
+                    // If your application needs to re-read any portion of the value,
+                    // it must call the mark method on the InputStream or Reader to
+                    // start buffering data that is to be re-read after a subsequent
+                    // call to the reset method.
+                    reader.mark(4000);
 
-					// Read the first half of data.
-					char output1[] = new char[2000];
-					reader.read(output1);
-					String stringOutput1 = new String(output1);
+                    // Read the first half of data.
+                    char output1[] = new char[2000];
+                    reader.read(output1);
+                    String stringOutput1 = new String(output1);
 
-					// Reset the stream.
-					reader.reset();
+                    // Reset the stream.
+                    reader.reset();
 
-					// Read all the data.
-					char output2[] = new char[4000];
-					reader.read(output2);
-					String stringOutput2 = new String(output2);
+                    // Read all the data.
+                    char output2[] = new char[4000];
+                    reader.read(output2);
+                    String stringOutput2 = new String(output2);
 
-					System.out.println("Document_Summary in half: " + stringOutput1);
-					System.out.println("Document_Summary: " + stringOutput2);
-				}
-			}
-		}
+                    System.out.println("Document_Summary in half: " + stringOutput1);
+                    System.out.println("Document_Summary: " + stringOutput2);
+                }
+            }
+        }
         // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();

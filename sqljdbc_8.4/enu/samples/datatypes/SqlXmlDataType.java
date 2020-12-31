@@ -17,6 +17,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -43,29 +44,29 @@ public class SqlXmlDataType {
 
     public static void main(String[] args) {
 
-		// Create a variable for the connection string.
-		String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=<database>;username=<user>;password=<password>;";
+        // Create a variable for the connection string.
+        String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=<database>;username=<user>;password=<password>;";
 
-		// Establish the connection.
-		try (Connection con = DriverManager.getConnection(connectionUrl);
-				Statement stmt = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+        // Establish the connection.
+        try (Connection con = DriverManager.getConnection(connectionUrl);
+             Statement stmt = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
 
-			// Create initial sample data.
-			createSampleTables(stmt);
+            // Create initial sample data.
+            createSampleTables(stmt);
 
-			// The showGetters method demonstrates how to parse the data in the
-			// SQLXML object by using the SAX, ContentHandler and XMLReader.
-			showGetters(stmt);
+            // The showGetters method demonstrates how to parse the data in the
+            // SQLXML object by using the SAX, ContentHandler and XMLReader.
+            showGetters(stmt);
 
-			// The showSetters method demonstrates how to set the xml column
-			// by using the SAX, ContentHandler, and ResultSet.
-			showSetters(con, stmt);
+            // The showSetters method demonstrates how to set the xml column
+            // by using the SAX, ContentHandler, and ResultSet.
+            showSetters(con, stmt);
 
-			// The showTransformer method demonstrates how to get an XML data
-			// from one table and insert that XML data to another table
-			// by using the SAX and the Transformer.
-			showTransformer(con, stmt);
-		}
+            // The showTransformer method demonstrates how to get an XML data
+            // from one table and insert that XML data to another table
+            // by using the SAX and the Transformer.
+            showTransformer(con, stmt);
+        }
         // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();

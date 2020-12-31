@@ -98,7 +98,7 @@ public class LoginForm extends JFrame {
                         Thread sync = new DataSynchronizer();
                         sync.start();
                         new MainForm(accessRight);
-                        MainForm.nv=a;
+                        MainForm.nv = a;
                         dispose();
                     }
                 }
@@ -117,7 +117,7 @@ public class LoginForm extends JFrame {
     public DefaultComboBoxModel<String> loadCbLogin(int index) {
         DefaultComboBoxModel<String> md = new DefaultComboBoxModel<String>();
         for (NhanVien n : listNV) {
-            if (n.getLoai() == index&& n.getiD()!=0) {
+            if (n.getLoai() == index && n.getiD() != 0) {
                 md.addElement(n.getHoTen());
             }
         }

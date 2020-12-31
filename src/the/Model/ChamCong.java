@@ -17,10 +17,10 @@ public class ChamCong {
     }
 
     public ChamCong() {
-        this.id=0;
-        this.id_lich=0;
-        this.ra=null;
-        this.vao=null;
+        this.id = 0;
+        this.id_lich = 0;
+        this.ra = null;
+        this.vao = null;
     }
 
     @Override

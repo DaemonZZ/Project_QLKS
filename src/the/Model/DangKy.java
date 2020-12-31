@@ -8,7 +8,7 @@ public class DangKy {
     private LocalDate ngayDat;
     private LocalDate tuNgay;
     private LocalDate toiNgay;
-    private  int soKhach;
+    private int soKhach;
     private int nam;
     private int nu;
     private int treEm;
@@ -142,5 +142,5 @@ public class DangKy {
         this.coc = coc;
     }
 
-   
+
 }

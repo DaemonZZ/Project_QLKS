@@ -16,6 +16,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -30,7 +31,7 @@ public class UpdateResultSet {
         String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=AdventureWorks;user=<user>;password=<password>";
 
         try (Connection con = DriverManager.getConnection(connectionUrl);
-                Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);) {
+             Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);) {
 
             // Create and execute an SQL statement, retrieving an updateable result set.
             String SQL = "SELECT * FROM HumanResources.Department;";
@@ -69,7 +70,7 @@ public class UpdateResultSet {
     }
 
     private static void displayRow(String title,
-            ResultSet rs) throws SQLException {
+                                   ResultSet rs) throws SQLException {
         System.out.println(title);
         while (rs.next()) {
             System.out.println(rs.getString("Name") + " : " + rs.getString("GroupName"));

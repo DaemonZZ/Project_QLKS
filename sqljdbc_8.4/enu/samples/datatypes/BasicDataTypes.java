@@ -17,6 +17,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -34,17 +35,17 @@ import microsoft.sql.DateTimeOffset;
 public class BasicDataTypes {
     private static final String tableName = "DataTypesTable";
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
         // Create a variable for the connection string.
         String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=<database>;user=<user>;password=<password>";
 
         try (Connection con = DriverManager.getConnection(connectionUrl);
-                Statement stmt = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);) {
+             Statement stmt = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);) {
 
-        	dropAndCreateTable(stmt);
-        	insertOriginalData(con);
-        	
+            dropAndCreateTable(stmt);
+            insertOriginalData(con);
+
             String SQL = "SELECT * FROM " + tableName;
             ResultSet rs = stmt.executeQuery(SQL);
             rs.next();
@@ -80,7 +81,7 @@ public class BasicDataTypes {
     }
 
     private static void displayRow(String title,
-            ResultSet rs) throws SQLException {
+                                   ResultSet rs) throws SQLException {
         System.out.println(title);
         System.out.println(rs.getInt(1) + " , " +                 // SQL integer type.
                 rs.getString(2) + " , " +                         // SQL char type.

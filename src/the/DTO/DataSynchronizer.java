@@ -298,15 +298,16 @@ public class DataSynchronizer extends Thread {
             }
         }
     }
-    public void syncDangky(){
+
+    public void syncDangky() {
         ArrayList<DangKy> oldData = dbc.getListDangKi();
         ArrayList<DangKy> newData = DataStorage.loader.getListDangKy();
         ArrayList<DangKy> diffList = new ArrayList<>();
         ArrayList<Integer> listNewId = new ArrayList<>();
         ArrayList<Integer> listOldId = new ArrayList<>();
-        int max = dbc.nextID_DK()-1;
+        int max = dbc.nextID_DK() - 1;
         for (DangKy d : newData
-             ) {
+        ) {
             listNewId.add(d.getId());
             if (!oldData.contains(d)) diffList.add(d);
         }
@@ -314,15 +315,15 @@ public class DataSynchronizer extends Thread {
         ) {
             listOldId.add(item.getId());
         }
-        for (Integer id:listOldId
-             ) {
+        for (Integer id : listOldId
+        ) {
 
             if (!listNewId.contains(id)) {
                 dbc.delDangKy(id);
             }
         }
-        for (DangKy d: diffList
-             ) {
+        for (DangKy d : diffList
+        ) {
             if (d.getId() > max) {
                 dbc.addDangKy(d);
             } else {
@@ -330,23 +331,24 @@ public class DataSynchronizer extends Thread {
             }
         }
     }
-    public void syncDoan(){
+
+    public void syncDoan() {
         ArrayList<Doan> oldData = dbc.getListDoan();
         ArrayList<Doan> newData = DataStorage.loader.getListDoan();
         ArrayList<Doan> diffList = new ArrayList<>();
         ArrayList<Integer> listNewId = new ArrayList<>();
         ArrayList<Integer> listOldId = new ArrayList<>();
-        int max = dbc.nextDoan()-1;
+        int max = dbc.nextDoan() - 1;
         for (Doan d : newData
         ) {
             listNewId.add(d.getId());
             if (!oldData.contains(d)) diffList.add(d);
         }
-        for (Integer id:listOldId
+        for (Integer id : listOldId
         ) {
             if (!listNewId.contains(id)) dbc.delDoan(id);
         }
-        for (Doan d: diffList
+        for (Doan d : diffList
         ) {
             if (d.getId() > max) {
                 dbc.addDoan(d);

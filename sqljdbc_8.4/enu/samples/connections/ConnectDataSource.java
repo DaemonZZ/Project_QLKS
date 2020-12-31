@@ -16,6 +16,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -36,7 +37,7 @@ public class ConnectDataSource {
         ds.setDatabaseName("AdventureWorks");
 
         try (Connection con = ds.getConnection();
-                CallableStatement cstmt = con.prepareCall("{call dbo.uspGetEmployeeManagers(?)}");) {
+             CallableStatement cstmt = con.prepareCall("{call dbo.uspGetEmployeeManagers(?)}");) {
             // Execute a stored procedure that returns some data.
             cstmt.setInt(1, 50);
             ResultSet rs = cstmt.executeQuery();

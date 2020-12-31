@@ -5,7 +5,7 @@ public class Doan {
     private String tenDoan;
 
     public Doan() {
-        this.id=0;
+        this.id = 0;
         this.tenDoan = "";
     }
 

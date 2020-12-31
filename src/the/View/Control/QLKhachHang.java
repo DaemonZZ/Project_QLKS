@@ -65,20 +65,20 @@ public class QLKhachHang extends JLayeredPane {
             @Override
             public void mouseClicked(MouseEvent e) {
                 MainForm.m.getTbDichVu().setModel(new DefaultTableModel());
-                int idkh = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),0));
+                int idkh = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
                 DefaultComboBoxModel<QuanLyPhong> model = new DefaultComboBoxModel();
-                for (QuanLyPhong q: DataStorage.loader.getListAllQLP()
-                     ) {
-                    if(q.getId_KH()==idkh) {
+                for (QuanLyPhong q : DataStorage.loader.getListAllQLP()
+                ) {
+                    if (q.getId_KH() == idkh) {
                         model.addElement(q);
                     }
                 }
 
                 MainForm.m.getCbCI().setModel(model);
-                MainForm.m.getTxtTen().setText(table.getValueAt(table.getSelectedRow(),1).toString());
-                QuanLyPhong ql =(QuanLyPhong) MainForm.m.getCbCI().getSelectedItem();
+                MainForm.m.getTxtTen().setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+                QuanLyPhong ql = (QuanLyPhong) MainForm.m.getCbCI().getSelectedItem();
                 MainForm.m.getTxtCO().setText(ql.getCO().toString());
-                MainForm.m.getTxtSum().setText(ql.getGia()+"");
+                MainForm.m.getTxtSum().setText(ql.getGia() + "");
                 MainForm.m.getTxtPhong().setText(ql.getMaPhong());
                 MainForm.m.getTbDichVu().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
             }
@@ -100,7 +100,7 @@ public class QLKhachHang extends JLayeredPane {
 
             @Override
             public void mouseExited(MouseEvent e) {
-        
+
             }
         });
 
@@ -108,7 +108,7 @@ public class QLKhachHang extends JLayeredPane {
         btnOK.addActionListener(btn);
     }
 
-    public DefaultTableModel getKhModel(){
+    public DefaultTableModel getKhModel() {
         ArrayList<KhachHang> listKH = DataStorage.loader.getListKH();
         DefaultTableModel khModel = new DefaultTableModel() {
 
@@ -130,23 +130,25 @@ public class QLKhachHang extends JLayeredPane {
 
 
         for (KhachHang item : listKH) {
-            khModel.addRow(new String[] {item.getId()+"",item.getHoTen(), item.getGioiTinh()==0?"Nữ":"Nam",
-                    item.getDonVi(),item.getcMND(),item.getNgayCap(),item.getNoiCap(),
-                    item.getLoai()==0?"Khách lẻ":(item.getLoai()==1?"Khách Công ty":"Nhà cung cấp"),item.getQuocTich()});
+            khModel.addRow(new String[]{item.getId() + "", item.getHoTen(), item.getGioiTinh() == 0 ? "Nữ" : "Nam",
+                    item.getDonVi(), item.getcMND(), item.getNgayCap(), item.getNoiCap(),
+                    item.getLoai() == 0 ? "Khách lẻ" : (item.getLoai() == 1 ? "Khách Công ty" : "Nhà cung cấp"), item.getQuocTich()});
         }
         return khModel;
     }
+
     private ItemListener listenerForCbCI = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
-            QuanLyPhong ql = (QuanLyPhong)e.getItem();
-            if(ql.getCO()!=null) MainForm.m.getTxtCO().setText(ql.getCO().toString());
+            QuanLyPhong ql = (QuanLyPhong) e.getItem();
+            if (ql.getCO() != null) MainForm.m.getTxtCO().setText(ql.getCO().toString());
             MainForm.m.getTxtPhong().setText(ql.getMaPhong());
-            MainForm.m.getTxtSum().setText(ql.getGia()+"");
+            MainForm.m.getTxtSum().setText(ql.getGia() + "");
 
         }
     };
-    public void editKHForm(){
+
+    public void editKHForm() {
         input = new JFrame();
         input.add(panel);
         input.pack();
@@ -160,23 +162,24 @@ public class QLKhachHang extends JLayeredPane {
         input.setLocationRelativeTo(null);
         input.setVisible(true);
     }
+
     private ActionListener btn = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand().equals("Thêm KH")){
-                txtID.setText(DataStorage.loader.nextKH()+"");
+            if (e.getActionCommand().equals("Thêm KH")) {
+                txtID.setText(DataStorage.loader.nextKH() + "");
                 MainForm.m.setEnabled(false);
                 editKHForm();
             }
-            if(e.getActionCommand().equals("Sửa KH")){
-                int idkh = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),0));
+            if (e.getActionCommand().equals("Sửa KH")) {
+                int idkh = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
                 KhachHang old = new KhachHang();
-                for (KhachHang k: DataStorage.loader.getListKH()
-                     ) {
-                    if(k.getId()==idkh) old = k;
+                for (KhachHang k : DataStorage.loader.getListKH()
+                ) {
+                    if (k.getId() == idkh) old = k;
                 }
-                selectedKH=old;
-                txtID.setText(old.getId()+"");
+                selectedKH = old;
+                txtID.setText(old.getId() + "");
                 txtTen.setText(old.getHoTen());
                 cbGen.setSelectedIndex(old.getGioiTinh());
                 txtCMND.setText(old.getcMND());
@@ -188,21 +191,21 @@ public class QLKhachHang extends JLayeredPane {
                 MainForm.m.setEnabled(false);
                 editKHForm();
             }
-            if(e.getActionCommand().equals("Xóa KH")){
-                int idkh = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),0));
+            if (e.getActionCommand().equals("Xóa KH")) {
+                int idkh = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
                 KhachHang old = new KhachHang();
-                for (KhachHang k: DataStorage.loader.getListKH()
+                for (KhachHang k : DataStorage.loader.getListKH()
                 ) {
-                    if(k.getId()==idkh) old = k;
+                    if (k.getId() == idkh) old = k;
                 }
                 DataStorage.loader.getListKH().remove(old);
                 table.setModel(new DefaultTableModel());
                 table.setModel(getKhModel());
             }
 
-            if(e.getActionCommand().equals("OK")){
-                if(txtTen.getText()!=""){
-                    int max = DataStorage.loader.nextKH() -1;
+            if (e.getActionCommand().equals("OK")) {
+                if (txtTen.getText() != "") {
+                    int max = DataStorage.loader.nextKH() - 1;
                     KhachHang k = new KhachHang();
                     k.setId(Integer.parseInt(txtID.getText()));
                     k.setHoTen(txtTen.getText());
@@ -212,8 +215,8 @@ public class QLKhachHang extends JLayeredPane {
                     k.setNoiCap(txtNoiCap.getText());
                     k.setLoai(cbLoai.getSelectedIndex());
                     k.setQuocTich(txtQuocTich.getText());
-                    if(k.getId()>max) DataStorage.loader.getListKH().add(k);
-                    else{
+                    if (k.getId() > max) DataStorage.loader.getListKH().add(k);
+                    else {
                         DataStorage.loader.getListKH().remove(selectedKH);
                         DataStorage.loader.getListKH().add(k);
                     }
@@ -222,11 +225,11 @@ public class QLKhachHang extends JLayeredPane {
                     MainForm.m.setEnabled(true);
                     input.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(getRootPane(),"Tên khách hàng trống");
+                    JOptionPane.showMessageDialog(getRootPane(), "Tên khách hàng trống");
                 }
 
             }
-            if(e.getActionCommand().equals("Cancel")){
+            if (e.getActionCommand().equals("Cancel")) {
                 MainForm.m.setEnabled(true);
                 input.dispose();
             }

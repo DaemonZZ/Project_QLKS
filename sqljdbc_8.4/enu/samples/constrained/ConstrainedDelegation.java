@@ -87,12 +87,10 @@ public class ConstrainedDelegation {
     }
 
     /**
-     *
      * Authenticate the intermediate server that is going to impersonate the client
      *
      * @return a subject for the intermediate server with the keytab credentials
-     * @throws PrivilegedActionException
-     *         in case of failure
+     * @throws PrivilegedActionException in case of failure
      */
     private static Subject doInitialLogin() throws PrivilegedActionException {
         serviceSubject = new Subject();
@@ -140,8 +138,7 @@ public class ConstrainedDelegation {
      * Generate the impersonated user credentials thanks to the S4U2self mechanism
      *
      * @return the client impersonated GSSCredential
-     * @throws PrivilegedActionException
-     *         in case of failure
+     * @throws PrivilegedActionException in case of failure
      */
     private static GSSCredential impersonate() throws PrivilegedActionException {
         return Subject.doAs(serviceSubject, (PrivilegedExceptionAction<GSSCredential>) () -> {
@@ -157,11 +154,9 @@ public class ConstrainedDelegation {
     /**
      * Obtains a connection using an impersonated credential
      *
-     * @param impersonatedUserCredential
-     *        impersonated user credentials
+     * @param impersonatedUserCredential impersonated user credentials
      * @return a connection to the SQL Server opened using the given impersonated credential
-     * @throws PrivilegedActionException
-     *         in case of failure
+     * @throws PrivilegedActionException in case of failure
      */
     private static Connection createConnection(
             final GSSCredential impersonatedUserCredential) throws PrivilegedActionException {

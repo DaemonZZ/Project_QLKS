@@ -160,7 +160,7 @@ public class ProfileDialog extends JDialog {
         setPreferredSize(new Dimension(960, 690));
         btnQLKH.addActionListener(btn);
         btnQl.addActionListener(btn);
-        if(LoginForm.accessRight!=0){
+        if (LoginForm.accessRight != 0) {
             btnQl.setEnabled(false);
             btnQLKH.setEnabled(false);
         }
@@ -432,7 +432,7 @@ public class ProfileDialog extends JDialog {
                 }
 //				System.out.println(System.getProperty("java.class.path").replace(':','\n'));
             }
-            if(e.getActionCommand().equals("Quản lý Khách Hàng")){
+            if (e.getActionCommand().equals("Quản lý Khách Hàng")) {
                 QLKhachHang khPane = new QLKhachHang();
                 MainForm.m.getTabbedPane().addTab("qlkh", null, khPane, null);
                 MainForm.m.getTabbedPane().setTabComponentAt(MainForm.m.getTabbedPane().indexOfComponent(khPane), MainForm.m.getTitlePanel(MainForm.m.getTabbedPane(), khPane, "Quản lý Khách hàng"));
@@ -440,7 +440,7 @@ public class ProfileDialog extends JDialog {
                 MainForm.m.setEnabled(true);
                 dispose();
             }
-            if(e.getActionCommand().equals("Gộp HD")){
+            if (e.getActionCommand().equals("Gộp HD")) {
                 new ChooseRoom(selectedRoom);
                 reload();
             }
@@ -467,28 +467,28 @@ public class ProfileDialog extends JDialog {
     }
 
 
-
 }
-class ChooseRoom extends JDialog{
+
+class ChooseRoom extends JDialog {
     private ArrayList<JCheckBox> listPhong;
     private String phongThanhToan;
 
     public ChooseRoom(String p) {
-        this.phongThanhToan=p;
+        this.phongThanhToan = p;
         setModal(true);
         setTitle("Chon phòng");
         Container con = this.getContentPane();
-        setLayout(new BoxLayout(con,BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(con, BoxLayout.Y_AXIS));
         add(new JLabel("Chọn phòng:"));
-        listPhong= new ArrayList<>();
-        for (Phong r: DataStorage.loader.getListPhong()
-             ) {
-            if(!r.equals(p)&&r.getTrangThai()>=4){
+        listPhong = new ArrayList<>();
+        for (Phong r : DataStorage.loader.getListPhong()
+        ) {
+            if (!r.equals(p) && r.getTrangThai() >= 4) {
                 listPhong.add(new JCheckBox(r.getMaPhong()));
             }
         }
-        for (JCheckBox cb:listPhong
-             ) {
+        for (JCheckBox cb : listPhong
+        ) {
             con.add(cb);
         }
         JPanel pn = new JPanel();
@@ -510,64 +510,62 @@ class ChooseRoom extends JDialog{
     }
 
     private void onOK() {
-        ArrayList<String> listP =new ArrayList<>();
+        ArrayList<String> listP = new ArrayList<>();
         ArrayList<QuanLyPhong> listQL = new ArrayList<>();
         ArrayList<ChungTu> listct = new ArrayList<>();
-        int sct=0;
+        int sct = 0;
         for (JCheckBox l : listPhong
-             ) {
-            if(l.isSelected()) listP.add(l.getText());
+        ) {
+            if (l.isSelected()) listP.add(l.getText());
         }
-        if(!listP.isEmpty()){
-            for (String p:listP
-                 ) {
-                DataStorage.loader.setSttPhong(p,0);
-                }
+        if (!listP.isEmpty()) {
+            for (String p : listP
+            ) {
+                DataStorage.loader.setSttPhong(p, 0);
+            }
 
 
-            for (String p:listP
-                 ) {
-                for (QuanLyPhong q: DataStorage.loader.getCurrentRoomInfo()
-                     ) {
-                    if(q.getMaPhong().equals(p)) listQL.add(q);
-                    if(q.getMaPhong().equals(phongThanhToan)){
+            for (String p : listP
+            ) {
+                for (QuanLyPhong q : DataStorage.loader.getCurrentRoomInfo()
+                ) {
+                    if (q.getMaPhong().equals(p)) listQL.add(q);
+                    if (q.getMaPhong().equals(phongThanhToan)) {
                         for (ChungTu c : DataStorage.loader.getListChungTu()
-                             ) {
-                            if(c.getId_QL()==q.getId()) sct=c.getSoCT();
+                        ) {
+                            if (c.getId_QL() == q.getId()) sct = c.getSoCT();
                         }
                     }
                 }
             }
 
-            for (QuanLyPhong q: listQL
-                 ) {
-                for (ChungTu c: DataStorage.loader.getListChungTu()
-                     ) {
-                    if(c.getId_QL()==q.getId()){
-                        DataStorage.loader.updateDongCT(c.getSoCT(),sct);
+            for (QuanLyPhong q : listQL
+            ) {
+                for (ChungTu c : DataStorage.loader.getListChungTu()
+                ) {
+                    if (c.getId_QL() == q.getId()) {
+                        DataStorage.loader.updateDongCT(c.getSoCT(), sct);
                         listct.add(c);
                     }
                 }
             }
-            for (ChungTu c: listct
-                 ) {
+            for (ChungTu c : listct
+            ) {
                 DataStorage.loader.getListChungTu().remove(c);
             }
             DataSynchronizer.synchronizer.syncChungTu();
-            for (QuanLyPhong q: listQL
-                 ) {
+            for (QuanLyPhong q : listQL
+            ) {
                 DataStorage.loader.getCurrentRoomInfo().remove(q);
             }
 
             System.out.println("Gộp ok");
-        }
-        else {
+        } else {
             System.out.println("Co gi dau ma gop");
         }
         SoDoPane.s.reloadRoomList();
         dispose();
     }
-
 
 
 }

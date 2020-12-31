@@ -18,6 +18,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -30,13 +31,13 @@ import com.microsoft.sqlserver.jdbc.SQLServerResultSet;
 public class CacheResultSet {
 
     @SuppressWarnings("serial")
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
         // Create a variable for the connection string.
         String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=AdventureWorks;user=<user>;password=<password>";
 
         try (Connection con = DriverManager.getConnection(connectionUrl);
-                Statement stmt = con.createStatement(SQLServerResultSet.TYPE_SS_SERVER_CURSOR_FORWARD_ONLY, SQLServerResultSet.CONCUR_READ_ONLY);) {
+             Statement stmt = con.createStatement(SQLServerResultSet.TYPE_SS_SERVER_CURSOR_FORWARD_ONLY, SQLServerResultSet.CONCUR_READ_ONLY);) {
 
             String SQL = "SELECT * FROM Sales.SalesOrderDetail;";
 
@@ -62,7 +63,7 @@ public class CacheResultSet {
     }
 
     private static void timerTest(int fetchSize,
-            ResultSet rs) throws SQLException {
+                                  ResultSet rs) throws SQLException {
 
         // Declare the variables for tracking the row count and elapsed time.
         int rowCount = 0;

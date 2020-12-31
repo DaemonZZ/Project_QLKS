@@ -18,6 +18,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
@@ -34,15 +35,15 @@ public class ReadLargeData {
     public static void main(String[] args) {
         // Create a variable for the connection string.
         String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=AdventureWorks;user=<user>;password=<password>";
-        
+
         // Create test data as an example.
         StringBuffer buffer = new StringBuffer(4000);
         for (int i = 0; i < 4000; i++)
             buffer.append((char) ('A'));
-        
+
         try (Connection con = DriverManager.getConnection(connectionUrl);
-                Statement stmt = con.createStatement();
-                PreparedStatement pstmt = con.prepareStatement("UPDATE Production.Document SET DocumentSummary = ? WHERE (DocumentID = 1)");) {
+             Statement stmt = con.createStatement();
+             PreparedStatement pstmt = con.prepareStatement("UPDATE Production.Document SET DocumentSummary = ? WHERE (DocumentID = 1)");) {
 
             pstmt.setString(1, buffer.toString());
             pstmt.executeUpdate();

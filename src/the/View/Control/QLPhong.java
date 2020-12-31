@@ -40,7 +40,7 @@ public class QLPhong extends JLayeredPane {
         scrollPane.setViewportView(table);
     }
 
-    public DefaultTableModel getModelPhong(){
+    public DefaultTableModel getModelPhong() {
         ArrayList<Phong> listPhong = DataStorage.loader.getListPhong();
         DefaultTableModel dvModel = new DefaultTableModel() {
 
@@ -61,7 +61,7 @@ public class QLPhong extends JLayeredPane {
 
         for (Phong item : listPhong) {
             String loai = DataStorage.loader.getTenLoai(item.getLoai());
-            dvModel.addRow(new String[] {item.getMaPhong(),item.getTang()+"",loai,item.getDonGia()+"",item.getPhone(),item.getSoGiuong()+"",item.getSoNguoi()+""});
+            dvModel.addRow(new String[]{item.getMaPhong(), item.getTang() + "", loai, item.getDonGia() + "", item.getPhone(), item.getSoGiuong() + "", item.getSoNguoi() + ""});
         }
         return dvModel;
     }

@@ -89,7 +89,7 @@ public class AlwaysEncrypted {
 
             // Open a connection to the database.
             try (Connection connection = DriverManager.getConnection(connectionUrl);
-                    Statement stmt = connection.createStatement()) {
+                 Statement stmt = connection.createStatement()) {
                 // Instantiate the Java Key Store provider.
                 SQLServerColumnEncryptionKeyStoreProvider storeProvider = new SQLServerColumnEncryptionJavaKeyStoreProvider(
                         keyStoreLocation, keyStoreSecret);
@@ -100,7 +100,7 @@ public class AlwaysEncrypted {
 
                 /**
                  * Create column mater key For details on syntax refer: https://msdn.microsoft.com/library/mt146393.aspx
-                 * 
+                 *
                  */
                 String createCMKSQL = "CREATE COLUMN MASTER KEY " + columnMasterKeyName + " WITH ( "
                         + " KEY_STORE_PROVIDER_NAME = '" + storeProvider.getName() + "' , KEY_PATH =  '" + keyAlias
@@ -130,11 +130,10 @@ public class AlwaysEncrypted {
     }
 
     /**
-     * 
      * @param b
-     *        byte value
+     * byte value
      * @param length
-     *        length of the array
+     * length of the array
      * @return
      */
     final static char[] hexChars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};

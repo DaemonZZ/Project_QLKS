@@ -114,8 +114,8 @@ public class EditNVDialog extends JDialog {
                     n.setLoai(cbLoai.getSelectedIndex());
 
 //
-                   NhanVien remove = new NhanVien();
-                    for (NhanVien nv :  loader.getListNV()
+                    NhanVien remove = new NhanVien();
+                    for (NhanVien nv : loader.getListNV()
                     ) {
                         if (nv.getiD() == n.getiD()) {
                             loader.getListNV().remove(nv);

@@ -16,6 +16,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -31,7 +32,7 @@ public class RetrieveResultSet {
 
         try (Connection con = DriverManager.getConnection(connectionUrl); Statement stmt = con.createStatement();) {
             createTable(stmt);
-			String SQL = "SELECT * FROM Production.Product;";
+            String SQL = "SELECT * FROM Production.Product;";
             ResultSet rs = stmt.executeQuery(SQL);
             displayRow("PRODUCTS", rs);
         }
@@ -42,7 +43,7 @@ public class RetrieveResultSet {
     }
 
     private static void displayRow(String title,
-            ResultSet rs) throws SQLException {
+                                   ResultSet rs) throws SQLException {
         System.out.println(title);
         while (rs.next()) {
             System.out.println(rs.getString("ProductNumber") + " : " + rs.getString("Name"));

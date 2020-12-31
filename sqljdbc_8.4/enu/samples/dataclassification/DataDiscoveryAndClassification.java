@@ -16,6 +16,7 @@ ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
 PARTICULAR PURPOSE.
 =====================================================================*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -39,7 +40,7 @@ public class DataDiscoveryAndClassification {
         String tableName = "JDBC_SQL_DATA_DISCOVERY_CLASSIFICATION";
 
         // Create a variable for the connection string.
-		String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=<database>;username=<user>;password=<password>;";
+        String connectionUrl = "jdbc:sqlserver://<server>:<port>;databaseName=<database>;username=<user>;password=<password>;";
 
         // Establish the connection.
         try (Connection con = DriverManager.getConnection(connectionUrl); Statement stmt = con.createStatement()) {
@@ -56,9 +57,8 @@ public class DataDiscoveryAndClassification {
 
     /**
      * Verifies if SQL Discovery and Classification feature is applicable on target server.
-     * 
-     * @param stmt
-     *        Statement object to work with
+     *
+     * @param stmt Statement object to work with
      */
     private static void verifySupportability(Statement stmt) {
         try {
@@ -75,13 +75,10 @@ public class DataDiscoveryAndClassification {
 
     /**
      * Creates table for the test and sets tags for Sensitivity Classification
-     * 
-     * @param stmt
-     *        Statement to work with
-     * @param tableName
-     *        Table to be created
-     * @throws SQLException
-     *         If an exception occurs
+     *
+     * @param stmt      Statement to work with
+     * @param tableName Table to be created
+     * @throws SQLException If an exception occurs
      */
     private static void createTable(Statement stmt, String tableName) throws SQLException {
         // Creates table for storing Supplier data
@@ -106,13 +103,10 @@ public class DataDiscoveryAndClassification {
 
     /**
      * Runs query to fetch ResultSet from target table
-     * 
-     * @param stmt
-     *        Statement to work with
-     * @param tableName
-     *        Name of table to fetch results from
-     * @throws SQLException
-     *         If an exception occurs
+     *
+     * @param stmt      Statement to work with
+     * @param tableName Name of table to fetch results from
+     * @throws SQLException If an exception occurs
      */
     private static void runTests(Statement stmt, String tableName) throws SQLException {
         String query = "SELECT * FROM " + tableName;
@@ -123,16 +117,14 @@ public class DataDiscoveryAndClassification {
 
     /**
      * Prints Sensitivity Classification data as received in ResultSet
-     * 
-     * @param rs
-     *        Active ResultSet to read data from
-     * @throws SQLException
-     *         If an exception occurs
+     *
+     * @param rs Active ResultSet to read data from
+     * @throws SQLException If an exception occurs
      */
     private static void printSensitivityClassification(SQLServerResultSet rs) throws SQLException {
         if (null != rs.getSensitivityClassification()) {
             for (int columnPos = 0; columnPos < rs.getSensitivityClassification().getColumnSensitivities().size();
-                    columnPos++) {
+                 columnPos++) {
                 for (SensitivityProperty sp : rs.getSensitivityClassification().getColumnSensitivities().get(columnPos)
                         .getSensitivityProperties()) {
                     if (sp.getLabel() != null) {
@@ -155,13 +147,10 @@ public class DataDiscoveryAndClassification {
 
     /**
      * Drops the table created for test
-     * 
-     * @param stmt
-     *        Statement to work with
-     * @param tableName
-     *        Table Name to be used
-     * @throws SQLException
-     *         If an exception occurs
+     *
+     * @param stmt      Statement to work with
+     * @param tableName Table Name to be used
+     * @throws SQLException If an exception occurs
      */
     private static void drop_table(Statement stmt, String tableName) throws SQLException {
         stmt.execute("DROP TABLE " + tableName);

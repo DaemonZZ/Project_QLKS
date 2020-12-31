@@ -18,21 +18,23 @@ public class SuaMenuDv extends JDialog {
     private JTextField txtGhiChu;
     private JTextField txtID;
     private boolean edit = false;
+
     public SuaMenuDv() {
-        txtID.setText( DataStorage.loader.nextDichVu()+"");
-        initGUI();
-    }
-    public SuaMenuDv(DichVu dichVu){
-        txtID.setText(dichVu.getiD()+"");
-        txtTenDV.setText(dichVu.getTenDV());
-        txtDVT.setText(dichVu.getDonViTinh());
-        txtGhiChu.setText(dichVu.getGhiChu());
-        txtDonGia.setText(dichVu.getDonGIa()+"");
-        edit=true;
+        txtID.setText(DataStorage.loader.nextDichVu() + "");
         initGUI();
     }
 
-    public void initGUI(){
+    public SuaMenuDv(DichVu dichVu) {
+        txtID.setText(dichVu.getiD() + "");
+        txtTenDV.setText(dichVu.getTenDV());
+        txtDVT.setText(dichVu.getDonViTinh());
+        txtGhiChu.setText(dichVu.getGhiChu());
+        txtDonGia.setText(dichVu.getDonGIa() + "");
+        edit = true;
+        initGUI();
+    }
+
+    public void initGUI() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -70,24 +72,24 @@ public class SuaMenuDv extends JDialog {
 
 
     private void onOK() {
-        boolean b =true;
-        if(edit){
-            DichVu old =new DichVu();
-            DichVu dv = new DichVu(Integer.parseInt(txtID.getText()),txtTenDV.getText(),txtDVT.getText(),Float.parseFloat(txtDonGia.getText()),txtGhiChu.getText(),3,0,0);
-            for (DichVu d: DataStorage.loader.getListDV()
-                 ) {
-                if(d.getiD()==dv.getiD()) old=d;
-                }
-            DataStorage.loader.getListDV().remove(old);
-            for (DichVu d: DataStorage.loader.getListDV()
+        boolean b = true;
+        if (edit) {
+            DichVu old = new DichVu();
+            DichVu dv = new DichVu(Integer.parseInt(txtID.getText()), txtTenDV.getText(), txtDVT.getText(), Float.parseFloat(txtDonGia.getText()), txtGhiChu.getText(), 3, 0, 0);
+            for (DichVu d : DataStorage.loader.getListDV()
             ) {
-                if(dv.getTenDV()==""||d.getTenDV().equals(dv.getTenDV())){
-                    b=false;
-                    JOptionPane.showMessageDialog(getRootPane(),"Tên Dv đã tồn tại hoặc không hợp lệ");
+                if (d.getiD() == dv.getiD()) old = d;
+            }
+            DataStorage.loader.getListDV().remove(old);
+            for (DichVu d : DataStorage.loader.getListDV()
+            ) {
+                if (dv.getTenDV() == "" || d.getTenDV().equals(dv.getTenDV())) {
+                    b = false;
+                    JOptionPane.showMessageDialog(getRootPane(), "Tên Dv đã tồn tại hoặc không hợp lệ");
                 }
             }
 
-            if(b){
+            if (b) {
                 DataStorage.loader.getListDV().add(dv);
                 QLDichVu.q.getTable().setModel(new DefaultTableModel());
                 QLDichVu.q.getTable().setModel(QLDichVu.q.getDvModel());
@@ -95,18 +97,17 @@ public class SuaMenuDv extends JDialog {
             MainForm.m.setEnabled(true);
             dispose();
 
-        }
-        else {
-            DichVu dv = new DichVu(Integer.parseInt(txtID.getText()),txtTenDV.getText(),txtDVT.getText(),Float.parseFloat(txtDonGia.getText()),txtGhiChu.getText(),3,0,0);
-            for (DichVu d: DataStorage.loader.getListDV()
-                 ) {
-                if(dv.getTenDV()==""||d.getTenDV().equals(dv.getTenDV())){
-                    b=false;
-                    JOptionPane.showMessageDialog(getRootPane(),"Tên Dv đã tồn tại hoặc không hợp lệ");
+        } else {
+            DichVu dv = new DichVu(Integer.parseInt(txtID.getText()), txtTenDV.getText(), txtDVT.getText(), Float.parseFloat(txtDonGia.getText()), txtGhiChu.getText(), 3, 0, 0);
+            for (DichVu d : DataStorage.loader.getListDV()
+            ) {
+                if (dv.getTenDV() == "" || d.getTenDV().equals(dv.getTenDV())) {
+                    b = false;
+                    JOptionPane.showMessageDialog(getRootPane(), "Tên Dv đã tồn tại hoặc không hợp lệ");
                 }
             }
 
-            if(b){
+            if (b) {
                 DataStorage.loader.getListDV().add(dv);
                 QLDichVu.q.getTable().setModel(new DefaultTableModel());
                 QLDichVu.q.getTable().setModel(QLDichVu.q.getDvModel());

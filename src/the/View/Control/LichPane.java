@@ -22,7 +22,7 @@ public class LichPane extends JLayeredPane {
     }
 
     private final JTextField txtTimKiem;
-    private ArrayList<NhanVien> listNhanVien = (ArrayList<NhanVien>)DataStorage.loader.getListNV().clone();
+    private ArrayList<NhanVien> listNhanVien = (ArrayList<NhanVien>) DataStorage.loader.getListNV().clone();
     JPanel panel = new JPanel();
     JScrollPane scrollPane;
     JComboBox ttCb;
@@ -42,20 +42,20 @@ public class LichPane extends JLayeredPane {
                 ArrayList<LocalDate> listNgay = new ArrayList<>();
                 LocalDate today = LocalDate.now();
                 int dem = 0;
-                while (!today.getDayOfWeek().equals(DayOfWeek.MONDAY)||dem<7){
+                while (!today.getDayOfWeek().equals(DayOfWeek.MONDAY) || dem < 7) {
                     listNgay.add(today);
                     dem++;
-                    today=today.plusDays(1);
+                    today = today.plusDays(1);
                 }
                 for (NhanVien nv :
                         listNhanVien) {
-                    if(nv.getLoai()!=0){
-                        for (LocalDate ngay: listNgay
-                             ) {
-                            if(!isExist(ngay,nv)){
-                                Lich l =new Lich(DataStorage.loader.nextLich(),ngay, nv.getiD(), 4 , 0 , "");
+                    if (nv.getLoai() != 0) {
+                        for (LocalDate ngay : listNgay
+                        ) {
+                            if (!isExist(ngay, nv)) {
+                                Lich l = new Lich(DataStorage.loader.nextLich(), ngay, nv.getiD(), 4, 0, "");
                                 DataStorage.loader.getListLich().add(l);
-                                System.out.println(l.getId()+" alo");
+                                System.out.println(l.getId() + " alo");
                             }
 
                         }
@@ -67,7 +67,7 @@ public class LichPane extends JLayeredPane {
             }
         });
 
-         scrollPane = new JScrollPane();
+        scrollPane = new JScrollPane();
         add(scrollPane, BorderLayout.CENTER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
@@ -92,26 +92,24 @@ public class LichPane extends JLayeredPane {
         btnTim.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(txtTimKiem.getText().equals("")&& ttCb.getSelectedIndex()==0){
-                    listNhanVien = (ArrayList<NhanVien>)DataStorage.loader.getListNV().clone();
+                if (txtTimKiem.getText().equals("") && ttCb.getSelectedIndex() == 0) {
+                    listNhanVien = (ArrayList<NhanVien>) DataStorage.loader.getListNV().clone();
 
-                }
-                else {
-                    if(ttCb.getSelectedIndex()!=0){
+                } else {
+                    if (ttCb.getSelectedIndex() != 0) {
                         listNhanVien.clear();
-                        for (NhanVien n: DataStorage.loader.getListNV()
+                        for (NhanVien n : DataStorage.loader.getListNV()
                         ) {
-                            if(n.getHoTen().contains(txtTimKiem.getText())&& n.getLoai() == ttCb.getSelectedIndex()){
+                            if (n.getHoTen().contains(txtTimKiem.getText()) && n.getLoai() == ttCb.getSelectedIndex()) {
                                 listNhanVien.add(n);
                                 System.out.println("true");
                             }
                         }
-                    }
-                    else {
+                    } else {
                         listNhanVien.clear();
-                        for (NhanVien n: DataStorage.loader.getListNV()
+                        for (NhanVien n : DataStorage.loader.getListNV()
                         ) {
-                            if(n.getHoTen().contains(txtTimKiem.getText())){
+                            if (n.getHoTen().contains(txtTimKiem.getText())) {
                                 listNhanVien.add(n);
 
                             }
@@ -150,31 +148,29 @@ public class LichPane extends JLayeredPane {
         JLabel lb = new JLabel("Bộ phận:");
         filterPanel.add(lb);
 
-         ttCb = new JComboBox();
+        ttCb = new JComboBox();
         ttCb.setModel(new DefaultComboBoxModel(new String[]{"Tất cả", "Lễ Tân", "Kinh Doanh", "Buồng Phòng", "Kế Toán"}));
         filterPanel.add(ttCb);
         ttCb.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if(txtTimKiem.getText().equals("")&& ttCb.getSelectedIndex()==0){
-                    listNhanVien = (ArrayList<NhanVien>)DataStorage.loader.getListNV().clone();
-                }
-                else {
-                    if(ttCb.getSelectedIndex()!=0){
+                if (txtTimKiem.getText().equals("") && ttCb.getSelectedIndex() == 0) {
+                    listNhanVien = (ArrayList<NhanVien>) DataStorage.loader.getListNV().clone();
+                } else {
+                    if (ttCb.getSelectedIndex() != 0) {
                         listNhanVien.clear();
-                        for (NhanVien n: DataStorage.loader.getListNV()
+                        for (NhanVien n : DataStorage.loader.getListNV()
                         ) {
-                            if(n.getHoTen().contains(txtTimKiem.getText())&& n.getLoai() == ttCb.getSelectedIndex()){
+                            if (n.getHoTen().contains(txtTimKiem.getText()) && n.getLoai() == ttCb.getSelectedIndex()) {
                                 listNhanVien.add(n);
                                 System.out.println("true");
                             }
                         }
-                    }
-                    else {
+                    } else {
                         listNhanVien.clear();
-                        for (NhanVien n: DataStorage.loader.getListNV()
+                        for (NhanVien n : DataStorage.loader.getListNV()
                         ) {
-                            if(n.getHoTen().contains(txtTimKiem.getText())){
+                            if (n.getHoTen().contains(txtTimKiem.getText())) {
                                 listNhanVien.add(n);
 
                             }
@@ -199,18 +195,19 @@ public class LichPane extends JLayeredPane {
         }
     }
 
-    public boolean isExist(LocalDate ngay, NhanVien nv){
+    public boolean isExist(LocalDate ngay, NhanVien nv) {
         boolean b = false;
-        for (Lich l :DataStorage.loader.getListLich()
-             ) {
-            if(l.getId_NV()==nv.getiD()&&l.getNgay().equals(ngay)){
-                b=true;
+        for (Lich l : DataStorage.loader.getListLich()
+        ) {
+            if (l.getId_NV() == nv.getiD() && l.getNgay().equals(ngay)) {
+                b = true;
                 break;
             }
         }
         return b;
     }
-    public void reloadLichPane(){
+
+    public void reloadLichPane() {
         panel.removeAll();
         panel.repaint();
         for (NhanVien nv : listNhanVien) {
