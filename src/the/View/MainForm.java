@@ -244,6 +244,11 @@ public class MainForm extends JFrame {
         btnDoanhThu.setToolTipText("Báo cáo tài chính");
         btnDoanhThu.addMouseListener(largeBtnCliked);
 
+        LargeButton btnBill = new LargeButton("bill.png", "Chứng từ");
+        btnBill.setPreferredSize(new Dimension(70, 80));
+        btnBill.setToolTipText("Quản lý chứng từ");
+        btnBill.addMouseListener(largeBtnCliked);
+
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.addChangeListener(e -> {
             changeTabEvent();
@@ -481,6 +486,7 @@ public class MainForm extends JFrame {
         }
 
         if (accessRight == 3) {
+
             JLayeredPane sodoPane = new SoDoPane();
             tabbedPane.addTab("sodo", null, sodoPane, null);
             tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
@@ -490,9 +496,11 @@ public class MainForm extends JFrame {
             largeBtnPanel.add(btnSodo);
             largeBtnPanel.add(btnRoomProfile);
             largeBtnPanel.add(btnChamCong);
+
         }
 
         if (accessRight == 2) {
+            setTitle("Quản lý Khách Sạn - Kế toán");
             JLayeredPane sodoPane = new SoDoPane();
             tabbedPane.addTab("sodo", null, sodoPane, null);
             tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(sodoPane), getTitlePanel(tabbedPane, sodoPane, "Sơ Đồ"));
@@ -501,6 +509,7 @@ public class MainForm extends JFrame {
             largeBtnPanel.add(btnChamCong);
             largeBtnPanel.add(btnDatPhong);
             largeBtnPanel.add(btnQLKH);
+            largeBtnPanel.add(btnBill);
         }
 
     }
@@ -761,6 +770,12 @@ public class MainForm extends JFrame {
                 tabbedPane.addTab("qlphong", null, qlpPane, null);
                 tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(qlpPane), getTitlePanel(tabbedPane, qlpPane, "Quản ly Phòng"));
                 tabbedPane.setSelectedComponent(qlpPane);
+            }
+            if (btn.getName().equals("Chứng từ")) {
+                ChungTuPane chungtuPane = new ChungTuPane();
+                tabbedPane.addTab("chungtu", null, chungtuPane, null);
+                tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(chungtuPane), getTitlePanel(tabbedPane, chungtuPane, "Quản lý Chứng Từ"));
+                tabbedPane.setSelectedComponent(chungtuPane);
             }
         }
     };
