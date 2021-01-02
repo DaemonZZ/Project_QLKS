@@ -23,6 +23,24 @@ public class DataStorage {
     private ArrayList<QuanLyPhong> listAllQLP;
     private ArrayList<Doan> listDoan;
     private ArrayList<DangKy> listDangKy;
+    private ArrayList<ThietBi> listTB;
+    private ArrayList<DichVu> listTenTB;
+
+    public ArrayList<DichVu> getListTenTB() {
+        return listTenTB;
+    }
+
+    public void setListTenTB(ArrayList<DichVu> listTenTB) {
+        this.listTenTB = listTenTB;
+    }
+
+    public ArrayList<ThietBi> getListTB() {
+        return listTB;
+    }
+
+    public void setListTB(ArrayList<ThietBi> listTB) {
+        this.listTB = listTB;
+    }
 
     public ArrayList<Doan> getListDoan() {
         return listDoan;
@@ -155,6 +173,8 @@ public class DataStorage {
         listAllQLP = dbc.getlistAllQLP();
         listDoan = dbc.getListDoan();
         listDangKy = dbc.getListDangKi();
+        listTB = dbc.getListTBP();
+        listTenTB = dbc.getListTenTB();
     }
 
     /**
@@ -490,5 +510,14 @@ public class DataStorage {
                 return "Chi";
         }
         return "";
+    }
+
+    public int getSoLuongTB(int iddv){
+        int count = 0;
+        for (ThietBi tb: listTB
+             ) {
+            if(tb.getId_dv()==iddv) count++;
+        }
+        return count;
     }
 }

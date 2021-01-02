@@ -653,6 +653,28 @@ public class DatabaseConnection {
         }
         return list;
     }
+    public ArrayList<DichVu> getListTenTB() {
+        String sql = "select * from DichVu where loai = 0";
+        ArrayList<DichVu> list = new ArrayList<>();
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                DichVu dv = new DichVu();
+                dv.setiD(rs.getInt(1));
+                dv.setTenDV(rs.getNString(2));
+                if (rs.getNString(3) != null) dv.setDonViTinh(rs.getNString(3));
+                dv.setDonGIa(rs.getFloat(4));
+                if (rs.getNString(5) != null) dv.setGhiChu(rs.getNString(5));
+                dv.setLoai(rs.getInt(6));
+                dv.setsLDK(rs.getFloat(7));
+                list.add(dv);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+    }
 
     /*
         Checkout?
@@ -1240,5 +1262,27 @@ public class DatabaseConnection {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    public ArrayList<ThietBi> getListTBP(){
+        String sql = "select * from thietbiphong";
+        ArrayList<ThietBi> list = new ArrayList<>();
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                ThietBi tb = new ThietBi();
+                tb.setId(rs.getInt(1));
+                tb.setMaPhong(rs.getInt(2));
+                tb.setId_dv(rs.getInt(3));
+                tb.setSoluong(rs.getInt(4));
+                if(rs.getNString(5)!=null) tb.setTrangthai(rs.getNString(5));
+                if(rs.getNString(6)!=null) tb.setSerialNo(rs.getNString(6));
+                list.add(tb);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
     }
 }

@@ -47,6 +47,22 @@ public class MainForm extends JFrame {
     private JComboBox cbCI;
     private JTextField txtSum;
 
+    public SumPanel getSumPanel() {
+        return sumPanel;
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public JPanel getCusInfoPanel() {
+        return CusInfoPanel;
+    }
+
+    public JPanel getRightPanel() {
+        return rightPanel;
+    }
+
     public JComboBox getCbCI() {
         return cbCI;
     }
@@ -525,6 +541,14 @@ public class MainForm extends JFrame {
             rightPanel.repaint();
         }
         if (tit.equals("sodo")) {
+            rightPanel.removeAll();
+            rightPanel.repaint();
+            rightPanel.add(sumPanel, BorderLayout.SOUTH);
+            rightPanel.add(scrollPane, BorderLayout.CENTER);
+            rightPanel.add(CusInfoPanel, BorderLayout.NORTH);
+            rightPanel.repaint();
+        }
+        if (tit.equals("chungtu")) {
             rightPanel.removeAll();
             rightPanel.repaint();
             rightPanel.add(sumPanel, BorderLayout.SOUTH);
