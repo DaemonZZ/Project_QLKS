@@ -664,6 +664,7 @@ public class MainForm extends JFrame {
                 tabbedPane.addTab("qlkh", null, khPane, null);
                 tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(khPane), getTitlePanel(tabbedPane, khPane, "Quản lý Khách hàng"));
                 tabbedPane.setSelectedComponent(khPane);
+
             }
         }
     };

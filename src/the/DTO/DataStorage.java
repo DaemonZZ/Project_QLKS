@@ -377,7 +377,7 @@ public class DataStorage {
     }
 
     public QuanLyPhong getQL(int Id) {
-        for (QuanLyPhong ql : getCurrentRoomInfo()
+        for (QuanLyPhong ql : getListAllQLP()
         ) {
             if (Id == ql.getId()) return ql;
         }
@@ -406,6 +406,12 @@ public class DataStorage {
             if (q.getId() == current_idQL) {
                 q.setCO(LocalDate.now());
                 q.setGia(sum);
+            }
+        }
+        for (ChungTu c : listChungTu
+             ) {
+            if(c.getId_QL()==current_idQL){
+                c.setNgayCT(LocalDate.now());
             }
         }
     }
@@ -471,5 +477,18 @@ public class DataStorage {
                 d.setSoCT(newCT);
             }
         }
+    }
+    public String getLoaiCT(int loai){
+        switch (loai) {
+            case 0:
+                return "Nhập";
+            case 2:
+                return "Xuất";
+            case 3:
+                return "Thu";
+            case 4:
+                return "Chi";
+        }
+        return "";
     }
 }

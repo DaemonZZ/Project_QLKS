@@ -1,5 +1,12 @@
 package the.View.Control;
 
+import the.DTO.DataStorage;
+import the.Model.ChungTu;
+import the.Model.KhachHang;
+import the.Model.NhanVien;
+import the.Model.QuanLyPhong;
+import the.View.MainForm;
+
 import javax.swing.JLayeredPane;
 import java.awt.*;
 import javax.swing.JPanel;
@@ -9,23 +16,28 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class ChungTuPane extends JLayeredPane {
-    private JTable table;
+    private JTable tbHD;
     JPanel centerPanel, pnHoaDon, pnthietBi, pnDv, pnNhapXuat;
 
     public ChungTuPane() {
         setLayout(new BorderLayout(0, 0));
 
         JPanel panel = new JPanel();
-        add(panel, BorderLayout.NORTH);
+        add(panel, BorderLayout.EAST);
 
         JButton btnNewButton = new JButton("New button");
         panel.add(btnNewButton);
 
         JPanel topMenu = new JPanel();
-        add(topMenu, BorderLayout.EAST);
+        add(topMenu, BorderLayout.NORTH);
 
         JButton btnNewButton_1 = new JButton("New button");
         topMenu.add(btnNewButton_1);
@@ -71,13 +83,13 @@ public class ChungTuPane extends JLayeredPane {
         sideBar.add(btnNhapXuat, gbc_btnNewButton_2);
 
         JButton btnKhodv = new JButton("Kho dịch vụ");
-		btnKhodv.setBackground(SystemColor.inactiveCaptionBorder);
-		btnKhodv.setHorizontalAlignment(SwingConstants.LEFT);
-		btnKhodv.setMargin(new Insets(20, 14, 2, 14));
-		btnKhodv.setIconTextGap(10);
-		btnKhodv.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnKhodv.setBorder(new EmptyBorder(0, 10, 0, 0));
-		btnKhodv.addActionListener(btn);
+        btnKhodv.setBackground(SystemColor.inactiveCaptionBorder);
+        btnKhodv.setHorizontalAlignment(SwingConstants.LEFT);
+        btnKhodv.setMargin(new Insets(20, 14, 2, 14));
+        btnKhodv.setIconTextGap(10);
+        btnKhodv.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnKhodv.setBorder(new EmptyBorder(0, 10, 0, 0));
+        btnKhodv.addActionListener(btn);
         GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
         gbc_btnNewButton_4.ipady = 15;
         gbc_btnNewButton_4.fill = GridBagConstraints.HORIZONTAL;
@@ -105,59 +117,143 @@ public class ChungTuPane extends JLayeredPane {
         centerPanel.setLayout(new BorderLayout());
 
         pnthietBi = new JPanel();
-        centerPanel.add(pnthietBi,BorderLayout.CENTER);
+        centerPanel.add(pnthietBi, BorderLayout.CENTER);
 
         pnDv = new JPanel();
-        centerPanel.add(pnDv,BorderLayout.CENTER);
+        centerPanel.add(pnDv, BorderLayout.CENTER);
 
         pnNhapXuat = new JPanel();
-        centerPanel.add(pnNhapXuat,BorderLayout.CENTER);
+        centerPanel.add(pnNhapXuat, BorderLayout.CENTER);
 
         pnHoaDon = new JPanel();
-        centerPanel.add(pnHoaDon,BorderLayout.CENTER);
+        centerPanel.add(pnHoaDon, BorderLayout.CENTER);
         pnHoaDon.setLayout(new BorderLayout(0, 0));
 
         JPanel pnbot = new JPanel();
         pnHoaDon.add(pnbot, BorderLayout.SOUTH);
 
         JButton btnNewButton_8 = new JButton("New button");
-		pnbot.add(btnNewButton_8);
+        pnbot.add(btnNewButton_8);
 
         JScrollPane scrollPane = new JScrollPane();
         pnHoaDon.add(scrollPane, BorderLayout.CENTER);
 
-        table = new JTable();
-        scrollPane.setViewportView(table);
+        tbHD = new JTable();
+        scrollPane.setViewportView(tbHD);
+        tbHD.setModel(getHDModel());
+        tbHD.addMouseListener(tbHDclick);
+    }
+
+    public void reloadTable(QuanLyPhong ql) {
+        MainForm.m.setSum(0);
+        MainForm.m.getTable().setModel(new DefaultTableModel());
+
+        CustomerInfoPanel.t.getTxtPhong().setText(MainForm.m.getSelectedRoom());
+        CustomerInfoPanel.t.getTxtTenKH().setText("");
+        CustomerInfoPanel.t.getTxtCI().setText("");
+        CustomerInfoPanel.t.getTxtCO().setText("");
+
+        CustomerInfoPanel.t.getTxtTenKH().setText(DataStorage.loader.getKH(ql.getId_KH()).getHoTen());
+        CustomerInfoPanel.t.getTxtCI().setText(ql.getCI().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        CustomerInfoPanel.t.getTxtCO().setText(ql.getCO() + "");
+        MainForm.m.getTable().setModel(MainForm.m.getRoomInfoModel(ql.getId()));
+        SumPanel.s.getTxtSum().setText(ql.getGia() + "");
+
     }
 
     private ActionListener btn = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("Hóa đơn thanh toán")) {
-				pnHoaDon.setVisible(true);
-				pnDv.setVisible(false);
-				pnthietBi.setVisible(false);
-				pnNhapXuat.setVisible(false);
+                pnHoaDon.setVisible(true);
+                pnDv.setVisible(false);
+                pnthietBi.setVisible(false);
+                pnNhapXuat.setVisible(false);
             }
-			if (e.getActionCommand().equals("Nhập xuất hàng")) {
-				pnHoaDon.setVisible(false);
-				pnDv.setVisible(false);
-				pnthietBi.setVisible(false);
-				pnNhapXuat.setVisible(true);
-			}
-			if (e.getActionCommand().equals("Kho dịch vụ")) {
-				pnHoaDon.setVisible(false);
-				pnDv.setVisible(true);
-				pnthietBi.setVisible(false);
-				pnNhapXuat.setVisible(false);
-			}
-			if (e.getActionCommand().equals("Kho thiết bị")) {
-				pnHoaDon.setVisible(false);
-				pnDv.setVisible(false);
-				pnthietBi.setVisible(true);
-				pnNhapXuat.setVisible(false);
-			}
+            if (e.getActionCommand().equals("Nhập xuất hàng")) {
+                pnHoaDon.setVisible(false);
+                pnDv.setVisible(false);
+                pnthietBi.setVisible(false);
+                pnNhapXuat.setVisible(true);
+            }
+            if (e.getActionCommand().equals("Kho dịch vụ")) {
+                pnHoaDon.setVisible(false);
+                pnDv.setVisible(true);
+                pnthietBi.setVisible(false);
+                pnNhapXuat.setVisible(false);
+            }
+            if (e.getActionCommand().equals("Kho thiết bị")) {
+                pnHoaDon.setVisible(false);
+                pnDv.setVisible(false);
+                pnthietBi.setVisible(true);
+                pnNhapXuat.setVisible(false);
+            }
+        }
+    };
+    MouseListener tbHDclick = new MouseListener() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            int soct = Integer.parseInt(tbHD.getValueAt(tbHD.getSelectedRow(), 0).toString());
+            QuanLyPhong ql = new QuanLyPhong();
+            for (ChungTu ct : DataStorage.loader.getListChungTu()
+            ) {
+                if (ct.getSoCT() == soct) {
+                    ql = DataStorage.loader.getQL(ct.getId_QL());
+                }
+            }
+            reloadTable(ql);
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
         }
     };
 
+    private DefaultTableModel getHDModel() {
+        ArrayList<ChungTu> listCT = DataStorage.loader.getListChungTu();
+        String[] row = new String[4];
+        DefaultTableModel model = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+        };
+        model.addColumn("Số CT");
+        model.addColumn("Khách hàng");
+        model.addColumn("Nội dung");
+        model.addColumn("Nhân viên");
+
+        for (ChungTu c : listCT
+        ) {
+            if (c.getLoai() == 3) {
+                String kh = DataStorage.loader.getKH(c.getId_KH()).getHoTen();
+                String nv = DataStorage.loader.getNhanVien(c.getId_NV()).getHoTen();
+                row[0] = c.getSoCT() + "";
+                row[1] = kh;
+                row[2] = c.getNoiDung();
+                row[3] = nv;
+                model.addRow(row);
+            }
+        }
+        return model;
+    }
 }

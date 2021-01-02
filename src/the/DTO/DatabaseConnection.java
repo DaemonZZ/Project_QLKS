@@ -317,7 +317,7 @@ public class DatabaseConnection {
 
     public ArrayList<ChungTu> getlistCT() {
         ArrayList<ChungTu> list = new ArrayList<>();
-        String sql = "select * from ChungTu";
+        String sql = "select * from ChungTu ";
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
