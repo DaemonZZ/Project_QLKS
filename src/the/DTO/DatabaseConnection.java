@@ -1285,4 +1285,27 @@ public class DatabaseConnection {
         }
         return list;
     }
+
+    public ArrayList<DichVu> getListHangHoa() {
+        String sql = "select * from DichVu where loai = 2";
+        ArrayList<DichVu> list = new ArrayList<>();
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                DichVu dv = new DichVu();
+                dv.setiD(rs.getInt(1));
+                dv.setTenDV(rs.getNString(2));
+                if (rs.getNString(3) != null) dv.setDonViTinh(rs.getNString(3));
+                dv.setDonGIa(rs.getFloat(4));
+                if (rs.getNString(5) != null) dv.setGhiChu(rs.getNString(5));
+                dv.setLoai(rs.getInt(6));
+                dv.setsLDK(rs.getFloat(7));
+                list.add(dv);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+    }
 }

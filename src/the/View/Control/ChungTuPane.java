@@ -6,6 +6,7 @@ import the.Model.ChungTu;
 import the.Model.DichVu;
 import the.Model.QuanLyPhong;
 import the.View.MainForm;
+import the.View.ProfileDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +31,10 @@ public class ChungTuPane extends JLayeredPane {
         btnKH.addActionListener(btn);
         JButton btnHS = new JButton("Hồ sơ phòng");
         btnHS.addActionListener(btn);
+        JButton btnNhap = new JButton("Nhập hàng");
+        btnNhap.addActionListener(btn);
+        JButton btnXuat = new JButton("Xuất hàng");
+        btnXuat.addActionListener(btn);
         JPanel topMenu = new JPanel();
         FlowLayout fl = new FlowLayout();
         fl.setAlignment(FlowLayout.RIGHT);
@@ -134,6 +139,8 @@ public class ChungTuPane extends JLayeredPane {
 
         pnbot.add(btnKH);
         pnbot.add(btnHS);
+        pnbot.add(btnNhap);
+        pnbot.add(btnXuat);
 
         JScrollPane scrollPane = new JScrollPane();
         pnHoaDon.add(scrollPane, BorderLayout.CENTER);
@@ -164,25 +171,27 @@ public class ChungTuPane extends JLayeredPane {
 
     }
 
-     ActionListener btn = new ActionListener() {
+    ActionListener btn = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("Hóa đơn thanh toán")) {
-                cmdPn=1;
+                cmdPn = 1;
                 tb.setModel(getHDModel(""));
                 MainForm.m.getRightPanel().removeAll();
-                MainForm.m.getRightPanel().add(MainForm.m.getSumPanel(),BorderLayout.SOUTH);
-                MainForm.m.getRightPanel().add(MainForm.m.getScrollPane(),BorderLayout.CENTER);
-                MainForm.m.getRightPanel().add(MainForm.m.getCusInfoPanel(),BorderLayout.NORTH);
+                MainForm.m.getRightPanel().add(MainForm.m.getSumPanel(), BorderLayout.SOUTH);
+                MainForm.m.getRightPanel().add(MainForm.m.getScrollPane(), BorderLayout.CENTER);
+                MainForm.m.getRightPanel().add(MainForm.m.getCusInfoPanel(), BorderLayout.NORTH);
                 MainForm.m.getRightPanel().repaint();
             }
             if (e.getActionCommand().equals("Nhập xuất hàng")) {
                 cmdPn = 2;
+                tb.setModel(getNXModel(""));
                 MainForm.m.getRightPanel().removeAll();
                 MainForm.m.getRightPanel().repaint();
             }
             if (e.getActionCommand().equals("Kho dịch vụ")) {
                 cmdPn = 3;
+                tb.setModel(getDVModel(""));
                 MainForm.m.getRightPanel().removeAll();
                 MainForm.m.getRightPanel().repaint();
             }
@@ -192,24 +201,44 @@ public class ChungTuPane extends JLayeredPane {
                 MainForm.m.getRightPanel().removeAll();
                 MainForm.m.getRightPanel().repaint();
             }
-            if(e.getActionCommand().equals("Tìm kiếm")){
+            if (e.getActionCommand().equals("Tìm kiếm")) {
                 timkiem(cmdPn);
                 txtTim.setText("");
+            }
+            if(e.getActionCommand().equals("QL Khách hàng")){
+                QLKhachHang khPane = new QLKhachHang();
+                MainForm.m.getTabbedPane().addTab("qlkh", null, khPane, null);
+                MainForm.m.getTabbedPane().setTabComponentAt(MainForm.m.getTabbedPane().indexOfComponent(khPane), MainForm.m.getTitlePanel(MainForm.m.getTabbedPane(), khPane, "Quản lý Khách hàng"));
+                MainForm.m.getTabbedPane().setSelectedComponent(khPane);
+            }
+            if(e.getActionCommand().equals("Hồ sơ phòng")){
+                MainForm.m.setEnabled(false);
+                new ProfileDialog();
+            }
+            if(e.getActionCommand().equals("Nhập hàng")){
+
+            }
+            if(e.getActionCommand().equals("Xuất hàng")){
+
             }
         }
     };
 
     private void timkiem(int cmdPn) {
-        if(cmdPn==1){
+        if (cmdPn == 1) {
             DefaultTableModel model = getHDModel(txtTim.getText());
             tb.setModel(model);
 
         }
-        if(cmdPn == 2){
+        if (cmdPn == 2) {
+            DefaultTableModel model = getNXModel(txtTim.getText());
+            tb.setModel(model);
         }
-        if(cmdPn == 3){
+        if (cmdPn == 3) {
+            DefaultTableModel model = getDVModel(txtTim.getText());
+            tb.setModel(model);
         }
-        if(cmdPn==4){
+        if (cmdPn == 4) {
             DefaultTableModel model = getTBModel(txtTim.getText());
             tb.setModel(model);
         }
@@ -218,7 +247,7 @@ public class ChungTuPane extends JLayeredPane {
     MouseListener tbClick = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(cmdPn==1){
+            if (cmdPn == 1) {
                 int soct = Integer.parseInt(tb.getValueAt(tb.getSelectedRow(), 0).toString());
                 QuanLyPhong ql = new QuanLyPhong();
                 for (ChungTu ct : DataStorage.loader.getListChungTu()
@@ -252,6 +281,39 @@ public class ChungTuPane extends JLayeredPane {
         }
     };
 
+    private DefaultTableModel getDVModel(String name) {
+        ArrayList<DichVu> listHH = DataStorage.loader.getListHangHoa();
+
+        String[] row = new String[5];
+        DefaultTableModel model = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+        };
+        model.addColumn("Tên Mặt Hàng");
+        model.addColumn("DVT");
+        model.addColumn("Số lượng");
+        model.addColumn("Đơn giá");
+        model.addColumn("Ghi chú");
+
+        for (DichVu c : listHH
+        ) {
+            if (c.getTenDV().contains(name)) {
+                row[0] = c.getTenDV();
+                row[1] = c.getDonViTinh();
+                row[2] = c.getsLDK() + "";
+                row[3] = c.getDonGIa() + "";
+                row[4] = c.getGhiChu();
+                model.addRow(row);
+            }
+        }
+        return model;
+    }
+
     private DefaultTableModel getTBModel(String name) {
         ArrayList<DichVu> listTb = DataStorage.loader.getListTenTB();
 
@@ -271,13 +333,13 @@ public class ChungTuPane extends JLayeredPane {
         model.addColumn("Đơn giá");
         model.addColumn("Ghi chú");
 
-        for (DichVu c: listTb
-             ) {
-            if(c.getTenDV().contains(name)){
+        for (DichVu c : listTb
+        ) {
+            if (c.getTenDV().contains(name)) {
                 row[0] = c.getTenDV();
-                row[1]= c.getDonViTinh();
-                row[2] = DataStorage.loader.getSoLuongTB(c.getiD())+"";
-                row[3] = c.getDonGIa()+"";
+                row[1] = c.getDonViTinh();
+                row[2] = DataStorage.loader.getSoLuongTB(c.getiD()) + "";
+                row[3] = c.getDonGIa() + "";
                 row[4] = c.getGhiChu();
                 model.addRow(row);
             }
@@ -311,6 +373,49 @@ public class ChungTuPane extends JLayeredPane {
                 row[1] = kh;
                 row[2] = c.getNoiDung();
                 row[3] = nv;
+                model.addRow(row);
+            }
+        }
+        return model;
+    }
+
+    private DefaultTableModel getNXModel(String name) {
+        ArrayList<ChungTu> listCT = DataStorage.loader.getListChungTu();
+        String[] row = new String[5];
+        DefaultTableModel model = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+        };
+        model.addColumn("Số CT");
+        model.addColumn("Khách hàng");
+        model.addColumn("Nội dung");
+        model.addColumn("Loại");
+        model.addColumn("Nhân viên");
+
+        for (ChungTu c : listCT
+        ) {
+            String kh = DataStorage.loader.getKH(c.getId_KH()).getHoTen();
+            if (c.getLoai() < 3 && kh.contains(name)) {
+                String nv = DataStorage.loader.getNhanVien(c.getId_NV()).getHoTen();
+                row[0] = c.getSoCT() + "";
+                row[1] = kh;
+                row[3] = c.getNoiDung();
+                row[4] = nv;
+                switch (c.getLoai()) {
+                    case 0:
+                        row[2] = "Nhập";
+                        break;
+                    case 1:
+                        row[2] = "Xuất";
+                        break;
+                    case 2:
+                        row[2] = "Bán lẻ";
+                }
                 model.addRow(row);
             }
         }

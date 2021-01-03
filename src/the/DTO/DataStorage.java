@@ -25,6 +25,11 @@ public class DataStorage {
     private ArrayList<DangKy> listDangKy;
     private ArrayList<ThietBi> listTB;
     private ArrayList<DichVu> listTenTB;
+    private ArrayList<DichVu> listHangHoa;
+
+    public ArrayList<DichVu> getListHangHoa() {
+        return listHangHoa;
+    }
 
     public ArrayList<DichVu> getListTenTB() {
         return listTenTB;
@@ -175,6 +180,7 @@ public class DataStorage {
         listDangKy = dbc.getListDangKi();
         listTB = dbc.getListTBP();
         listTenTB = dbc.getListTenTB();
+        listHangHoa = dbc.getListHangHoa();
     }
 
     /**

@@ -158,4 +158,9 @@ public class KhachHang {
     public int hashCode() {
         return Objects.hash(id, hoTen, gioiTinh, donVi, cMND, ngayCap, noiCap, loai, quocTich, idDoan);
     }
+
+    @Override
+    public String toString() {
+        return hoTen;
+    }
 }
