@@ -526,4 +526,12 @@ public class DataStorage {
         }
         return count;
     }
+    public String getHH(int id){
+        String ten ="";
+        for (DichVu h: listHangHoa
+             ) {
+            if(h.getiD()==id)  ten = h.getTenDV();
+        }
+        return ten;
+    }
 }

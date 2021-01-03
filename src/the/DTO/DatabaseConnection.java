@@ -211,7 +211,7 @@ public class DatabaseConnection {
                 q.setId_Dk(rs.getInt(2));
                 q.setId_KH(rs.getInt(3));
                 q.setMaPhong(rs.getNString(4));
-                q.setCI(rs.getDate(5).toLocalDate());
+                if (rs.getDate(5) != null) q.setCI(rs.getDate(5).toLocalDate());
                 if (rs.getDate(6) != null) q.setCO(rs.getDate(6).toLocalDate());
                 q.setGia(rs.getFloat(7));
                 q.setGhiChu(rs.getNString(8));

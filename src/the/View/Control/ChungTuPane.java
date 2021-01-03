@@ -4,7 +4,9 @@ import org.codehaus.groovy.tools.shell.Main;
 import the.DTO.DataStorage;
 import the.Model.ChungTu;
 import the.Model.DichVu;
+import the.Model.DongChungTu;
 import the.Model.QuanLyPhong;
+import the.View.FormNhap;
 import the.View.MainForm;
 import the.View.ProfileDialog;
 
@@ -24,8 +26,17 @@ public class ChungTuPane extends JLayeredPane {
     JPanel centerPanel, pnHoaDon, pnthietBi, pnDv, pnNhapXuat;
     JTextField txtTim;
     int cmdPn = 1;
+    public static ChungTuPane c ;
+    public int getCmdPn() {
+        return cmdPn;
+    }
+
+    public JTable getTb() {
+        return tb;
+    }
 
     public ChungTuPane() {
+        c=this;
         setLayout(new BorderLayout(0, 0));
         JButton btnKH = new JButton("QL Khách hàng");
         btnKH.addActionListener(btn);
@@ -187,6 +198,9 @@ public class ChungTuPane extends JLayeredPane {
                 cmdPn = 2;
                 tb.setModel(getNXModel(""));
                 MainForm.m.getRightPanel().removeAll();
+                MainForm.m.getRightPanel().add(MainForm.m.getSumPanel(), BorderLayout.SOUTH);
+                MainForm.m.getRightPanel().add(MainForm.m.getScrollPane(), BorderLayout.CENTER);
+                MainForm.m.getRightPanel().add(MainForm.m.getCusInfoPanel(), BorderLayout.NORTH);
                 MainForm.m.getRightPanel().repaint();
             }
             if (e.getActionCommand().equals("Kho dịch vụ")) {
@@ -216,7 +230,8 @@ public class ChungTuPane extends JLayeredPane {
                 new ProfileDialog();
             }
             if(e.getActionCommand().equals("Nhập hàng")){
-
+                MainForm.m.setEnabled(false);
+                new FormNhap();
             }
             if(e.getActionCommand().equals("Xuất hàng")){
 
@@ -247,7 +262,7 @@ public class ChungTuPane extends JLayeredPane {
     MouseListener tbClick = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (cmdPn == 1) {
+            if (cmdPn ==1) {
                 int soct = Integer.parseInt(tb.getValueAt(tb.getSelectedRow(), 0).toString());
                 QuanLyPhong ql = new QuanLyPhong();
                 for (ChungTu ct : DataStorage.loader.getListChungTu()
@@ -257,6 +272,30 @@ public class ChungTuPane extends JLayeredPane {
                     }
                 }
                 reloadTable(ql);
+            }
+            if(cmdPn ==2){
+                int soct = Integer.parseInt(tb.getValueAt(tb.getSelectedRow(), 0).toString());
+                CustomerInfoPanel.t.getTxtTenKH().setText(tb.getValueAt(tb.getSelectedRow(),2).toString());
+                ArrayList<DongChungTu> listHD = new ArrayList<>();
+                String[] row = new String[4];
+                for (DongChungTu d: DataStorage.loader.getListDongCT()
+                     ) {
+                    if(d.getSoCT()==soct) listHD.add(d);
+                }
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("Tên DV");
+                model.addColumn("Đơn Giá");
+                model.addColumn("Số lượng");
+                model.addColumn("Thành tiền");
+                for (DongChungTu d: listHD
+                     ) {
+                    row[0] = DataStorage.loader.getHH(d.getId_DV());
+                    row[1]= d.getDonGia()+"";
+                    row[2] = d.getSoLuong()+"";
+                    row[3] = d.getSoLuong()*d.getDonGia() +"";
+                    model.addRow(row);
+                }
+                MainForm.m.getTable().setModel(model);
             }
         }
 
@@ -379,9 +418,9 @@ public class ChungTuPane extends JLayeredPane {
         return model;
     }
 
-    private DefaultTableModel getNXModel(String name) {
+    public DefaultTableModel getNXModel(String name) {
         ArrayList<ChungTu> listCT = DataStorage.loader.getListChungTu();
-        String[] row = new String[5];
+        String[] row = new String[6];
         DefaultTableModel model = new DefaultTableModel() {
 
             @Override
@@ -392,6 +431,7 @@ public class ChungTuPane extends JLayeredPane {
 
         };
         model.addColumn("Số CT");
+        model.addColumn("Ngày CT");
         model.addColumn("Khách hàng");
         model.addColumn("Nội dung");
         model.addColumn("Loại");
@@ -403,18 +443,19 @@ public class ChungTuPane extends JLayeredPane {
             if (c.getLoai() < 3 && kh.contains(name)) {
                 String nv = DataStorage.loader.getNhanVien(c.getId_NV()).getHoTen();
                 row[0] = c.getSoCT() + "";
-                row[1] = kh;
+                row[1] = c.getNgayCT()+"";
+                row[2] = kh;
                 row[3] = c.getNoiDung();
-                row[4] = nv;
+                row[5] = nv;
                 switch (c.getLoai()) {
                     case 0:
-                        row[2] = "Nhập";
+                        row[4] = "Nhập";
                         break;
                     case 1:
-                        row[2] = "Xuất";
+                        row[4] = "Xuất";
                         break;
                     case 2:
-                        row[2] = "Bán lẻ";
+                        row[4] = "Bán lẻ";
                 }
                 model.addRow(row);
             }

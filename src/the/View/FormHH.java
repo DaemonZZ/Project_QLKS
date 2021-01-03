@@ -1,12 +1,17 @@
 package the.View;
 
 import the.DTO.DataStorage;
+import the.Model.ChungTu;
 import the.Model.DichVu;
+import the.Model.DongChungTu;
+import the.View.Control.ChungTuPane;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.crypto.Data;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class FormHH extends JDialog {
     private JPanel contentPane;
@@ -20,6 +25,7 @@ public class FormHH extends JDialog {
     private JButton btnOkTao;
     private JButton btnhuy;
     private JTextField txtHHmoi;
+    private JButton btnSave;
 
     public FormHH() {
         setContentPane(contentPane);
@@ -35,6 +41,13 @@ public class FormHH extends JDialog {
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
+            }
+        });
+
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onSave();
             }
         });
 
@@ -68,13 +81,43 @@ public class FormHH extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+
         dispose();
     }
 
     private void onCancel() {
         // add your code here if necessary
         dispose();
+    }
+    private void onSave(){
+        boolean isExist = false;
+        DongChungTu cur = new DongChungTu();
+        DongChungTu del = new DongChungTu();
+        DichVu c = (DichVu)comboBox1.getSelectedItem();
+        for (DongChungTu d: FormNhap.f.getListNhap()
+             ) {
+            if(d.getId_DV()==c.getiD()){
+                if((int)spSoluong.getValue()!=0){
+
+                    isExist=true;
+                    d.setSoLuong((int)spSoluong.getValue());
+                }
+                else {
+                    del = d;
+                }
+            }
+        }
+        FormNhap.f.getListNhap().remove(del);
+        if(!isExist&&(int)spSoluong.getValue()!=0){
+            cur.setId_DV(c.getiD());
+            cur.setSoLuong((int)spSoluong.getValue());
+            cur.setDonGia(Float.parseFloat(txtDonGia.getText()));
+            cur.setGhiChu(taGhiChu.getText());
+            FormNhap.f.getListNhap().add(cur);
+            System.out.println("OK?");
+        }
+        FormNhap.f.reloadTB();
+
     }
 
     public static void main(String[] args) {
@@ -83,7 +126,10 @@ public class FormHH extends JDialog {
     }
     DefaultComboBoxModel<DichVu> getCbmodel(){
         DefaultComboBoxModel<DichVu> list = new DefaultComboBoxModel<>();
-        for (DichVu d: DataStorage.loader.getListHangHoa()
+        ArrayList<DichVu> listdv;
+        if(FormNhap.f.getLoai()==0) listdv = DataStorage.loader.getListTenTB();
+        else listdv = DataStorage.loader.getListHangHoa();
+        for (DichVu d: listdv
              ) {
             list.addElement(d);
         }
@@ -92,10 +138,14 @@ public class FormHH extends JDialog {
     ItemListener cbEvent = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
+            spSoluong.setValue(0);
             DichVu v = (DichVu) e.getItem();
-            spSoluong.setValue(v.getsLDK());
             txtDonGia.setText(v.getDonGIa()+"");
             taGhiChu.setText(v.getGhiChu());
+            for (DongChungTu d: FormNhap.f.getListNhap()
+                 ) {
+                if(d.getId_DV()==v.getiD()) spSoluong.setValue(d.getSoLuong());
+            };
         }
     };
 }
