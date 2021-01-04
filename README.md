@@ -6,6 +6,6 @@ Repository gồm file dự án + csdl </br>
 Đỗ Ngọc Thắng </br>
 Đoàn Xuân Viễn </br>
 <h5>Một số hình ảnh</h5></br>
-![Login Form](https://raw.githubusercontent.com/DaemonZZ/Project_QLKS_java/master/img/login.png)
-![Hồ sơ phòng](https://raw.githubusercontent.com/DaemonZZ/Project_QLKS_java/master/img/hoso.png)
-![Main form](https://raw.githubusercontent.com/DaemonZZ/Project_QLKS_java/master/img/main.png)
+<img src="https://raw.githubusercontent.com/DaemonZZ/Project_QLKS_java/master/img/login.png" alt="Form Login" withh=50%></br>
+<img src="https://raw.githubusercontent.com/DaemonZZ/Project_QLKS_java/master/img/hoso.png" alt="Hồ sơ phòng" withh=50%></br>
+<img src="https://raw.githubusercontent.com/DaemonZZ/Project_QLKS_java/master/img/main.png" alt="Main form" withh=50%>
