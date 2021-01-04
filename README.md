@@ -1,8 +1,8 @@
-<h4># Project_QLKS_java </h4></br>
+<h2># Project_QLKS_java </h2></br>
 Dự án kì 2 - java </br>
 Nhóm 3 - Dự án quản lý Khách sạn </br>
 Repository gồm file dự án + csdl </br>
-<h5>Danh sách nhóm:</h5></br>
+<h3>Danh sách nhóm:</h3></br>
 Đỗ Ngọc Thắng </br>
 Đoàn Xuân Viễn </br>
 <h5>Một số hình ảnh</h5></br>
