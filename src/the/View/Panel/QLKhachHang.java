@@ -1,15 +1,12 @@
-package the.View.Control;
+package the.View.Panel;
 
-import org.codehaus.groovy.tools.groovydoc.Main;
 import the.DTO.DataStorage;
-import the.Model.DichVu;
 import the.Model.KhachHang;
 import the.Model.QuanLyPhong;
 import the.View.MainForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;

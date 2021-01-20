@@ -1,13 +1,11 @@
 package the.View;
 
-import org.codehaus.groovy.tools.shell.Main;
 import the.DTO.DataStorage;
 import the.DTO.DataSynchronizer;
 import the.Model.ChungTu;
-import the.Model.DichVu;
 import the.Model.DongChungTu;
 import the.Model.KhachHang;
-import the.View.Control.ChungTuPane;
+import the.View.Panel.ChungTuPane;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

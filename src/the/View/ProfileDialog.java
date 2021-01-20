@@ -6,8 +6,8 @@ import the.DTO.DataStorage;
 import the.DTO.DataSynchronizer;
 import the.Model.*;
 import the.DTO.DatabaseConnection;
-import the.View.Control.QLKhachHang;
-import the.View.Control.SoDoPane;
+import the.View.Panel.QLKhachHang;
+import the.View.Panel.SoDoPane;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;

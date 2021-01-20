@@ -2,7 +2,7 @@ package the.View;
 
 import the.DTO.DataStorage;
 import the.Model.DichVu;
-import the.View.Control.QLDichVu;
+import the.View.Panel.QLDichVu;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

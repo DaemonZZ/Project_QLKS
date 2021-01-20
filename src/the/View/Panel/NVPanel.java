@@ -1,4 +1,4 @@
-package the.View.Control;
+package the.View.Panel;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -15,7 +15,6 @@ import the.DTO.DataStorage;
 import the.Model.CaLamViec;
 import the.Model.Lich;
 import the.Model.NhanVien;
-import the.DTO.DatabaseConnection;
 import the.View.MainForm;
 
 public class NVPanel extends JPanel {

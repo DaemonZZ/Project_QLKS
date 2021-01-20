@@ -1,9 +1,8 @@
 package the.DTO;
 
 import the.Model.*;
-import the.View.Control.LoadingPanel;
+import the.View.Panel.LoadingPanel;
 
-import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 

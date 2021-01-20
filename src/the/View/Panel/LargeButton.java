@@ -1,4 +1,4 @@
-package the.View.Control;
+package the.View.Panel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

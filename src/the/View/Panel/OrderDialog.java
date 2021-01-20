@@ -1,11 +1,10 @@
-package the.View.Control;
+package the.View.Panel;
 
 import the.DTO.DataStorage;
 import the.Model.ChungTu;
 import the.Model.DongChungTu;
 import the.Model.KhachHang;
 import the.Model.QuanLyPhong;
-import the.DTO.DatabaseConnection;
 import the.View.MainForm;
 
 import javax.swing.*;

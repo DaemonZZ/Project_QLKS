@@ -1,11 +1,9 @@
-package the.View.Control;
+package the.View.Panel;
 
 import the.DTO.DataStorage;
 import the.DTO.DataSynchronizer;
-import the.Model.ChamCong;
 import the.Model.Lich;
 import the.Model.NhanVien;
-import the.DTO.DatabaseConnection;
 
 import javax.swing.*;
 import java.awt.*;

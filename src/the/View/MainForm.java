@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 import the.Model.*;
 import the.DTO.*;
-import the.View.Control.*;
+import the.View.Panel.*;
 
 import java.awt.Font;
 import java.awt.BorderLayout;

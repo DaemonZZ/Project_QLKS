@@ -1,7 +1,6 @@
-package the.View.Control;
+package the.View.Panel;
 
 import the.DTO.DataStorage;
-import the.Model.DichVu;
 import the.Model.Phong;
 
 import javax.swing.*;

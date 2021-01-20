@@ -1,10 +1,6 @@
-package the.View.Control;
+package the.View.Panel;
 
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.JasperViewer;
-import org.codehaus.groovy.tools.shell.Main;
 import the.DTO.DataStorage;
-import the.DTO.DatabaseConnection;
 import the.Model.DongChungTu;
 import the.View.AddServiceDialog;
 import the.View.MainForm;
@@ -13,10 +9,7 @@ import the.View.ProfileDialog;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
 
 import javax.swing.*;
 

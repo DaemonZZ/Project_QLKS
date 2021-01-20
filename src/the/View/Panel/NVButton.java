@@ -1,4 +1,4 @@
-package the.View.Control;
+package the.View.Panel;
 
 import java.awt.Color;
 import java.awt.Dimension;

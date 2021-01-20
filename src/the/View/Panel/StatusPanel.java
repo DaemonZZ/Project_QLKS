@@ -1,4 +1,4 @@
-package the.View.Control;
+package the.View.Panel;
 
 import javax.swing.*;
 import java.awt.*;
